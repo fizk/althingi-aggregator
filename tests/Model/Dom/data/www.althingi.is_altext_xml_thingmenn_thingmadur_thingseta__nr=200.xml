@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<þingmaður id='200'>
+<nafn>Guðrún Agnarsdóttir</nafn>
+<xml>
+<lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=200</lífshlaup>
+<hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=200</hagsmunir>
+<þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=200</þingseta>
+<nefndaseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/nefndaseta/?nr=200</nefndaseta>
+</xml>
+<html>
+<lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=200</lífshlaup>
+<hagsmunir>http://www.althingi.is/altext/hagsmunir/?faerslunr=200</hagsmunir>
+<þingstörf>http://www.althingi.is/vefur/thmstorf.html?nfaerslunr=200</þingstörf>
+</html>
+
+<þingsetur>
+<þingseta>
+<þing>106</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='14'><![CDATA[Landskjörinn (<110 lt.)]]></kjördæmi>
+<kjördæmanúmer>3</kjördæmanúmer>
+<deild>N</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>23.04.1983</inn><út>09.10.1984</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>107</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='14'><![CDATA[Landskjörinn (<110 lt.)]]></kjördæmi>
+<kjördæmanúmer></kjördæmanúmer>
+<deild>N</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>10.10.1984</inn><út>04.11.1984</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>107</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='14'><![CDATA[Landskjörinn (<110 lt.)]]></kjördæmi>
+<kjördæmanúmer>3</kjördæmanúmer>
+
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>19.11.1984</inn><út>21.06.1985</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>108</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='14'><![CDATA[Landskjörinn (<110 lt.)]]></kjördæmi>
+<kjördæmanúmer>3</kjördæmanúmer>
+<deild>N</deild>
+<þingsalssæti>12</þingsalssæti>
+<tímabil>
+<inn>10.10.1985</inn><út>09.10.1986</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>109</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='14'><![CDATA[Landskjörinn (<110 lt.)]]></kjördæmi>
+<kjördæmanúmer>3</kjördæmanúmer>
+<deild>N</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>10.10.1986</inn><út>12.10.1986</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>109</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='14'><![CDATA[Landskjörinn (<110 lt.)]]></kjördæmi>
+<kjördæmanúmer>3</kjördæmanúmer>
+<deild>N</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>28.10.1986</inn><út>10.11.1986</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>109</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='14'><![CDATA[Landskjörinn (<110 lt.)]]></kjördæmi>
+<kjördæmanúmer>3</kjördæmanúmer>
+<deild>N</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>04.12.1986</inn><út>09.10.1987</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>110</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='22'><![CDATA[Reykjavík]]></kjördæmi>
+<kjördæmanúmer>6</kjördæmanúmer>
+<deild>E</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>10.10.1987</inn><út>09.10.1988</út></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>111</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='22'><![CDATA[Reykjavík]]></kjördæmi>
+<kjördæmanúmer>6</kjördæmanúmer>
+<deild>E</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>10.10.1988</inn></tímabil>
+</þingseta>
+
+<þingseta>
+<þing>112</þing>
+<skammstöfun>GA</skammstöfun>
+<tegund>þingmaður</tegund>
+<þingflokkur id='39'>Samtök um kvennalista</þingflokkur>
+<kjördæmi id='22'><![CDATA[Reykjavík]]></kjördæmi>
+<kjördæmanúmer>6</kjördæmanúmer>
+<deild>E</deild>
+<þingsalssæti></þingsalssæti>
+<tímabil>
+<inn>10.10.1989</inn><út></út></tímabil>
+</þingseta>
+
+</þingsetur>
+</þingmaður>
