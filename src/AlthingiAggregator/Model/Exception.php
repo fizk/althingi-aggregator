@@ -17,7 +17,8 @@ class Exception extends \Exception
      * @param DOMElement|null $element
      * @param \Exception|null $previous The previous exception used for the exception chaining. Since 5.3.0
      */
-    public function __construct($message = "", DOMElement $element = null, \Exception $previous = null) {
+    public function __construct($message = "", DOMElement $element = null, \Exception $previous = null)
+    {
         $message = ($element)
             ? $message . PHP_EOL . $element->ownerDocument->saveXML($element)
             : $message;

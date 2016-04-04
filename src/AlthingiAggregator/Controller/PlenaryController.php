@@ -8,33 +8,25 @@
 
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Lib\LoggerAwareInterface;
-use AlthingiAggregator\Model\Dom\Plenary;
-use AlthingiAggregator\Lib\Http\DomClient;
 use Zend\Mvc\Controller\AbstractActionController;
+use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Model\Plenary;
 
-class PlenaryController extends AbstractActionController implements LoggerAwareInterface
+class PlenaryController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
     use ConsoleHelper;
 
     public function findPlenaryAction()
     {
         $assemblyNumber = $this->params('assembly');
-        $dom = (new DomClient())
-            ->setClient($this->getClient())
-            ->get("http://www.althingi.is/altext/xml/thingfundir/?lthing={$assemblyNumber}");
 
-        foreach ($dom->getElementsByTagName('þingfundur') as $element) {
-            $element->setAttribute('þing', $assemblyNumber);
-        }
-
-        $this->getLogger()->info("Plenary -- start");
-        $this->singleLevelPut(
-            $dom,
+        $this->queryAndSave(
+            "http://www.althingi.is/altext/xml/thingfundir/?lthing={$assemblyNumber}",
             "loggjafarthing/{$assemblyNumber}/thingfundir",
-            'þingfundur',
+            '//þingfundir/þingfundur',
             new Plenary()
         );
-        $this->getLogger()->info("Plenary -- end");
     }
+
 }

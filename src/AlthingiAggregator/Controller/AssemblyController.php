@@ -8,32 +8,31 @@
 
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Lib\LoggerAwareInterface;
-use AlthingiAggregator\Model\Dom\Assembly;
 use Zend\Mvc\Controller\AbstractActionController;
+use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Model\Assembly;
 
-class AssemblyController extends AbstractActionController implements LoggerAwareInterface
+class AssemblyController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
     use ConsoleHelper;
 
     public function currentAssemblyAction()
     {
-        $this->singleLevelGet(
-            'Assembly:current',
+        $this->queryAndSave(
             'http://www.althingi.is/altext/xml/loggjafarthing/yfirstandandi',
             'loggjafarthing',
-            'þing',
+            '//löggjafarþing/þing',
             new Assembly()
         );
     }
 
     public function findAssemblyAction()
     {
-        $this->singleLevelGet(
-            'Assembly',
+        $this->queryAndSave(
             'http://www.althingi.is/altext/xml/loggjafarthing',
             'loggjafarthing',
-            'þing',
+            '//löggjafarþing/þing',
             new Assembly()
         );
     }

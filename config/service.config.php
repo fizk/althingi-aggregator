@@ -7,29 +7,33 @@
  */
 
 return [
-    'invokables' => [
-    ],
+    'invokables' => [],
 
     'factories' => [
-        'MessageStrategy' => 'Rend\View\Strategy\MessageFactory',
-
-        'HttpClient' => function ($sm) {
-            return new \Zend\Http\Client();
-        },
-
         'Psr\Log' => function ($sm) {
+            $handler = new \Monolog\Handler\StreamHandler('php://stdout');
+            $handler->setFormatter(new Bramus\Monolog\Formatter\ColoredLineFormatter());
             $logger = new \Monolog\Logger('althingi');
-            $logger->pushHandler(new \Monolog\Handler\StreamHandler('php://stdout'));
+            $logger->pushHandler($handler);
             return $logger;
         },
-    ],
 
-    'initializers' => [
+        'Provider' => function ($sm) {
+            $client = (new \Zend\Http\Client());
+//                ->setAdapter(new AlthingiAggregator\Lib\Http\Client\Adapter\LocalXmlAdapter())
+//                ->setOptions(['protocol' => './']);
 
-        'AlthingiAggregator\Lib\LoggerAwareInterface' => function ($instance, $sm) {
-            if ($instance instanceof \AlthingiAggregator\Lib\LoggerAwareInterface) {
-                $instance->setLogger($sm->get('Psr\Log'));
-            }
+            return (new \AlthingiAggregator\Lib\Provider\ServerProvider(['save' => true]))
+                ->setClient($client);
+        },
+
+        'Consumer' => function ($sm) {
+            return (new \AlthingiAggregator\Lib\Consumer\RestServerConsumer())
+                ->setClient(new \Zend\Http\Client())
+                ->setConfig($sm->get('Config'))
+                ->setLogger($sm->get('Psr\Log'));
         }
     ],
+
+    'initializers' => [],
 ];

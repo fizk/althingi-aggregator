@@ -6,10 +6,10 @@
  * Time: 7:22 AM
  */
 
-namespace AlthingiAggregator\Model\Dom;
+namespace AlthingiAggregator\Model;
 
 use AlthingiAggregator\Lib\IdentityInterface;
-use Zend\Stdlib\Extractor\ExtractionInterface;
+use Zend\Hydrator\ExtractionInterface;
 use AlthingiAggregator\Model\Exception as ModelException;
 
 class Congressman implements ExtractionInterface, IdentityInterface
@@ -41,11 +41,13 @@ class Congressman implements ExtractionInterface, IdentityInterface
         $birth = ($object->getElementsByTagName('fæðingardagur')->item(0))
             ? date('Y-m-d', strtotime($object->getElementsByTagName('fæðingardagur')->item(0)->nodeValue))
             : null ;
+        //TODO isn't there suppose to be a death date
 
         return [
             'id' => (int) $this->getIdentity(),
             'name' => $name,
             'birth' => $birth,
+            'death' => ''
         ];
     }
 

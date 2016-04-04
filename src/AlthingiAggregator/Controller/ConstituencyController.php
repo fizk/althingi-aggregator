@@ -8,21 +8,21 @@
 
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Lib\LoggerAwareInterface;
-use AlthingiAggregator\Model\Dom\Constituency;
 use Zend\Mvc\Controller\AbstractActionController;
+use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Model\Constituency;
 
-class ConstituencyController extends AbstractActionController implements LoggerAwareInterface
+class ConstituencyController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
     use ConsoleHelper;
 
     public function findConstituencyAction()
     {
-        $this->singleLevelGet(
-            'Constituency',
+        $this->queryAndSave(
             'http://www.althingi.is/altext/xml/kjordaemi',
             'kjordaemi',
-            'kjördæmið',
+            '//kjördæmin/kjördæmið',
             new Constituency()
         );
     }

@@ -31,7 +31,7 @@ return array(
         ],
         'aliases' => [
             'translator' => 'MvcTranslator',
-        ],
+        ]
     ],
     'translator' => [
         'locale' => 'en_US',
@@ -53,6 +53,7 @@ return array(
             'AlthingiAggregator\Controller\Issue' => 'AlthingiAggregator\Controller\IssueController',
             'AlthingiAggregator\Controller\Party' => 'AlthingiAggregator\Controller\PartyController',
             'AlthingiAggregator\Controller\Plenary' => 'AlthingiAggregator\Controller\PlenaryController',
+            'AlthingiAggregator\Controller\Help' => 'AlthingiAggregator\Controller\HelpController',
         ],
     ],
     'view_manager' => [
@@ -70,38 +71,27 @@ return array(
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
-        'strategies' => [
-            'MessageStrategy',
-        ],
+        'strategies' => [],
     ],
     // Placeholder for console routes
     'console' => [
         'router' => [
             'routes' => [
+                'help' => [
+                    'options' => [
+                        'route'    => '',
+                        'defaults' => [
+                            'controller' => 'AlthingiAggregator\Controller\Help',
+                            'action'     => 'index'
+                        ]
+                    ]
+                ],
                 'load-assembly' => [
                     'options' => [
                         'route'    => 'load:assembly',
                         'defaults' => [
                             'controller' => 'AlthingiAggregator\Controller\Assembly',
                             'action'     => 'find-assembly'
-                        ]
-                    ]
-                ],
-                'current-assembly' => [
-                    'options' => [
-                        'route'    => 'load:assembly:current',
-                        'defaults' => [
-                            'controller' => 'AlthingiAggregator\Controller\Assembly',
-                            'action'     => 'current-assembly'
-                        ]
-                    ]
-                ],
-                'congressman' => [
-                    'options' => [
-                        'route'    => 'load:congressman [--assembly=|-a]',
-                        'defaults' => [
-                            'controller' => 'AlthingiAggregator\Controller\Congressman',
-                            'action'     => 'find-congressman'
                         ]
                     ]
                 ],
@@ -120,6 +110,24 @@ return array(
                         'defaults' => [
                             'controller' => 'AlthingiAggregator\Controller\Constituency',
                             'action'     => 'find-constituency'
+                        ]
+                    ]
+                ],
+                'current-assembly' => [
+                    'options' => [
+                        'route'    => 'load:assembly:current',
+                        'defaults' => [
+                            'controller' => 'AlthingiAggregator\Controller\Assembly',
+                            'action'     => 'current-assembly'
+                        ]
+                    ]
+                ],
+                'congressman' => [
+                    'options' => [
+                        'route'    => 'load:congressman [--assembly=|-a]',
+                        'defaults' => [
+                            'controller' => 'AlthingiAggregator\Controller\Congressman',
+                            'action'     => 'find-congressman'
                         ]
                     ]
                 ],

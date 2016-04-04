@@ -6,15 +6,16 @@
  * Time: 7:22 AM
  */
 
-namespace AlthingiAggregator\Model\Dom;
+namespace AlthingiAggregator\Model;
 
 use AlthingiAggregator\Lib\IdentityInterface;
-use Zend\Stdlib\Extractor\ExtractionInterface;
+use Zend\Hydrator\ExtractionInterface;
 use AlthingiAggregator\Model\Exception as ModelException;
 
-class Constituency implements ExtractionInterface, IdentityInterface
+class Party implements ExtractionInterface, IdentityInterface
 {
     private $id;
+
     /**
      * Extract values from an object
      *
@@ -34,16 +35,14 @@ class Constituency implements ExtractionInterface, IdentityInterface
 
         $this->setIdentity($object->getAttribute('id'));
         $name = $object->getElementsByTagName('heiti')->item(0)->nodeValue;
-        $description = $object->getElementsByTagName('lýsing')->item(0)->nodeValue;
-        $abbr_short = $object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue;
-        $abbr_long = $object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue . PHP_EOL;
+        $abbrShort = $object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue;
+        $abbrLong =  $object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue . PHP_EOL;
 
         return [
             'id' => (int) $this->getIdentity(),
-            'name' => empty($name) ? '-' : trim($name),
-            'description' => trim($description),
-            'abbr_short' => trim($abbr_short),
-            'abbr_long' => trim($abbr_long)
+            'name' => trim($name),
+            'abbr_short' => trim($abbrShort),
+            'abbr_long' => trim($abbrLong)
         ];
     }
 

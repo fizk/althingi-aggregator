@@ -6,10 +6,10 @@
  * Time: 7:22 AM
  */
 
-namespace AlthingiAggregator\Model\Dom;
+namespace AlthingiAggregator\Model;
 
 use AlthingiAggregator\Lib\IdentityInterface;
-use Zend\Stdlib\Extractor\ExtractionInterface;
+use Zend\Hydrator\ExtractionInterface;
 use AlthingiAggregator\Model\Exception as ModelException;
 
 class Plenary implements ExtractionInterface, IdentityInterface
@@ -33,10 +33,6 @@ class Plenary implements ExtractionInterface, IdentityInterface
             throw new ModelException('Missing [{númer}] value', $object);
         }
 
-        if (!$object->hasAttribute('þing')) {
-            throw new ModelException('Missing [{þing}] value', $object);
-        }
-
         if (!$object->getElementsByTagName('fundarheiti')->item(0)) {
             throw new ModelException('Missing [{fundarheiti}] value', $object);
         }
@@ -53,7 +49,6 @@ class Plenary implements ExtractionInterface, IdentityInterface
 
         return [
             'plenary_id' => (int) $this->getIdentity(),
-            'assembly_id' => (int) $object->getAttribute('þing'),
             'name' => $object->getElementsByTagName('fundarheiti')->item(0)->nodeValue,
             'from' => date('Y-m-d H:i:s', strtotime($object->getElementsByTagName('fundursettur')->item(0)->nodeValue)),
             'to' => date('Y-m-d H:i:s', strtotime($object->getElementsByTagName('fuslit')->item(0)->nodeValue)),

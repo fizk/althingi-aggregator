@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atkvæðagreiðsla  málsnúmer='1' þingnúmer='145' atkvæðagreiðslunúmer='52313'>
+<!-- greiðir ekki atkvæði er oft kallað að sitja hjá - þingmaðurinn var í þingsalnum og stutti á takann greiðir ekki atkvæði -->
+<!-- boðaði fjarvist, þingmaðurinn tilkynnti t.d. veikindi eða var í erindigjörðum á vegum Alþingis -->
+<!-- fjarverandi, þingmaðurinn stutti ekki á takka og hafði ekki boðað fjarvist -->
+
+<tími>2015-12-16T19:08:33</tími>
+<tegund>Brtt.</tegund><þingskjal skjalsnúmer='587' þingnúmer='145'>
+<slóð>
+<xml>http://www.althingi.is/altext/xml/thingskjol/thingskjal/?lthing=145&amp;skjalnr=587</xml>
+</slóð>
+</þingskjal><nánar><![CDATA[18.2.1]]></nánar>
+<niðurstaða><aðferð>atkvæðagreiðslukerfi</aðferð>
+<já><fjöldi>32</fjöldi></já>
+<nei><fjöldi>0</fjöldi></nei>
+<greiðirekkiatkvæði><fjöldi>19</fjöldi></greiðirekkiatkvæði>
+<niðurstaða>samþykkt</niðurstaða>
+</niðurstaða>
+<atkvæðaskrá><þingmaður id='678'><nafn>Árni Páll Árnason</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=678</xml></þingmaður>
+<þingmaður id='707'><nafn>Ásmundur Einar Daðason</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=707</xml></þingmaður>
+<þingmaður id='1157'><nafn>Ásmundur Friðriksson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1157</xml></þingmaður>
+<þingmaður id='1214'><nafn>Ásta Guðrún Helgadóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1214</xml></þingmaður>
+<þingmaður id='650'><nafn>Birgir Ármannsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=650</xml></þingmaður>
+<þingmaður id='728'><nafn>Birgitta Jónsdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=728</xml></þingmaður>
+<þingmaður id='1012'><nafn>Bjarkey Olsen Gunnarsdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1012</xml></þingmaður>
+<þingmaður id='652'><nafn>Bjarni Benediktsson</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=652</xml></þingmaður>
+<þingmaður id='1158'><nafn>Björt Ólafsdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1158</xml></þingmaður>
+<þingmaður id='1159'><nafn>Brynhildur Pétursdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1159</xml></þingmaður>
+<þingmaður id='1160'><nafn>Brynjar Níelsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1160</xml></þingmaður>
+<þingmaður id='124'><nafn>Einar K. Guðfinnsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=124</xml></þingmaður>
+<þingmaður id='1181'><nafn>Elín Hirst</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1181</xml></þingmaður>
+<þingmaður id='1161'><nafn>Elsa Lára Arnardóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1161</xml></þingmaður>
+<þingmaður id='703'><nafn>Eygló Harðardóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=703</xml></þingmaður>
+<þingmaður id='1162'><nafn>Frosti Sigurjónsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1162</xml></þingmaður>
+<þingmaður id='656'><nafn>Guðlaugur Þór Þórðarson</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=656</xml></þingmaður>
+<þingmaður id='704'><nafn>Guðmundur Steingrímsson</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=704</xml></þingmaður>
+<þingmaður id='722'><nafn>Gunnar Bragi Sveinsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=722</xml></þingmaður>
+<þingmaður id='1163'><nafn>Hanna Birna Kristjánsdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1163</xml></þingmaður>
+<þingmaður id='1164'><nafn>Haraldur Benediktsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1164</xml></þingmaður>
+<þingmaður id='1165'><nafn>Haraldur Einarsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1165</xml></þingmaður>
+<þingmaður id='1166'><nafn>Helgi Hrafn Gunnarsson</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1166</xml></þingmaður>
+<þingmaður id='658'><nafn>Helgi Hjörvar</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=658</xml></þingmaður>
+<þingmaður id='686'><nafn>Höskuldur Þórhallsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=686</xml></þingmaður>
+<þingmaður id='687'><nafn>Illugi Gunnarsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=687</xml></þingmaður>
+<þingmaður id='1167'><nafn>Jóhanna María Sigmundsdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1167</xml></þingmaður>
+<þingmaður id='688'><nafn>Jón Gunnarsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=688</xml></þingmaður>
+<þingmaður id='1169'><nafn>Karl Garðarsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1169</xml></þingmaður>
+<þingmaður id='690'><nafn>Katrín Jakobsdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=690</xml></þingmaður>
+<þingmaður id='660'><nafn>Katrín Júlíusdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=660</xml></þingmaður>
+<þingmaður id='691'><nafn>Kristján Þór Júlíusson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=691</xml></þingmaður>
+<þingmaður id='396'><nafn>Kristján L. Möller</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=396</xml></þingmaður>
+<þingmaður id='714'><nafn>Lilja Rafney Magnúsdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=714</xml></þingmaður>
+<þingmaður id='1170'><nafn>Líneik Anna Sævarsdóttir</nafn><atkvæði>boðaði fjarvist</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1170</xml></þingmaður>
+<þingmaður id='719'><nafn>Oddný G. Harðardóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=719</xml></þingmaður>
+<þingmaður id='715'><nafn>Ólína Kjerúlf Þorvarðardóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=715</xml></þingmaður>
+<þingmaður id='1171'><nafn>Óttarr Proppé</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1171</xml></þingmaður>
+<þingmaður id='1172'><nafn>Páll Valur Björnsson</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1172</xml></þingmaður>
+<þingmaður id='1173'><nafn>Páll Jóhann Pálsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1173</xml></þingmaður>
+<þingmaður id='693'><nafn>Ragnheiður E. Árnadóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=693</xml></þingmaður>
+<þingmaður id='694'><nafn>Ragnheiður Ríkharðsdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=694</xml></þingmaður>
+<þingmaður id='708'><nafn>Róbert Marshall</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=708</xml></þingmaður>
+<þingmaður id='729'><nafn>Sigmundur Davíð Gunnlaugsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=729</xml></þingmaður>
+<þingmaður id='1018'><nafn>Sigríður Á. Andersen</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1018</xml></þingmaður>
+<þingmaður id='712'><nafn>Sigríður Ingibjörg Ingadóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=712</xml></þingmaður>
+<þingmaður id='934'><nafn>Sigrún Magnúsdóttir</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=934</xml></þingmaður>
+<þingmaður id='726'><nafn>Sigurður Ingi Jóhannsson</nafn><atkvæði>boðaði fjarvist</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=726</xml></þingmaður>
+<þingmaður id='1174'><nafn>Silja Dögg Gunnarsdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1174</xml></þingmaður>
+<þingmaður id='557'><nafn>Steingrímur J. Sigfússon</nafn><atkvæði>boðaði fjarvist</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=557</xml></þingmaður>
+<þingmaður id='1031'><nafn>Steinunn Þóra Árnadóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1031</xml></þingmaður>
+<þingmaður id='730'><nafn>Svandís Svavarsdóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=730</xml></þingmaður>
+<þingmaður id='721'><nafn>Unnur Brá Konráðsdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=721</xml></þingmaður>
+<þingmaður id='705'><nafn>Valgerður Bjarnadóttir</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=705</xml></þingmaður>
+<þingmaður id='1175'><nafn>Valgerður Gunnarsdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1175</xml></þingmaður>
+<þingmaður id='706'><nafn>Vigdís Hauksdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=706</xml></þingmaður>
+<þingmaður id='1176'><nafn>Vilhjálmur Árnason</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1176</xml></þingmaður>
+<þingmaður id='1177'><nafn>Vilhjálmur Bjarnason</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1177</xml></þingmaður>
+<þingmaður id='1178'><nafn>Willum Þór Þórsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1178</xml></þingmaður>
+<þingmaður id='1179'><nafn>Þorsteinn Sæmundsson</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1179</xml></þingmaður>
+<þingmaður id='1180'><nafn>Þórunn Egilsdóttir</nafn><atkvæði>já</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1180</xml></þingmaður>
+<þingmaður id='630'><nafn>Ögmundur Jónasson</nafn><atkvæði>fjarverandi</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=630</xml></þingmaður>
+<þingmaður id='631'><nafn>Össur Skarphéðinsson</nafn><atkvæði>greiðir ekki atkvæði</atkvæði><xml>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=631</xml></þingmaður>
+</atkvæðaskrá></atkvæðagreiðsla>

@@ -9,20 +9,8 @@
 
 namespace AlthingiAggregator;
 
-use Zend\Mvc\MvcEvent;
-use Rend\Event\ApplicationErrorHandler;
-use Rend\Event\ShutdownErrorHandler;
-
 class Module
 {
-//    public function onBootstrap(MvcEvent $e)
-//    {
-//        register_shutdown_function(new ShutdownErrorHandler());
-//
-//        $eventManager = $e->getApplication()->getEventManager();
-//        $eventManager->attach(MvcEvent::EVENT_DISPATCH_ERROR, new ApplicationErrorHandler());
-//    }
-
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
@@ -31,6 +19,11 @@ class Module
     public function getServiceConfig()
     {
         return include __DIR__ . '/config/service.config.php';
+    }
+
+    public function getControllerConfig()
+    {
+        return include __DIR__ . '/config/controller.config.php';
     }
 
     public function getAutoloaderConfig()

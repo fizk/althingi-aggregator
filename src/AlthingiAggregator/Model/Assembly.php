@@ -6,10 +6,10 @@
  * Time: 7:22 AM
  */
 
-namespace AlthingiAggregator\Model\Dom;
+namespace AlthingiAggregator\Model;
 
 use AlthingiAggregator\Lib\IdentityInterface;
-use Zend\Stdlib\Extractor\ExtractionInterface;
+use Zend\Hydrator\ExtractionInterface;
 use AlthingiAggregator\Model\Exception as ModelException;
 
 class Assembly implements ExtractionInterface, IdentityInterface

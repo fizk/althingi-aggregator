@@ -8,21 +8,21 @@
 
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Lib\LoggerAwareInterface;
-use AlthingiAggregator\Model\Dom\Party;
 use Zend\Mvc\Controller\AbstractActionController;
+use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Model\Party;
 
-class PartyController extends AbstractActionController implements LoggerAwareInterface
+class PartyController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
     use ConsoleHelper;
 
     public function findPartyAction()
     {
-        $this->singleLevelGet(
-            'Party',
+        $this->queryAndSave(
             'http://www.althingi.is/altext/xml/thingflokkar',
             'thingflokkar',
-            'þingflokkur',
+            '//þingflokkar/þingflokkur',
             new Party()
         );
     }

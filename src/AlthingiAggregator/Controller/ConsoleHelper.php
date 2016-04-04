@@ -9,104 +9,105 @@
 namespace AlthingiAggregator\Controller;
 
 use DOMXPath;
-use Psr\Log\LoggerInterface;
-use AlthingiAggregator\Lib\Http\DomClient;
-use AlthingiAggregator\Lib\IdentityInterface;
-use Zend\Http\Headers;
-use Zend\Http\Request;
-use Zend\Stdlib\Parameters;
-use Zend\Stdlib\Extractor\ExtractionInterface;
+use DOMNodeList;
+use DOMElement;
+use Zend\Hydrator\ExtractionInterface;
+use AlthingiAggregator\Lib\Consumer\ConsumerInterface;
+use AlthingiAggregator\Lib\Provider\ProviderInterface;
 
 trait ConsoleHelper
 {
-    private $logger;
+    /** @var  array */
+    private $config;
+
+    /** @var  ConsumerInterface */
+    private $consumer;
+
+    /** @var  ProviderInterface */
+    private $provider;
+
+    /** @var  \Zend\Http\Client */
+    private $althingiClient;
+
+    /** @var  \Zend\Http\Client */
+    private $restClient;
 
     /**
-     * Extract a collection of resources and PUTs them into REST service.
+     * Query for and save document, all in one go.
      *
-     * @param string $name This is just for the logger
-     * @param string $url Full URL to Althingi XML service
-     * @param string $api API endpoint key
-     * @param string $elementName name of XML element that holds a single resource
+     * Provide a URL to where the data is stored, the kay to save
+     * the document under, and xPath to the element(s) to save from the
+     * document and an extractor... this method will do all the work
+     * for you.
+     *
+     * @param $url
+     * @param $storageKey
+     * @param $xPath
      * @param ExtractionInterface $extract
+     */
+    private function queryAndSave($url, $storageKey, $xPath, ExtractionInterface $extract)
+    {
+        $dom = $this->queryForDocument($url);
+        $xPathObject = new \DOMXPath($dom);
+        $elements = $xPathObject->query($xPath);
+        $this->saveDomNodeList($elements, $storageKey, $extract);
+    }
+
+    /**
+     * Save a DOMNodeList.
+     *
+     * Shorthand, so you don't have to call self::saveDomElement in a loop
+     * in your code.
+     *
+     * @param DOMNodeList $elements
+     * @param $storageKey
+     * @param ExtractionInterface $extract
+     * @see self::saveDomElement
+     */
+    private function saveDomNodeList(DOMNodeList $elements, $storageKey, ExtractionInterface $extract)
+    {
+        foreach ($elements as $element) {
+            $this->saveDomElement($element, $storageKey, $extract);
+        }
+    }
+
+    /**
+     * Save one DOMElement.
+     *
+     * @param DOMElement $element
+     * @param $storageKey
+     * @param ExtractionInterface $extract
+     */
+    private function saveDomElement(DOMElement $element, $storageKey, ExtractionInterface $extract)
+    {
+        $this->consumer->save($element, $storageKey, $extract);
+    }
+
+    /**
+     * Get one DOMDocument from the provider.
+     *
+     * @param $url
+     * @return \DOMDocument
      * @throws \Exception
      */
-    private function singleLevelGet($name, $url, $api, $elementName, ExtractionInterface $extract)
-    {
-        $this->getLogger()->info("{$name} -- start");
-        $dom = (new DomClient())
-            ->setClient($this->getClient())
-            ->get($url);
-        $this->singleLevelPut($dom, $api, $elementName, $extract);
-        $this->getLogger()->info("{$name} -- end");
-    }
-
-    private function singleLevelPut(\DOMDocument $dom, $api, $elementName, ExtractionInterface $extract)
-    {
-        foreach ($dom->getElementsByTagName($elementName) as $element) {
-            $this->singleElementProcess($element, $api, $extract);
-        }
-    }
-
-    private function singleElementProcess(\DOMElement $element, $api, ExtractionInterface $extract)
-    {
-        $config = $this->getServiceLocator()->get('Config');
-        try {
-            $entry = $extract->extract($element);
-            if ($extract instanceof IdentityInterface) {
-                $apiRequest = (new Request())
-                    ->setMethod('post')
-                    ->setHeaders((new Headers())->addHeaders([
-                        'X-HTTP-Method-Override' => 'PUT'
-                    ]))
-                    ->setUri(sprintf('%s/%s/%s', $config['server']['host'], $api, $extract->getIdentity()))
-                    ->setPost(new Parameters($entry));
-
-                $apiResponse = $this->getClient()->send($apiRequest);
-
-                if (201 == $apiResponse->getStatusCode()) {
-                    $this->getLogger()->info($apiResponse->getStatusCode());
-                } elseif (409 == $apiResponse->getStatusCode()) {
-                    $patchRequest = (new Request())
-                        ->setMethod('post')
-                        ->setHeaders((new Headers())->addHeaders([
-                            'X-HTTP-Method-Override' => 'PATCH'
-                        ]))
-                        ->setUri(sprintf('%s/%s/%s', $config['server']['host'], $api, $extract->getIdentity()))
-                        ->setPost(new Parameters($entry));
-
-                    $patchResponse = $this->getClient()->send($patchRequest);
-                    if ((int) ($patchResponse->getStatusCode()/100) != 2) {
-                        $this->getLogger()->error(
-                            $patchResponse->getStatusCode(),
-                            [$patchResponse->getContent()]
-                        );
-                    } else {
-                        $this->getLogger()->info(
-                            $patchResponse->getStatusCode(),
-                            [$patchResponse->getContent()]
-                        );
-                    }
-                } else {
-                    $this->getLogger()->error(
-                        $apiResponse->getStatusCode(),
-                        [$apiResponse->getContent()]
-                    );
-                }
-            }
-
-        } catch (\Exception $e) {
-            $this->getLogger()->error($this->getClient()->getUri() . ' -> ' . $e->getMessage());
-        }
-    }
-
     private function queryForDocument($url)
     {
-        return (new DomClient())
-            ->setClient($this->getClient())
-            ->get($url);
+        return $this->provider->get($url);
     }
 
+    /**
+     * Query for DOMNodeList.
+     *
+     * This is almost the same as self::queryForDocument but adds the ability
+     * to DOMXpath query the incoming DOMDocument element.
+     *
+     * This is a little shorthand method so you don't have to create a
+     * DOMXpath object in your code.
+     *
+     * @param $url
+     * @param $xPath
+     * @return \DOMNodeList
+     */
     private function queryForNoteList($url, $xPath)
     {
         $dom = $this->queryForDocument($url);
@@ -115,32 +116,28 @@ trait ConsoleHelper
     }
 
     /**
-     * @return \Zend\Http\Client
+     * Set a consumer.
+     *
+     * See the Service manager for details.
+     *
+     * @param ConsumerInterface $consumer
+     * @return $this
      */
-    private function getClient()
+    public function setConsumer(ConsumerInterface $consumer)
     {
-        return $this->getServiceLocator()->get('HttpClient');
+        $this->consumer = $consumer;
     }
 
     /**
-     * @param LoggerInterface $logger
-     * @return mixed
+     * Set a provider.
+     *
+     * See the Service manager for details.
+     *
+     * @param ProviderInterface $provider
+     * @return $this
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setProvider(ProviderInterface $provider)
     {
-        $this->logger = $logger;
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    public function getLogger()
-    {
-        if (!$this->logger) {
-            $this->setLogger(
-                $this->getServiceLocator()->get('Psr\Log')
-            );
-        }
-        return $this->logger;
+        $this->provider = $provider;
     }
 }

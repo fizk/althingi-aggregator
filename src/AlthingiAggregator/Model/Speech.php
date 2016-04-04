@@ -6,10 +6,10 @@
  * Time: 7:22 AM
  */
 
-namespace AlthingiAggregator\Model\Dom;
+namespace AlthingiAggregator\Model;
 
 use AlthingiAggregator\Lib\IdentityInterface;
-use Zend\Stdlib\Extractor\ExtractionInterface;
+use Zend\Hydrator\ExtractionInterface;
 use AlthingiAggregator\Model\Exception as ModelException;
 
 class Speech implements ExtractionInterface, IdentityInterface
@@ -57,8 +57,11 @@ class Speech implements ExtractionInterface, IdentityInterface
             throw new ModelException('Missing [{nr}] value', $object);
         }
 
-
-        $this->setIdentity('r'.$object->getElementsByTagName('ræðahófst')->item(0)->nodeValue);
+        $this->setIdentity(str_replace(
+            ['-', ':'],
+            ['', ''],
+            $object->getElementsByTagName('ræðahófst')->item(0)->nodeValue
+        ));
 
         $from = date(
             'Y-m-d H:i:s',
@@ -87,7 +90,8 @@ class Speech implements ExtractionInterface, IdentityInterface
                 ? $object->getElementsByTagName('tegundræðu')->item(0)->nodeValue
                 : null ,
             'text' => ($object->getElementsByTagName('ræðutexti')->item(0))
-                ? $object->getElementsByTagName('ræðutexti')->item(0)->nodeValue
+                ? $object->getElementsByTagName('ræðutexti')
+                    ->item(0)->ownerDocument->saveXML($object->getElementsByTagName('ræðutexti')->item(0))
                 : null ,
         ];
     }

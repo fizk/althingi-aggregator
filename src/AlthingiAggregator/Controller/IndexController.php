@@ -10,16 +10,11 @@
 namespace AlthingiAggregator\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
-
-        $logger = $this->getServiceLocator()
-            ->get('Psr\Log');
-        $logger->info(print_r($this->params('path'), true));
         return 'output';
     }
 

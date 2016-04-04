@@ -17,9 +17,4 @@ interface LoggerAwareInterface
      * @return mixed
      */
     public function setLogger(LoggerInterface $logger);
-
-    /**
-     * @return LoggerInterface
-     */
-    public function getLogger();
 }

@@ -2,19 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: einarvalur
- * Date: 18/03/2016
- * Time: 12:59 PM
+ * Date: 19/03/2016
+ * Time: 11:21 AM
  */
 
-namespace AlthingiAggregator\Model\Dom;
+namespace AlthingiAggregator\Model;
 
-use AlthingiAggregator\Lib\IdentityInterface;
-use Zend\Stdlib\Extractor\ExtractionInterface;
+use Zend\Hydrator\ExtractionInterface;
 use AlthingiAggregator\Model\Exception as ModelException;
 
-class Proponent implements ExtractionInterface, IdentityInterface
+class VoteItem implements ExtractionInterface
 {
-    private $id;
 
     /**
      * Extract values from an object
@@ -33,26 +31,13 @@ class Proponent implements ExtractionInterface, IdentityInterface
             throw new ModelException('Missing [{id}] value', $object);
         }
 
-        if (!$object->hasAttribute('röð')) {
-            throw new ModelException('Missing [{röð}] value', $object);
+        if (!$object->getElementsByTagName('atkvæði')->item(0)) {
+            throw new ModelException('Missing [{atkvæði}] value', $object);
         }
-
-        $this->setIdentity($object->getAttribute('id'));
 
         return [
             'congressman_id' => (int) $object->getAttribute('id'),
-            'order' => (int) $object->getAttribute('röð')
+            'vote' => trim($object->getElementsByTagName('atkvæði')->item(0)->nodeValue)
         ];
-    }
-
-    public function setIdentity($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getIdentity()
-    {
-        return $this->id;
     }
 }
