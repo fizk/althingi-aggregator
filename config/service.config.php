@@ -11,20 +11,23 @@ return [
 
     'factories' => [
         'Psr\Log' => function ($sm) {
-            $handler = new \Monolog\Handler\StreamHandler('php://stdout');
-            $handler->setFormatter(new Bramus\Monolog\Formatter\ColoredLineFormatter());
-            $logger = new \Monolog\Logger('althingi');
-            $logger->pushHandler($handler);
-            return $logger;
+            $fileHandler = new \Monolog\Handler\StreamHandler(
+                './data/log/althingi.log',
+                \Monolog\Logger::WARNING
+            );
+
+            $consoleHandler = new \Monolog\Handler\StreamHandler('php://stdout');
+            $consoleHandler->setFormatter(new Bramus\Monolog\Formatter\ColoredLineFormatter());
+
+            return (new \Monolog\Logger('althingi'))
+                ->pushHandler($consoleHandler)
+                ->pushHandler($fileHandler);
         },
 
         'Provider' => function ($sm) {
-            $client = (new \Zend\Http\Client());
-//                ->setAdapter(new AlthingiAggregator\Lib\Http\Client\Adapter\LocalXmlAdapter())
-//                ->setOptions(['protocol' => './']);
-
             return (new \AlthingiAggregator\Lib\Provider\ServerProvider(['save' => true]))
-                ->setClient($client);
+                ->setClient(new \Zend\Http\Client())
+                ->setLogger($sm->get('Psr\Log'));
         },
 
         'Consumer' => function ($sm) {
@@ -32,6 +35,9 @@ return [
                 ->setClient(new \Zend\Http\Client())
                 ->setConfig($sm->get('Config'))
                 ->setLogger($sm->get('Psr\Log'));
+//            return (new \AlthingiAggregator\Lib\Consumer\NullConsumer())
+//                ->setConfig($sm->get('Config'))
+//                ->setLogger($sm->get('Psr\Log'));
         }
     ],
 

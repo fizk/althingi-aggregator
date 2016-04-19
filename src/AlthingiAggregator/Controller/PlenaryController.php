@@ -11,7 +11,7 @@ namespace AlthingiAggregator\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
 use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Model\Plenary;
+use AlthingiAggregator\Extractor\Plenary;
 
 class PlenaryController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {

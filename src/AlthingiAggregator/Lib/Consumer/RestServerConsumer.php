@@ -8,17 +8,18 @@
 
 namespace AlthingiAggregator\Lib\Consumer;
 
+use AlthingiAggregator\Extractor\Exception;
 use DOMElement;
-use AlthingiAggregator\Lib\ClientAwareInterface;
-use AlthingiAggregator\Lib\Http\ConfigAwareInterface;
-use AlthingiAggregator\Lib\IdentityInterface;
-use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Zend\Http\Client;
-use Zend\Hydrator\ExtractionInterface;
 use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Stdlib\Parameters;
+use Psr\Log\LoggerAwareInterface;
+use AlthingiAggregator\Lib\ClientAwareInterface;
+use AlthingiAggregator\Lib\ConfigAwareInterface;
+use AlthingiAggregator\Lib\IdentityInterface;
+use AlthingiAggregator\Extractor\ExtractionInterface;
 
 class RestServerConsumer implements
     ConsumerInterface,
@@ -45,10 +46,18 @@ class RestServerConsumer implements
      */
     public function save(DOMElement $element, $api, ExtractionInterface $extract)
     {
-        try {
-            $host = $this->config['server']['host'];
-            $entry = $extract->extract($element);
+        $host = $this->config['server']['host'];
+        $entry = null;
 
+        try {
+            $entry = $extract->extract($element);
+        } catch (Exception $e) {
+            $this->logger->error($e->getMessage(), [$api]);
+            return null;
+        }
+
+        try {
+            //PUT request
             if ($extract instanceof IdentityInterface) {
                 $apiRequest = (new Request())
                     ->setMethod('post')
@@ -61,7 +70,7 @@ class RestServerConsumer implements
                 $apiResponse = $this->client->send($apiRequest);
 
                 if (201 == $apiResponse->getStatusCode()) {
-                    $this->logger->info($apiResponse->getStatusCode(), [
+                    $this->logger->debug($apiResponse->getStatusCode(), [
                         'PUT',
                         sprintf('%s/%s/%s', $host, $api, $extract->getIdentity()),
                         $entry
@@ -77,8 +86,8 @@ class RestServerConsumer implements
 
                     $patchResponse = $this->client->send($patchRequest);
 
-                    if ((int) ($patchResponse->getStatusCode()/100) != 2) {
-                        $this->logger->error(
+                    if (2 == (int) ($patchResponse->getStatusCode()/100)) {
+                        $this->logger->debug(
                             $patchResponse->getStatusCode(),
                             [
                                 'PATCH',
@@ -88,7 +97,7 @@ class RestServerConsumer implements
                             ]
                         );
                     } else {
-                        $this->logger->info(
+                        $this->logger->warning(
                             $patchResponse->getStatusCode(),
                             [
                                 'PATCH',
@@ -99,7 +108,7 @@ class RestServerConsumer implements
                         );
                     }
                 } else {
-                    $this->logger->error(
+                    $this->logger->warning(
                         $apiResponse->getStatusCode(),
                         [
                             'PATCH',
@@ -109,6 +118,7 @@ class RestServerConsumer implements
                         ]
                     );
                 }
+            //POST request
             } else {
                 $apiRequest = (new Request())
                     ->setMethod('post')
@@ -119,7 +129,7 @@ class RestServerConsumer implements
 
                 switch ($apiResponse->getStatusCode()) {
                     case 201:
-                        $this->logger->info(
+                        $this->logger->debug(
                             $apiResponse->getStatusCode(),
                             [
                                 'POST',
@@ -145,8 +155,8 @@ class RestServerConsumer implements
 
                         $patchResponse = $this->client->send($patchRequest);
 
-                        if ((int) ($patchResponse->getStatusCode()/100) != 2) {
-                            $this->logger->error(
+                        if (2 == (int) ($patchResponse->getStatusCode()/100)) {
+                            $this->logger->debug(
                                 $patchResponse->getStatusCode(),
                                 [
                                     'PATCH',
@@ -156,7 +166,7 @@ class RestServerConsumer implements
                                 ]
                             );
                         } else {
-                            $this->logger->info(
+                            $this->logger->warning(
                                 $patchResponse->getStatusCode(),
                                 [
                                     'PATCH',
@@ -168,7 +178,7 @@ class RestServerConsumer implements
                         }
                         break;
                     default:
-                        $this->logger->error(
+                        $this->logger->warning(
                             $apiResponse->getStatusCode(),
                             [
                                 'POST',
@@ -179,14 +189,13 @@ class RestServerConsumer implements
                         );
                         break;
                 }
-
-
             }
-            return $entry;
 
         } catch (\Exception $e) {
             $this->logger->error($this->client->getUri() . ' -> ' . $e->getTraceAsString());
         }
+
+        return $entry;
     }
 
     /**

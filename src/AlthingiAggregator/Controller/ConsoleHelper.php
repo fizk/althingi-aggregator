@@ -11,7 +11,7 @@ namespace AlthingiAggregator\Controller;
 use DOMXPath;
 use DOMNodeList;
 use DOMElement;
-use Zend\Hydrator\ExtractionInterface;
+use AlthingiAggregator\Extractor\ExtractionInterface;
 use AlthingiAggregator\Lib\Consumer\ConsumerInterface;
 use AlthingiAggregator\Lib\Provider\ProviderInterface;
 

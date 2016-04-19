@@ -11,7 +11,7 @@ namespace AlthingiAggregator\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
 use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Model\Assembly;
+use AlthingiAggregator\Extractor\Assembly;
 
 class AssemblyController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {

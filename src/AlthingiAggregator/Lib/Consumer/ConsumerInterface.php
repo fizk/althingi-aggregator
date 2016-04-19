@@ -8,8 +8,8 @@
 
 namespace AlthingiAggregator\Lib\Consumer;
 
-use Zend\Hydrator\ExtractionInterface;
 use DOMElement;
+use AlthingiAggregator\Extractor\ExtractionInterface;
 
 interface ConsumerInterface
 {

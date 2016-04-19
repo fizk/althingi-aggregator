@@ -14,14 +14,16 @@ use DOMDocument;
 use Zend\Mvc\Controller\AbstractActionController;
 use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
 use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Model\Document;
-use AlthingiAggregator\Model\Issue;
-use AlthingiAggregator\Model\Proponent;
-use AlthingiAggregator\Model\Speech;
-use AlthingiAggregator\Model\Vote;
-use AlthingiAggregator\Model\VoteItem;
+use AlthingiAggregator\Extractor\Document;
+use AlthingiAggregator\Extractor\Issue;
+use AlthingiAggregator\Extractor\Proponent;
+use AlthingiAggregator\Extractor\Speech;
+use AlthingiAggregator\Extractor\Vote;
+use AlthingiAggregator\Extractor\VoteItem;
 
-class IssueController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
+class IssueController extends AbstractActionController implements
+    ConsumerAwareInterface,
+    ProviderAwareInterface
 {
     use ConsoleHelper;
 
@@ -49,12 +51,20 @@ class IssueController extends AbstractActionController implements ConsumerAwareI
             $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
             $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
+
         }
     }
 
     private function processIssue($assemblyNumber, DOMXPath $xPath)
     {
         $issue = $xPath->query('//þingmál/mál')->item(0);
+        $proponent = $xPath->query('//þingmál/framsögumenn/framsögumaður');
+        $proponentId = $proponent->length
+            ? $proponent->item(0)->getAttribute('id')
+            : null;
+        if ($proponentId) {
+            $issue->setAttribute('framsögumaður', $proponentId);
+        }
 
         $this->saveDomElement(
             $issue,
@@ -123,7 +133,7 @@ class IssueController extends AbstractActionController implements ConsumerAwareI
         $speeches = $xPath->query('//þingmál/ræður/ræða');
 
         foreach ($speeches as $item) {
-            $speechDocument = $this->buildSpeechDocument($item);
+            $speechDocument = $this->buildSpeechDocument($item, $issueNumber);
 
             $this->saveDomElement(
                 $speechDocument->documentElement,
@@ -141,32 +151,28 @@ class IssueController extends AbstractActionController implements ConsumerAwareI
      * @param \DOMElement $item
      * @return \DOMDocument
      */
-    private function buildSpeechDocument(\DOMElement $item)
+    private function buildSpeechDocument(\DOMElement $item, $issueId)
     {
         $speechDocument = new DOMDocument();
         $speechMetaElement = $speechDocument->importNode($item, true);
         $speechDocument->appendChild($speechMetaElement);
+        $speechDocument->documentElement->setAttribute('þingmál', $issueId);
 
         if ($item->getElementsByTagName('xml')->item(0)) {
-
             $speechDom = $this->queryForDocument($item->getElementsByTagName('xml')->item(0)->nodeValue);
             $speechEl = $speechDom->getElementsByTagName('ræðutexti')->item(0);
             $speechBodyElement = $speechDocument->importNode($speechEl, true);
             $speechDocument->documentElement->appendChild($speechBodyElement);
 
             $issueEl = $speechDom->getElementsByTagName('mál')->item(0);
-            //TODO don't know why this is but there was an error here that stopped the execution
-            //Stack trace:
-            //#0 /Users/einarvalur/workspace/AlthingiAggregator/module/AlthingiAggregator/src/AlthingiAggregator/Controller/IssueController.php(143): DOMDocument->importNode(NULL, true)
-            //#1 /Users/einarvalur/workspace/AlthingiAggregator/module/AlthingiAggregator/src/AlthingiAggregator/Controller/IssueController.php(108): AlthingiAggregator\Controller\IssueController->buildSpeechDocument(Object(DOMElement))
-            //#2 /Users/einarvalur/workspace/AlthingiAggregator/module/AlthingiAggregator/src/AlthingiAggregator/Controller/IssueController.php(102): AlthingiAggregator\Controller\IssueController->processEachSpeech(Object(DOMElement), '139', '165')
-            //#3 /Users/einarvalur/workspace/AlthingiAggregator/module/AlthingiAggregator/src/AlthingiAggregator/Controller/IssueController.php(36): Al in /Users/einarvalur/workspace/AlthingiAggregator/module/AlthingiAggregator/src/AlthingiAggregator/Controller/IssueController.php on line 143
+
             if ($issueEl) {
                 $issueElement = $speechDocument->importNode($issueEl, true);
                 $speechDocument->documentElement->appendChild($issueElement);
             }
         }
 
+        $sruff = $speechDocument->saveXML();
         return $speechDocument;
     }
 }

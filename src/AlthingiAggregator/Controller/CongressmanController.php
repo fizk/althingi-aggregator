@@ -11,8 +11,8 @@ namespace AlthingiAggregator\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
 use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Model\Session;
-use AlthingiAggregator\Model\Congressman;
+use AlthingiAggregator\Extractor\Session;
+use AlthingiAggregator\Extractor\Congressman;
 
 class CongressmanController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -27,10 +27,10 @@ class CongressmanController extends AbstractActionController implements Consumer
      */
     public function findCongressmanAction()
     {
-        $assemblyNumber = $this->params('assembly');
+        $assemblyNumber = $this->params('assembly', null);
         $congressmenUrl = ($assemblyNumber)
             ? "http://www.althingi.is/altext/xml/thingmenn/?lthing={$assemblyNumber}"
-            : "http://www.althingi.is/altext/xml/thingmenn/";
+            : "http://www.althingi.is/altext/xml/thingmenn";
         $congressmenElements = $this->queryForNoteList($congressmenUrl, '//þingmannalisti/þingmaður');
 
         $this->saveDomNodeList(

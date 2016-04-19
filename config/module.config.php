@@ -54,6 +54,7 @@ return array(
             'AlthingiAggregator\Controller\Party' => 'AlthingiAggregator\Controller\PartyController',
             'AlthingiAggregator\Controller\Plenary' => 'AlthingiAggregator\Controller\PlenaryController',
             'AlthingiAggregator\Controller\Help' => 'AlthingiAggregator\Controller\HelpController',
+            'AlthingiAggregator\Controller\Committee' => 'AlthingiAggregator\Controller\CommitteeController',
         ],
     ],
     'view_manager' => [
@@ -146,6 +147,15 @@ return array(
                         'defaults' => [
                             'controller' => 'AlthingiAggregator\Controller\Issue',
                             'action'     => 'find-issue'
+                        ]
+                    ]
+                ],
+                'committee' => [
+                    'options' => [
+                        'route'    => 'load:committee',
+                        'defaults' => [
+                            'controller' => 'AlthingiAggregator\Controller\Committee',
+                            'action'     => 'find-committee'
                         ]
                     ]
                 ],

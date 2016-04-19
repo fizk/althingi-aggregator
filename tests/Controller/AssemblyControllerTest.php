@@ -35,9 +35,8 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
         $serviceManager->setService('Consumer', $this->consumer);
     }
 
-    public function testTrue()
+    public function testAssemblyByNumberRouter()
     {
-
         $this->provider->addDocument(
             'http://www.althingi.is/altext/xml/loggjafarthing',
             $this->getDomDocument()
@@ -45,12 +44,52 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
         $this->dispatch('load:assembly');
 
-        $objects = $this->consumer->getObjects();
+        $this->assertControllerClass('AssemblyController');
+        $this->assertActionName('find-assembly');
+    }
 
-        $this->assertCount(1, $objects);
-        $this->assertArrayHasKey('loggjafarthing/1', $objects);
+    public function testAssemblyByNumberData()
+    {
+        $this->provider->addDocument(
+            'http://www.althingi.is/altext/xml/loggjafarthing',
+            $this->getDomDocument()
+        );
 
-        print_r($objects);
+        $this->dispatch('load:assembly');
+
+        $consumerStoredData = $this->consumer->getObjects();
+
+        $this->assertCount(1, $consumerStoredData);
+        $this->assertArrayHasKey('loggjafarthing/1', $consumerStoredData);
+
+    }
+
+    public function testAssemblyCurrentRouter()
+    {
+        $this->provider->addDocument(
+            'http://www.althingi.is/altext/xml/loggjafarthing/yfirstandandi',
+            $this->getDomDocument()
+        );
+
+        $this->dispatch('load:assembly:current');
+
+        $this->assertControllerClass('AssemblyController');
+        $this->assertActionName('current-assembly');
+    }
+
+    public function testAssemblyCurrentData()
+    {
+        $this->provider->addDocument(
+            'http://www.althingi.is/altext/xml/loggjafarthing/yfirstandandi',
+            $this->getDomDocument()
+        );
+
+        $this->dispatch('load:assembly:current');
+
+        $consumerStoredData = $this->consumer->getObjects();
+
+        $this->assertCount(1, $consumerStoredData);
+        $this->assertArrayHasKey('loggjafarthing/1', $consumerStoredData);
 
     }
 

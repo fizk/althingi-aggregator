@@ -8,9 +8,9 @@
 
 namespace AlthingiAggregator\Lib\Consumer;
 
-use AlthingiAggregator\Lib\IdentityInterface;
 use DOMElement;
-use Zend\Hydrator\ExtractionInterface;
+use AlthingiAggregator\Lib\IdentityInterface;
+use AlthingiAggregator\Extractor\ExtractionInterface;
 
 class TestConsumer implements ConsumerInterface
 {
