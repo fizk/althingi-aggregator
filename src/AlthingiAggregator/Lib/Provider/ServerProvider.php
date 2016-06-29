@@ -60,11 +60,11 @@ class ServerProvider implements
         $content = '';
         $cacheHit = false;
 
-        if (is_file($this->generatePath($url))) {
-            $content = file_get_contents($this->generatePath($url));
-            $cacheHit = true;
-            $this->logger->debug("Cache hit - " . $url);
-        } else {
+//        if (is_file($this->generatePath($url))) {
+//            $content = file_get_contents($this->generatePath($url));
+//            $cacheHit = true;
+//            $this->logger->debug("Cache hit - " . $url);
+//        } else {
             $request = new Request();
             $request->setMethod('get')
                 ->setUri($url)
@@ -75,6 +75,7 @@ class ServerProvider implements
             $response = $this->client->send($request);
 
             $status = $response->getStatusCode();
+
             if ($status === 200) {
                 $content = $response->getBody();
             } else {
@@ -82,7 +83,7 @@ class ServerProvider implements
                 throw new \Exception($response->getReasonPhrase());
             }
             $this->logger->debug("None cache hit - fetching file: " . $url);
-        }
+//        }
 
         if ($this->options['save'] && !$cacheHit) {
             $this->saveFile($url, $content);
