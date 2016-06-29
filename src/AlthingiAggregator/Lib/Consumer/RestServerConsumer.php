@@ -9,8 +9,10 @@
 namespace AlthingiAggregator\Lib\Consumer;
 
 use AlthingiAggregator\Extractor\Exception;
+use AlthingiAggregator\Lib\CacheableAwareInterface;
 use DOMElement;
 use Psr\Log\LoggerInterface;
+use Zend\Cache\Storage\StorageInterface;
 use Zend\Http\Client;
 use Zend\Http\Headers;
 use Zend\Http\Request;
@@ -25,7 +27,8 @@ class RestServerConsumer implements
     ConsumerInterface,
     ConfigAwareInterface,
     LoggerAwareInterface,
-    ClientAwareInterface
+    ClientAwareInterface,
+    CacheableAwareInterface
 {
     /** @var  array */
     private $config;
@@ -35,6 +38,9 @@ class RestServerConsumer implements
 
     /** @var \Zend\Http\Client */
     private $client;
+
+    /** @var  StorageInterface */
+    private $cache;
 
     /**
      * Send $extract to REST server via HTTP.
@@ -59,17 +65,34 @@ class RestServerConsumer implements
         try {
             //PUT request
             if ($extract instanceof IdentityInterface) {
+                $uri = sprintf('%s/%s/%s', $host, $api, $extract->getIdentity());
+                $cachedHash = $this->cache->getItem(md5($uri));
+                $inputHash = $this->createHash($entry);
+
+                if ($cachedHash === $inputHash) {
+                    $this->logger->debug('Entry found in cache - Not sending to Server', [
+                        sprintf('%s/%s/%s', $host, $api, $extract->getIdentity()),
+                        $entry
+                    ]);
+                    return null;
+                }
+
                 $apiRequest = (new Request())
                     ->setMethod('post')
                     ->setHeaders((new Headers())->addHeaders([
                         'X-HTTP-Method-Override' => 'PUT'
                     ]))
-                    ->setUri(sprintf('%s/%s/%s', $host, $api, $extract->getIdentity()))
+                    ->setUri($uri)
                     ->setPost(new Parameters($entry));
 
                 $apiResponse = $this->client->send($apiRequest);
 
                 if (201 == $apiResponse->getStatusCode()) {
+                    $this->cache->setItem(md5($uri), $inputHash);
+                    $this->logger->debug('Storing entry in cache', [
+                        sprintf('%s/%s/%s', $host, $api, $extract->getIdentity()),
+                        $entry
+                    ]);
                     $this->logger->debug($apiResponse->getStatusCode(), [
                         'PUT',
                         sprintf('%s/%s/%s', $host, $api, $extract->getIdentity()),
@@ -87,6 +110,11 @@ class RestServerConsumer implements
                     $patchResponse = $this->client->send($patchRequest);
 
                     if (2 == (int) ($patchResponse->getStatusCode()/100)) {
+                        $this->cache->setItem(md5($uri), $inputHash);
+                        $this->logger->debug('Storing entry in cache', [
+                            sprintf('%s/%s/%s', $host, $api, $extract->getIdentity()),
+                            $entry
+                        ]);
                         $this->logger->debug(
                             $patchResponse->getStatusCode(),
                             [
@@ -120,10 +148,23 @@ class RestServerConsumer implements
                 }
             //POST request
             } else {
+                $uri = sprintf('%s/%s', $host, $api);
+                $cachedHash = $this->cache->getItem(md5($uri));
+                $inputHash = $this->createHash($entry);
+
                 $apiRequest = (new Request())
                     ->setMethod('post')
                     ->setUri(sprintf('%s/%s', $host, $api))
                     ->setPost(new Parameters($entry));
+
+
+                if ($cachedHash === $inputHash) {
+                    $this->logger->debug('Entry found in cache - Not sending to Server', [
+                        sprintf('%s/%s', $host, $api),
+                        $entry
+                    ]);
+                    return null;
+                }
 
                 $apiResponse = $this->client->send($apiRequest);
 
@@ -141,6 +182,15 @@ class RestServerConsumer implements
                         break;
                     case 409:
                         if (!$apiResponse->getHeaders()->get('Location')) {
+                            $this->logger->warning(
+                                $apiResponse->getStatusCode(),
+                                [
+                                    'POST',
+                                    sprintf('%s/%s', $host, $api),
+                                    $entry,
+                                    'No Location header'
+                                ]
+                            );
                             break;
                         }
                         $location = $apiResponse->getHeaders()->get('Location')->getFieldValue();
@@ -155,7 +205,12 @@ class RestServerConsumer implements
 
                         $patchResponse = $this->client->send($patchRequest);
 
-                        if (2 == (int) ($patchResponse->getStatusCode()/100)) {
+                        if (2 == (int) ($patchResponse->getStatusCode()/100)) { //204
+                            $this->cache->setItem(md5($uri), $inputHash);
+                            $this->logger->debug('Storing entry in cache', [
+                                sprintf('%s/%s', $host, $api),
+                                $entry
+                            ]);
                             $this->logger->debug(
                                 $patchResponse->getStatusCode(),
                                 [
@@ -212,7 +267,7 @@ class RestServerConsumer implements
      * Sets a logger instance on the object
      *
      * @param LoggerInterface $logger
-     * @return null
+     * @return $this
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -228,5 +283,24 @@ class RestServerConsumer implements
     {
         $this->client = $client;
         return $this;
+    }
+
+    /**
+     * @param StorageInterface $cache
+     * @return $this
+     */
+    public function setCache(StorageInterface $cache)
+    {
+        $this->cache = $cache;
+        return $this;
+    }
+
+    /**
+     * @param array $entry
+     * @return mixed
+     */
+    private function createHash(array $entry)
+    {
+        return md5(implode(',', $entry));
     }
 }

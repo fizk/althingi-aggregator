@@ -24,6 +24,14 @@ return [
                 ->pushHandler($fileHandler);
         },
 
+        'Cache' => function ($sm) {
+            $cache = new \Zend\Cache\Storage\Adapter\Filesystem();
+            $cache->getOptions()->setTtl(60*60*60*365);
+            $cache->getOptions()->setCacheDir('./data/cache');
+            
+            return $cache;
+        },
+
         'Provider' => function ($sm) {
             return (new \AlthingiAggregator\Lib\Provider\ServerProvider(['save' => true]))
                 ->setClient(new \Zend\Http\Client())
@@ -31,13 +39,13 @@ return [
         },
 
         'Consumer' => function ($sm) {
-            return (new \AlthingiAggregator\Lib\Consumer\RestServerConsumer())
+            $config = $sm->get('Config');
+            
+            return (new \AlthingiAggregator\Lib\Consumer\HttpConsumer())
+                ->setCache($sm->get('Cache'))
                 ->setClient(new \Zend\Http\Client())
-                ->setConfig($sm->get('Config'))
-                ->setLogger($sm->get('Psr\Log'));
-//            return (new \AlthingiAggregator\Lib\Consumer\NullConsumer())
-//                ->setConfig($sm->get('Config'))
-//                ->setLogger($sm->get('Psr\Log'));
+                ->setLogger($sm->get('Psr\Log'))
+                ->setUri(new Zend\Uri\Http($config['server']['host']));
         }
     ],
 
