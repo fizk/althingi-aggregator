@@ -11,13 +11,13 @@ namespace AlthingiAggregator\Lib\Consumer;
 include_once __DIR__ . '/Stub/ExtractorValidPost.php';
 include_once __DIR__ . '/Stub/ExtractorValidPut.php';
 
-use AlthingiAggregator\Lib\Consumer\Stub\ExtractorValidPut;
 use PHPUnit_Framework_TestCase;
 use Mockery;
-use AlthingiAggregator\Lib\Consumer\Stub\ExtractorValidPost;
 use Zend\Http\Client\Adapter\Test as ClientTestAdapter;
 use Zend\Http\Client as ClientTest;
 use Zend\Uri\Http;
+use AlthingiAggregator\Lib\Consumer\Stub\ExtractorValidPut;
+use AlthingiAggregator\Lib\Consumer\Stub\ExtractorValidPost;
 
 class HttpConsumerTest extends PHPUnit_Framework_TestCase
 {
