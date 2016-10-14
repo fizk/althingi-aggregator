@@ -107,7 +107,14 @@ class Issue implements ExtractionInterface, IdentityInterface
             'type_name' => $typeName,
             'type_subname' => $typeSubName,
             'congressman_id' => $congressmanId,
-            'question' => $question //TODO change the name of this
+            'question' => $question, //TODO change the name of this
+
+            'goal' => $object->getElementsByTagName('markmið')->item(0)->nodeValue,
+            'major_changes' => $object->getElementsByTagName('helstuBreytingar')->item(0)->nodeValue,
+            'changes_in_law' => $object->getElementsByTagName('breytingaráLögum')->item(0)->nodeValue,
+            'costs_and_revenues' => $object->getElementsByTagName('kostnaðurOgTekjur')->item(0)->nodeValue,
+            'deliveries' => $object->getElementsByTagName('afgreiðsla')->item(0)->nodeValue,
+            'additional_information' => $object->getElementsByTagName('aðrarUpplýsingar')->item(0)->nodeValue,
         ];
     }
 

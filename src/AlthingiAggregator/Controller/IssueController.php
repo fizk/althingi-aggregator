@@ -42,7 +42,7 @@ class IssueController extends AbstractActionController implements
             $issueDocumentDom = $this->queryForDocument($issueUrl);
             $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
-            $this->processIssue($assemblyNumber, $issueDocumentXPath);
+            $this->processIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
             $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
@@ -55,7 +55,7 @@ class IssueController extends AbstractActionController implements
         }
     }
 
-    private function processIssue($assemblyNumber, DOMXPath $xPath)
+    private function processIssue($assemblyNumber, $issueNumber, DOMXPath $xPath)
     {
         $issue = $xPath->query('//þingmál/mál')->item(0);
         $proponent = $xPath->query('//þingmál/framsögumenn/framsögumaður');
@@ -64,6 +64,19 @@ class IssueController extends AbstractActionController implements
             : null;
         if ($proponentId) {
             $issue->setAttribute('framsögumaður', $proponentId);
+        }
+
+        $summaryDoc = $this->queryForDocument("http://www.althingi.is/altext/xml/samantektir/samantekt/?lthing={$assemblyNumber}&malnr={$issueNumber}");
+        $summaryElements = ['markmið', 'helstuBreytingar', 'breytingaráLögum', 'kostnaðurOgTekjur', 'afgreiðsla', 'aðrarUpplýsingar'];
+        foreach ($summaryElements as $element) {
+            $placeholderElement = null;
+            if($summaryDoc->getElementsByTagName($element)->item(0)) {
+                $externalElement = $summaryDoc->getElementsByTagName($element)->item(0);
+                $placeholderElement = $issue->ownerDocument->importNode($externalElement, true);
+            } else {
+                $placeholderElement = $issue->ownerDocument->createElement($element);
+            }
+            $issue->appendChild($placeholderElement);
         }
 
         $this->saveDomElement(
