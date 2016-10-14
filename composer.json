@@ -18,11 +18,5 @@
         "zendframework/zendframework": "~2.4",
         "monolog/monolog": "~1.13",
         "bramus/monolog-colored-line-formatter": "~2.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~5.4",
-        "mockery/mockery": "0.9.*",
-        "squizlabs/php_codesniffer": "~2.3",
-        "mikey179/vfsStream": "1.6.*"
     }
 }

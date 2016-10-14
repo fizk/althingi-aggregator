@@ -55,6 +55,7 @@ return array(
             'AlthingiAggregator\Controller\Plenary' => 'AlthingiAggregator\Controller\PlenaryController',
             'AlthingiAggregator\Controller\Help' => 'AlthingiAggregator\Controller\HelpController',
             'AlthingiAggregator\Controller\Committee' => 'AlthingiAggregator\Controller\CommitteeController',
+            'AlthingiAggregator\Controller\President' => 'AlthingiAggregator\Controller\PresidentController',
         ],
     ],
     'view_manager' => [
@@ -156,6 +157,15 @@ return array(
                         'defaults' => [
                             'controller' => 'AlthingiAggregator\Controller\Committee',
                             'action'     => 'find-committee'
+                        ]
+                    ]
+                ],
+                'president' => [
+                    'options' => [
+                        'route'    => 'load:president',
+                        'defaults' => [
+                            'controller' => 'AlthingiAggregator\Controller\President',
+                            'action'     => 'find-president'
                         ]
                     ]
                 ],
