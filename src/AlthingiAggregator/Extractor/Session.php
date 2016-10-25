@@ -77,7 +77,7 @@ class Session implements ExtractionInterface
             ? null
             : trim($object->getElementsByTagName('deild')->item(0)->nodeValue);
         $from = date('Y-m-d', strtotime($object->getElementsByTagName('inn')->item(0)->nodeValue));
-        $to = ($object->getElementsByTagName('út')->item(0))
+        $to = ($object->getElementsByTagName('út')->item(0) && !empty($object->getElementsByTagName('út')->item(0)->nodeValue))
             ? date('Y-m-d', strtotime($object->getElementsByTagName('út')->item(0)->nodeValue))
             : null;
 

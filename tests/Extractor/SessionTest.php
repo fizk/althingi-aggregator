@@ -54,6 +54,38 @@ class SessionTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function testOutDate()
+    {
+        $domDocument = new \DOMDocument();
+        $domDocument->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <root>
+                <þingseta>
+                    <þing>145</þing>
+                    <skammstöfun>EKG</skammstöfun>
+                    <tegund>þingmaður</tegund>
+                    <þingflokkur id="35">Sjálfstæðisflokkur</þingflokkur>
+                    <kjördæmi id="53">
+                        <![CDATA[ Norðvesturkjördæmi ]]>
+                    </kjördæmi>
+                    <kjördæmanúmer>2</kjördæmanúmer>
+                    <þingsalssæti>57</þingsalssæti>
+                    <tímabil>
+                        <inn>07.04.2016</inn>
+                        <út/>
+                    </tímabil>
+                </þingseta>
+            </root>'
+        );
+
+        $element = $domDocument->getElementsByTagName('þingseta')->item(0);
+
+        $sessionModel = new Session();
+        $sessionData = $sessionModel->extract($element);
+        $this->assertNull($sessionData['to']);
+        $i = 0;
+    }
+
     private function getValidElement()
     {
         $xml =
