@@ -59,6 +59,11 @@ class Issue implements ExtractionInterface, IdentityInterface
 
         //----
 
+        $categoriesIds = [];
+        $categories = $object->getElementsByTagName('efnisflokkar');
+        foreach ($categories as $category) {
+            $categoriesIds[] = $category->getAttribute('id');
+        }
 
         $this->setIdentity((int) $object->getAttribute('málsnúmer'));
 

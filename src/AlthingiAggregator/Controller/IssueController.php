@@ -8,6 +8,7 @@
 
 namespace AlthingiAggregator\Controller;
 
+use AlthingiAggregator\Extractor\IssueCategory;
 use DOMElement;
 use DOMXPath;
 use DOMDocument;
@@ -43,6 +44,8 @@ class IssueController extends AbstractActionController implements
             $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
             $this->processIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
+
+            $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
             $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
@@ -83,6 +86,17 @@ class IssueController extends AbstractActionController implements
             $issue,
             "loggjafarthing/{$assemblyNumber}/thingmal",
             new Issue()
+        );
+
+    }
+
+    private function processIssueCategory($assemblyNumber, $issueNumber, DOMXPath $xPath)
+    {
+        $categories = $xPath->query('//þingmál/efnisflokkar/yfirflokkur/efnisflokkur');
+        $this->saveDomNodeList(
+            $categories,
+            "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/efnisflokkar",
+            new IssueCategory()
         );
     }
 
@@ -164,7 +178,7 @@ class IssueController extends AbstractActionController implements
      * @param \DOMElement $item
      * @return \DOMDocument
      */
-    private function buildSpeechDocument(\DOMElement $item, $issueId)
+    private function buildSpeechDocument(DOMElement $item, $issueId)
     {
         $speechDocument = new DOMDocument();
         $speechMetaElement = $speechDocument->importNode($item, true);
