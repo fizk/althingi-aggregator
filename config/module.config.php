@@ -161,6 +161,15 @@ return array(
                         ]
                     ]
                 ],
+                'committee-assembly' => [
+                    'options' => [
+                        'route'    => 'load:committee-assembly [--assembly=|-a]',
+                        'defaults' => [
+                            'controller' => 'AlthingiAggregator\Controller\Committee',
+                            'action'     => 'find-assembly-committee'
+                        ]
+                    ]
+                ],
                 'president' => [
                     'options' => [
                         'route'    => 'load:president',
