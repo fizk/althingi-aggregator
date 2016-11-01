@@ -66,7 +66,7 @@ class HttpConsumer implements
         $uri->setPath(sprintf('/%s/%s', $storageKey, $identity));
 
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info('Already in cache', [$uri->toString(), $params]);
+            $this->logger->notice('- ', [$uri->toString(), $params]);
         } else {
             $this->doPutRequest($uri, $params);
         }
@@ -80,7 +80,7 @@ class HttpConsumer implements
         $uri->setPath(sprintf('/%s', $storageKey));
 
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info('Already in cache', [$uri->toString(), $params]);
+            $this->logger->notice('- ', [$uri->toString(), $params]);
         } else {
             $this->doPostRequest($uri, $params);
         }
@@ -96,13 +96,9 @@ class HttpConsumer implements
         switch ($postResponse->getStatusCode()) {
             case 201:
                 $this->storeInCache($uri, $params);
-                $this->logger->debug(
+                $this->logger->info(
                     $postResponse->getStatusCode(),
                     ['POST', $uri->toString(), $params, $postResponse->getContent()]
-                );
-                $this->logger->info(
-                    'Entry stored in cache',
-                    ['POST', $uri->toString(), $params]
                 );
                 break;
             case 400:
@@ -141,13 +137,9 @@ class HttpConsumer implements
         switch ($putResponse->getStatusCode()) {
             case 201:
                 $this->storeInCache($uri, $params);
-                $this->logger->debug(
+                $this->logger->info(
                     $putResponse->getStatusCode(),
                     ['PUT', $uri->toString(), $params, $putResponse->getContent()]
-                );
-                $this->logger->info(
-                    'Entry stored in cache',
-                    ['PUT', $uri->toString(), $params]
                 );
                 break;
             case 400:
@@ -180,7 +172,7 @@ class HttpConsumer implements
                     self::createStorageValue($params)
                 );
                 $this->logger->info(
-                    'Store in cache',
+                    '+',
                     ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
                 );
                 break;
@@ -269,7 +261,11 @@ class HttpConsumer implements
      */
     public function setCache(StorageInterface $cache)
     {
-        $this->cache = $cache;
+        $this->cache = clone $cache;
+        $this->cache->setOptions(array_merge(
+            $this->cache->getOptions()->toArray(),
+            ['namespace' => 'consumer', 'cache_dir' => './data/cache/consumer', 'ttl' => (60*60*24*365)])
+        );
         return $this;
     }
 
