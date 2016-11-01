@@ -64,6 +64,7 @@ class HttpConsumer implements
     {
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s/%s', $storageKey, $identity));
+        $uri->setQuery(['XDEBUG_SESSION_START' => 'PHPSTORM']);
 
         if ($this->isValidInCache($uri, $params)) {
             $this->logger->notice('- ', [$uri->toString(), $params]);
@@ -78,6 +79,7 @@ class HttpConsumer implements
     {
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s', $storageKey));
+        $uri->setQuery(['XDEBUG_SESSION_START' => 'PHPSTORM']);
 
         if ($this->isValidInCache($uri, $params)) {
             $this->logger->notice('- ', [$uri->toString(), $params]);
@@ -138,7 +140,13 @@ class HttpConsumer implements
             case 201:
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
-                    $putResponse->getStatusCode(),
+                    201,
+                    ['PUT', $uri->toString(), $params, $putResponse->getContent()]
+                );
+                break;
+            case 418:
+                $this->logger->notice(
+                    418,
                     ['PUT', $uri->toString(), $params, $putResponse->getContent()]
                 );
                 break;
@@ -166,13 +174,13 @@ class HttpConsumer implements
         $patchResponse = $this->client->send($patchRequest);
 
         switch ($patchResponse->getStatusCode()) {
-            case 204:
+            case 205:
                 $this->cache->setItem(
                     self::createStorageKey($uri),
                     self::createStorageValue($params)
                 );
                 $this->logger->info(
-                    '+',
+                    205,
                     ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
                 );
                 break;

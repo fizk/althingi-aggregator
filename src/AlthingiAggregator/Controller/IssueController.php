@@ -45,13 +45,13 @@ class IssueController extends AbstractActionController implements
 
             $this->processIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
-            $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
+//            $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
+//
+//            $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
+//
+//            $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
+//
+//            $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
             $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
 
