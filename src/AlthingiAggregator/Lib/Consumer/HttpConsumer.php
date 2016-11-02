@@ -22,6 +22,7 @@ use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Stdlib\Parameters;
 use Zend\Uri\Http;
+use Zend\Uri\Uri;
 
 class HttpConsumer implements
     ConsumerInterface,
@@ -64,13 +65,13 @@ class HttpConsumer implements
     {
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s/%s', $storageKey, $identity));
-        if (getenv('XDEBUG_START')) {
-            $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
-        }
 
         if ($this->isValidInCache($uri, $params)) {
             $this->logger->notice('- ', [$uri->toString(), $params]);
         } else {
+            if (getenv('XDEBUG_START')) {
+                $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
+            }
             $this->doPutRequest($uri, $params);
         }
 
@@ -81,13 +82,13 @@ class HttpConsumer implements
     {
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s', $storageKey));
-        if (getenv('XDEBUG_START')) {
-            $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
-        }
 
-        if ($this->isValidInCache($uri, $params)) {
+        if ($this->isValidInCache(self::createClonedIdentifierUri($uri, $params), $params)) {
             $this->logger->notice('- ', [$uri->toString(), $params]);
         } else {
+            if (getenv('XDEBUG_START')) {
+                $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
+            }
             $this->doPostRequest($uri, $params);
         }
 
@@ -117,7 +118,8 @@ class HttpConsumer implements
                 if ($postResponse->getHeaders()->get('Location')) {
                     $this->doPatchRequest(
                         $uri->setPath($postResponse->getHeaders()->get('Location')->getFieldValue()),
-                        $params
+                        $params,
+                        self::createStorageKey(self::createClonedIdentifierUri($uri, $params))
                     );
                 } else {
                     $this->logger->warning(
@@ -172,7 +174,7 @@ class HttpConsumer implements
         }
     }
 
-    private function doPatchRequest(Http $uri, array $params)
+    private function doPatchRequest(Http $uri, array $params, $storageKey = null)
     {
         $patchRequest = $this->getRequest('PATCH', $uri, $params);
         $patchResponse = $this->client->send($patchRequest);
@@ -180,7 +182,7 @@ class HttpConsumer implements
         switch ($patchResponse->getStatusCode()) {
             case 205:
                 $this->cache->setItem(
-                    self::createStorageKey($uri),
+                    $storageKey ? $storageKey : self::createStorageKey($uri),
                     self::createStorageValue($params)
                 );
                 $this->logger->info(
@@ -214,7 +216,10 @@ class HttpConsumer implements
     private function isValidInCache(Http $uri, $param)
     {
         $cacheValue = $this->cache->getItem(self::createStorageKey($uri));
-
+        $createdValue = self::createStorageValue($param);
+        if ($createdValue != $cacheValue) {
+            $i = 0;
+        }
         return $cacheValue == self::createStorageValue($param);
     }
 
@@ -290,6 +295,13 @@ class HttpConsumer implements
     public static function createStorageKey(Http $uri)
     {
         return md5($uri->toString());
+    }
+
+    private static function createClonedIdentifierUri(Http $uri, $params)
+    {
+        $uriExtended = clone $uri;
+        $uriExtended->setQuery(['identifier' => self::createStorageValue($params)]);
+        return $uriExtended;
     }
 
     /**
