@@ -64,7 +64,9 @@ class HttpConsumer implements
     {
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s/%s', $storageKey, $identity));
-        $uri->setQuery(['XDEBUG_SESSION_START' => 'PHPSTORM']);
+        if (getenv('XDEBUG_START')) {
+            $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
+        }
 
         if ($this->isValidInCache($uri, $params)) {
             $this->logger->notice('- ', [$uri->toString(), $params]);
@@ -79,7 +81,9 @@ class HttpConsumer implements
     {
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s', $storageKey));
-        $uri->setQuery(['XDEBUG_SESSION_START' => 'PHPSTORM']);
+        if (getenv('XDEBUG_START')) {
+            $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
+        }
 
         if ($this->isValidInCache($uri, $params)) {
             $this->logger->notice('- ', [$uri->toString(), $params]);
