@@ -83,8 +83,8 @@ class ServerProvider implements
             $this->logger->debug('HTTP Request: ' . $url);
             return $response->getBody();
         } else {
-            $this->logger->warning($response->getReasonPhrase());
-            throw new \Exception($response->getReasonPhrase());
+            $this->logger->error($response->getReasonPhrase(), [$status, $request->getUriString()]);
+//            throw new \Exception($response->getReasonPhrase());
         }
     }
 
