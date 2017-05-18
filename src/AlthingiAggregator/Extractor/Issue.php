@@ -33,10 +33,6 @@ class Issue implements ExtractionInterface, IdentityInterface
             throw new ModelException('Missing [{þingnúmer}] value', $object);
         }
 
-        //if (!$object->hasAttribute('málsflokkur')) {
-        //    throw new ModelException('Missing [{málsflokkur}] value');
-        //}
-
         if (!$object->getElementsByTagName('málsheiti')->item(0)) {
             throw new ModelException('Missing [{málsheiti}] value', $object);
         }

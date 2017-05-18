@@ -10,6 +10,7 @@
 namespace AlthingiAggregator\Controller;
 
 use AlthingiAggregator\Lib\Consumer\TestConsumer;
+use AlthingiAggregator\Lib\Provider\ProviderInterface;
 use AlthingiAggregator\Lib\Provider\TestProvider;
 use Zend\Test\PHPUnit\Controller\AbstractConsoleControllerTestCase;
 
@@ -37,6 +38,26 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
     public function testAssemblyByNumberRouter()
     {
+        $this->provider = new class implements ProviderInterface {
+            public function get($url)
+            {
+                return new \DOMDocument();
+//                throw new \Zend\Http\Exception\RuntimeException();
+//            * @throws Client\Exception\RuntimeException
+            }
+
+            public function addDocument($url, \DOMDocument $dom)
+            {
+
+            }
+        };
+
+
+        $serviceManager = $this->getApplicationServiceLocator();
+        $serviceManager->setAllowOverride(true);
+        $serviceManager->setService('Provider', $this->provider);
+
+
         $this->provider->addDocument(
             'http://www.althingi.is/altext/xml/loggjafarthing',
             $this->getDomDocument()

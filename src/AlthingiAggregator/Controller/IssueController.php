@@ -43,24 +43,21 @@ class IssueController extends AbstractActionController implements
             $issueDocumentDom = $this->queryForDocument($issueUrl);
             $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
-            $this->processIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
+            if ($issueElement->getAttribute('málsflokkur') === 'A') {
+                $this->processIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
+                $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
+                $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
+                $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
+                $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
+                $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            }
         }
     }
 
     private function processIssue($assemblyNumber, $issueNumber, DOMXPath $xPath)
     {
         $issue = $xPath->query('//þingmál/mál')->item(0);
+
         $proponent = $xPath->query('//þingmál/framsögumenn/framsögumaður');
         $proponentId = $proponent->length
             ? $proponent->item(0)->getAttribute('id')

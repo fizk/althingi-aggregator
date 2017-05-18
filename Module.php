@@ -46,10 +46,12 @@ class Module
                     'line' => $exception->getLine(),
                 ]);
             }
+            /** @var $event \Zend\Mvc\MvcEvent */
+            $event->stopPropagation(true);
 
             $message = $event->getError();
             $logger->error($message);
-        });
+        }, 1);
 
         register_shutdown_function(function () use ($logger) {
             // get error
