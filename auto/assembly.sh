@@ -4,12 +4,13 @@
 
 SCRIPT=$( cd "$( dirname "$0" )" && pwd )/../../../public/index.php
 
-#php $SCRIPT load:assembly
-#php $SCRIPT load:party
-#php $SCRIPT load:constituency
-#php $SCRIPT load:committee
-#php $SCRIPT load:category
+php $SCRIPT load:assembly
+php $SCRIPT load:party
+php $SCRIPT load:constituency
+php $SCRIPT load:committee
+php $SCRIPT load:category
 php $SCRIPT load:congressman --assembly=$1
+#php $SCRIPT load:congressman
 php $SCRIPT load:plenary --assembly=$1
 php $SCRIPT load:issue --assembly=$1
 php $SCRIPT load:committee-assembly --assembly=$1

@@ -75,7 +75,13 @@ class ServerProvider implements
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) '.
                     'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36'
             ]));
-        $response = $this->client->send($request);
+
+        try {
+            $response = $this->client->send($request);
+        } catch (\Exception $e) {
+            sleep(10);
+            $response = $this->client->send($request);
+        }
 
         $status = $response->getStatusCode();
 
