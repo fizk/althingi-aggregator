@@ -66,14 +66,7 @@ class HttpConsumer implements
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s/%s', $storageKey, $identity));
 
-        if ($this->isValidInCache($uri, $params)) {
-            $this->logger->notice('- ', [$uri->toString(), $params]);
-        } else {
-            if (getenv('XDEBUG_START')) {
-                $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
-            }
-            $this->doPutRequest($uri, $params);
-        }
+        $this->doPutRequest($uri, $params);
 
         return $params;
     }
@@ -83,20 +76,18 @@ class HttpConsumer implements
         $uri = new Http($this->uri->toString());
         $uri->setPath(sprintf('/%s', $storageKey));
 
-        if ($this->isValidInCache(self::createClonedIdentifierUri($uri, $params), $params)) {
-            $this->logger->notice('- ', [$uri->toString(), $params]);
-        } else {
-            if (getenv('XDEBUG_START')) {
-                $uri->setQuery(['XDEBUG_SESSION_START' => getenv('XDEBUG_START')]);
-            }
-            $this->doPostRequest($uri, $params);
-        }
+        $this->doPostRequest($uri, $params);
 
         return $params;
     }
 
     private function doPostRequest(Http $uri, array $params)
     {
+        if ($this->isValidInCache($uri, $params)) {
+            $this->logger->notice('- ', [$uri->toString(), $params]);
+            return true;
+        }
+
         $postRequest = $this->getRequest('POST', $uri, $params);
         $postResponse = $this->client->send($postRequest);
 
@@ -118,8 +109,7 @@ class HttpConsumer implements
                 if ($postResponse->getHeaders()->get('Location')) {
                     $this->doPatchRequest(
                         $uri->setPath($postResponse->getHeaders()->get('Location')->getFieldValue()),
-                        $params,
-                        self::createStorageKey(self::createClonedIdentifierUri($uri, $params))
+                        $params
                     );
                 } else {
                     $this->logger->warning(
@@ -139,6 +129,11 @@ class HttpConsumer implements
 
     private function doPutRequest(Http $uri, array $params)
     {
+        if ($this->isValidInCache($uri, $params)) {
+            $this->logger->notice('- ', [$uri->toString(), $params]);
+            return true;
+        }
+
         $putRequest = $this->getRequest('PUT', $uri, $params);
         $putResponse = $this->client->send($putRequest);
 
@@ -147,7 +142,14 @@ class HttpConsumer implements
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
                     201,
-                    ['PUT', $uri->toString(), $params, $putResponse->getContent()]
+                    ['PUT:create', $uri->toString(), $params, $putResponse->getContent()]
+                );
+                break;
+            case 205:
+                $this->storeInCache($uri, $params);
+                $this->logger->info(
+                    205,
+                    ['PUT:update', $uri->toString(), $params, $putResponse->getContent()]
                 );
                 break;
             case 418:
@@ -174,17 +176,19 @@ class HttpConsumer implements
         }
     }
 
-    private function doPatchRequest(Http $uri, array $params, $storageKey = null)
+    private function doPatchRequest(Http $uri, array $params)
     {
+        if ($this->isValidInCache($uri, $params)) {
+            $this->logger->notice('- ', [$uri->toString(), $params]);
+            return true;
+        }
+
         $patchRequest = $this->getRequest('PATCH', $uri, $params);
         $patchResponse = $this->client->send($patchRequest);
 
         switch ($patchResponse->getStatusCode()) {
             case 205:
-                $this->cache->setItem(
-                    $storageKey ? $storageKey : self::createStorageKey($uri),
-                    self::createStorageValue($params)
-                );
+                $this->storeInCache($uri, $params);
                 $this->logger->info(
                     205,
                     ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
@@ -215,12 +219,11 @@ class HttpConsumer implements
 
     private function isValidInCache(Http $uri, $param)
     {
-        $cacheValue = $this->cache->getItem(self::createStorageKey($uri));
+        $storageKey = self::createStorageKey($uri);
+        $cacheValue = $this->cache->getItem($storageKey);
         $createdValue = self::createStorageValue($param);
-        if ($createdValue != $cacheValue) {
-            $i = 0;
-        }
-        return $cacheValue == self::createStorageValue($param);
+
+        return $cacheValue == $createdValue;
     }
 
     /**
@@ -295,13 +298,6 @@ class HttpConsumer implements
     public static function createStorageKey(Http $uri)
     {
         return md5($uri->toString());
-    }
-
-    private static function createClonedIdentifierUri(Http $uri, $params)
-    {
-        $uriExtended = clone $uri;
-        $uriExtended->setQuery(['identifier' => self::createStorageValue($params)]);
-        return $uriExtended;
     }
 
     /**

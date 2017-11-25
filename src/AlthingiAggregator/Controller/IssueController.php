@@ -40,6 +40,7 @@ class IssueController extends AbstractActionController implements
         foreach ($issuesNodeList as $issueElement) {
             $issueNumber = $issueElement->getAttribute('málsnúmer');
             $issueUrl = $issueElement->getElementsByTagName('xml')->item(0)->nodeValue;
+
             $issueDocumentDom = $this->queryForDocument($issueUrl);
             $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
@@ -49,6 +50,7 @@ class IssueController extends AbstractActionController implements
                 $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
                 $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
                 $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
+                $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
                 $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
             }
         }
