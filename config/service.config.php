@@ -52,6 +52,16 @@ return [
                 ->setLogger($sm->get('Psr\Log'));
         },
 
+        'MediaClient' => function ($sm) {
+            return (new \AlthingiAggregator\Lib\MediaClient\ThumborClient())
+                ->setClient(new \Zend\Http\Client())
+                ->setUri('http://127.0.0.1:8000/image');
+
+//            return (new \AlthingiAggregator\Lib\MediaClient\FileSystemClient())
+//                ->setClient(new \Zend\Http\Client())
+//                ->setBase('./data/avatar');
+        },
+
         'Consumer' => function ($sm) {
             $config = $sm->get('Config');
             
@@ -59,6 +69,7 @@ return [
                 ->setCache($sm->get('Cache'))
                 ->setClient(new \Zend\Http\Client())
                 ->setLogger($sm->get('Psr\Log'))
+                ->setMediaClient($sm->get('MediaClient'))
                 ->setUri(new Zend\Uri\Http($config['server']['host']));
         }
     ],

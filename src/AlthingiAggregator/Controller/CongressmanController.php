@@ -8,6 +8,7 @@
 
 namespace AlthingiAggregator\Controller;
 
+use AlthingiAggregator\Extractor\CongressmanImage;
 use Zend\Mvc\Controller\AbstractActionController;
 use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
 use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
@@ -38,6 +39,12 @@ class CongressmanController extends AbstractActionController implements Consumer
             'thingmenn',
             new Congressman()
         );
+
+//        $this->saveDomNodeList(
+//            $congressmenElements,
+//            'thingmenn',
+//            new CongressmanImage()
+//        );
 
         foreach ($congressmenElements as $congressmanElement) {
             $congressmanId = $congressmanElement->getAttribute('id');

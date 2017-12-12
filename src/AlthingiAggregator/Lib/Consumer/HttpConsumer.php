@@ -8,7 +8,9 @@
 
 namespace AlthingiAggregator\Lib\Consumer;
 
+use AlthingiAggregator\Extractor\MediaInterface;
 use AlthingiAggregator\Lib\IdentityInterface;
+use AlthingiAggregator\Lib\MediaClient\MediaClientAdapter;
 use DOMElement;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
@@ -18,6 +20,7 @@ use AlthingiAggregator\Extractor\ExtractionInterface;
 use AlthingiAggregator\Lib\CacheableAwareInterface;
 use AlthingiAggregator\Lib\ClientAwareInterface;
 use AlthingiAggregator\Lib\UriAwareInterface;
+use AlthingiAggregator\Lib\MediaClient\MediaClientAwareInterface;
 use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Stdlib\Parameters;
@@ -29,7 +32,8 @@ class HttpConsumer implements
     LoggerAwareInterface,
     ClientAwareInterface,
     CacheableAwareInterface,
-    UriAwareInterface
+    UriAwareInterface,
+    MediaClientAwareInterface
 {
 
     /** @var  Http */
@@ -44,6 +48,9 @@ class HttpConsumer implements
     /** @var  StorageInterface */
     private $cache;
 
+    /** @var  \AlthingiAggregator\Lib\MediaClient\MediaClientAdapter */
+    private $mediaClient;
+
     /**
      * Save $extract to storage/consumer.
      *
@@ -56,9 +63,33 @@ class HttpConsumer implements
     {
         $params = $extract->extract($element);
 
-        return ($extract instanceof IdentityInterface)
-            ? $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params)
-            : $this->doUniqueRequest($storageKey, $params);
+        if ($extract instanceof IdentityInterface) {
+            return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
+        } else if ($extract instanceof MediaInterface) {
+            $this->doFileUpload($extract, $params);
+        } else {
+            return $this->doUniqueRequest($storageKey, $params);
+        }
+    }
+
+    private function doFileUpload(MediaInterface $extract, $params)
+    {
+        try {
+            $writtenBites = $this->mediaClient->save(
+                $extract->getFileName(),
+                $extract->getSlug(),
+                $extract->getContentType()
+            );
+            $this->logger->info(
+                $writtenBites,
+                ['POST', $extract->getSlug(), $params]
+            );
+        } catch (\Exception $e) {
+            $this->logger->error(
+                0,
+                ['POST', $extract->getSlug(), $params, $e->getMessage()]
+            );
+        }
     }
 
     private function doIdentityRequest($storageKey, $identity, $params)
@@ -309,5 +340,15 @@ class HttpConsumer implements
     public static function createStorageValue(array $entry)
     {
         return md5(json_encode($entry));
+    }
+
+    /**
+     * @param MediaClientAdapter $mediaClient
+     * @return $this
+     */
+    public function setMediaClient(MediaClientAdapter $mediaClient)
+    {
+        $this->mediaClient = $mediaClient;
+        return $this;
     }
 }

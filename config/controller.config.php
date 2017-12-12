@@ -20,6 +20,6 @@ return [
                 $locator = $sm->getServiceLocator();
                 $instance->setProvider($locator->get('Provider'));
             }
-        }
+        },
     ]
 ];
