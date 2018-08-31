@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true">
+    <testsuites>
+        <testsuite name="Most">
+            <directory>./</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">../src/</directory>
+            <exclude>
+                <directory suffix=".phtml">../view/</directory>
+                <directory>./Controller</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="junit" target="../docs/tests/report.junit.xml" />
+        <log type="coverage-html" target="../docs/tests/report" charset="UTF-8"
+             yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"/>
+        <log type="testdox-html" target="../docs/tests/testdox.html" />
+    </logging>
+
+</phpunit>
