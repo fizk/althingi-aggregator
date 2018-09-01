@@ -1,9 +1,9 @@
 <?php
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use AlthingiAggregator\Extractor\Exception;
 
 class ExceptionTest extends TestCase
 {

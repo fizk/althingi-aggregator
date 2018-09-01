@@ -8,11 +8,14 @@
         "mvc",
         "zf"
     ],
+
     "homepage": "http://framework.zend.com/",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": "^5.6 || ^7.0",
+        "ext-dom": "*",
+        "ext-json": "*",
         "zendframework/zend-component-installer": "^1.0 || ^0.7 || ^1.0.0-dev@dev",
         "zendframework/zend-mvc": "^3.0.1",
         "zfcampus/zf-development-mode": "^3.0",
@@ -21,17 +24,17 @@
         "zendframework/zend-mvc-console": "^1.2",
         "zendframework/zend-eventmanager": "^3.2",
         "zendframework/zend-cache": "^2.8",
-        "zendframework/zend-test": "^3.2"
+        "zendframework/zend-test": "^3.2",
+        "mockery/mockery": "^1.1"
     },
     "autoload": {
         "psr-4": {
-            "AlthingiAggregator\\": "module/AlthingiAggregator/src",
-            "AlthingiAggregatorTest\\": "module/AlthingiAggregator/tests"
+            "AlthingiAggregator\\": "module/AlthingiAggregator/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AlthingiAggregatorTest\\": "module/AlthingiAggregator/tests"
+            "AlthingiAggregatorTest\\": "module/AlthingiAggregator/tests/"
         }
     },
     "extra": [],

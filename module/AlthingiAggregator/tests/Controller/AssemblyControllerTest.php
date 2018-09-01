@@ -1,18 +1,11 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 30/03/2016
- * Time: 8:08 PM
- */
-
 namespace AlthingiAggregatorTest\Controller;
 
-use AlthingiAggregator\Lib\Consumer\TestConsumer;
+use AlthingiAggregatorTest\Lib\Consumer\TestConsumer;
+use AlthingiAggregatorTest\Lib\Provider\TestProvider;
 use AlthingiAggregator\Lib\Provider\ProviderInterface;
-use AlthingiAggregator\Lib\Provider\TestProvider;
 use Zend\Test\PHPUnit\Controller\AbstractConsoleControllerTestCase;
+use Zend\Stdlib\ArrayUtils;
 
 class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 {
@@ -24,18 +17,30 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
     public function setUp()
     {
-        $this->setApplicationConfig(
-            include __DIR__ . '/../../../../config/application.config.php'
-        );
+        // The module configuration should still be applicable for tests.
+        // You can override configuration here with test case specific values,
+        // such as sample view templates, path stacks, module_listener_options,
+        // etc.
+        $configOverrides = [];
+
+        $this->setApplicationConfig(ArrayUtils::merge(
+            include __DIR__ . '/../../../../config/application.config.php',
+            $configOverrides
+        ));
+
         parent::setUp();
+//        $this->setApplicationConfig(
+//            include __DIR__ . '/../../../../config/application.config.php'
+//        );
+//        parent::setUp();
 
         $this->provider = new TestProvider();
         $this->consumer = new TestConsumer();
 
-        $serviceManager = $this->getApplicationServiceLocator();
-        $serviceManager->setAllowOverride(true);
-        $serviceManager->setService('Provider', $this->provider);
-        $serviceManager->setService('Consumer', $this->consumer);
+//        $serviceManager = $this->getApplicationServiceLocator();
+//        $serviceManager->setAllowOverride(true);
+//        $serviceManager->setService('Provider', $this->provider);
+//        $serviceManager->setService('Consumer', $this->consumer);
     }
 
     public function testAssemblyByNumberRouter()
@@ -55,9 +60,9 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
         };
 
 
-        $serviceManager = $this->getApplicationServiceLocator();
-        $serviceManager->setAllowOverride(true);
-        $serviceManager->setService('Provider', $this->provider);
+//        $serviceManager = $this->getApplicationServiceLocator();
+//        $serviceManager->setAllowOverride(true);
+//        $serviceManager->setService('Provider', $this->provider);
 
 
         $this->provider->addDocument(

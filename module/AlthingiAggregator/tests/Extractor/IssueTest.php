@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 8/04/2016
- * Time: 4:05 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMXPath;
+use AlthingiAggregator\Extractor\Issue;
 
 class IssueTest extends TestCase
 {

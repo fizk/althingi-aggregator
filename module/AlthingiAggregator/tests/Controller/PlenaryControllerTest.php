@@ -1,16 +1,8 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 30/03/2016
- * Time: 8:08 PM
- */
-
 namespace AlthingiAggregatorTest\Controller;
 
-use AlthingiAggregator\Lib\Consumer\TestConsumer;
-use AlthingiAggregator\Lib\Provider\TestProvider;
+use AlthingiAggregatorTest\Lib\Consumer\TestConsumer;
+use AlthingiAggregatorTest\Lib\Provider\TestProvider;
 use Zend\Test\PHPUnit\Controller\AbstractConsoleControllerTestCase;
 
 class PlenaryControllerTest extends AbstractConsoleControllerTestCase

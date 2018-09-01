@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 9/06/15
- * Time: 7:19 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMXPath;
+use AlthingiAggregator\Extractor\Plenary;
+use AlthingiAggregator\Extractor\Document;
 
 class PlenaryTest extends TestCase
 {

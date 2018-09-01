@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 9/06/15
- * Time: 7:19 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
+use AlthingiAggregator\Extractor\CommitteeAgenda;
 
 class CommitteeAgendaTest extends TestCase
 {

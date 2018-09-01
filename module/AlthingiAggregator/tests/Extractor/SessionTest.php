@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 9/06/15
- * Time: 7:19 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
+use AlthingiAggregator\Extractor\Session;
 
 class SessionTest extends TestCase
 {
@@ -48,6 +42,7 @@ class SessionTest extends TestCase
             $sessionModel = new Session();
             try {
                 $sessionData = $sessionModel->extract($element);
+                $this->assertInternalType('array', $sessionData);
             } catch (\Exception $e) {
                 $this->fail($e->getMessage());
             }

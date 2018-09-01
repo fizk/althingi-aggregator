@@ -23,27 +23,25 @@ class Module
             return false;
         });
 
-        $events = [MvcEvent::EVENT_DISPATCH_ERROR, MvcEvent::EVENT_RENDER_ERROR];
-        // $sharedEventManager->attach('Zend\Mvc\Application', $events, function ($event) use ($logger) {
-        //     if (!$event->isError()) {
-        //         return;
-        //     }
+        $sharedEventManager->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH_ERROR, function (MvcEvent $event) use ($logger) {
+             if (!$event->isError()) {
+                 return;
+             }
 
-        //     $exception = $event->getParam('exception');
-        //     if ($exception instanceof \Exception) {
-        //         $logger->error($exception->getTraceAsString());
-        //         $logger->error($exception->getMessage(), [
-        //             'code' => $exception->getCode(),
-        //             'file' => $exception->getFile(),
-        //             'line' => $exception->getLine(),
-        //         ]);
-        //     }
-        //     /** @var $event \Zend\Mvc\MvcEvent */
-        //     $event->stopPropagation(true);
+             $exception = $event->getParam('exception');
+             if ($exception instanceof \Exception) {
+                 $logger->error($exception->getMessage(), [
+                     'code' => $exception->getCode(),
+                     'file' => $exception->getFile(),
+                     'line' => $exception->getLine(),
+                 ]);
+             }
 
-        //     $message = $event->getError();
-        //     $logger->error($message);
-        // }, 1);
+             $event->stopPropagation(true);
+             $message = $event->getError();
+             $logger->error($message);
+
+         }, 1000);
 
         register_shutdown_function(function () use ($logger) {
             // get error
@@ -62,7 +60,7 @@ class Module
             $chars = md5(uniqid('', true));
             $errorReference = substr($chars, 2, 2) . substr($chars, 12, 2) . substr($chars, 26, 2);
 
-            $extras =[
+            $extras = [
                 'reference' => $errorReference,
                 'file' => $error['file'],
                 'line' => $error['line']
@@ -81,16 +79,5 @@ class Module
     public function getServiceConfig()
     {
         return include __DIR__ . '/config/service.config.php';
-    }
-
-    public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
-                ),
-            ),
-        );
     }
 }

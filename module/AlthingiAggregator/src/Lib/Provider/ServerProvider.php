@@ -39,10 +39,28 @@ class ServerProvider implements
      */
     public function get($url)
     {
+        $tries = 3;
+        $content = '';
         $key = md5($url);
-        $content = $this->cache->hasItem($key)
-            ? $this->cacheRequest($url)
-            : $this->httpRequest($url);
+
+        do {
+            try {
+                $content = $this->cache->hasItem($key)
+                    ? $this->cacheRequest($url)
+                    : $this->httpRequest($url);
+
+                $tries = 0;
+
+            } catch (\Exception $e) {
+                $this->logger->warning('Can\t connect to provider, ' . ($tries - 1) . ' tries left');
+                sleep(1);
+                $tries--;
+
+                if ($tries === 0) {
+                    throw $e;
+                }
+            }
+        } while ($tries > 0);
 
         $dom = @new \DOMDocument();
         if ($dom->loadXML($content)) {

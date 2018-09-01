@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 9/06/15
- * Time: 7:19 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
+use AlthingiAggregator\Extractor\CommitteeMeeting;
 
 class CommitteeMeetingTest extends TestCase
 {
@@ -64,7 +58,7 @@ class CommitteeMeetingTest extends TestCase
         $expectedResult = [
             'from' => '2015-09-14 09:30:00',
             'to' => '2015-09-14 12:00:00',
-            'description' => 'Hundur    '
+            'description' => 'Hundur'
         ];
 
         $returnedResults = (new CommitteeMeeting())->extract($dom->documentElement);

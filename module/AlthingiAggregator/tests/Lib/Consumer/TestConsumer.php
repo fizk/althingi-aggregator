@@ -6,11 +6,12 @@
  * Time: 8:58 PM
  */
 
-namespace AlthingiAggregator\Lib\Consumer;
+namespace AlthingiAggregatorTest\Lib\Consumer;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
 use AlthingiAggregator\Extractor\ExtractionInterface;
+use AlthingiAggregator\Lib\Consumer\ConsumerInterface;
 
 class TestConsumer implements ConsumerInterface
 {

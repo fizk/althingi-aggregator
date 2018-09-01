@@ -1,11 +1,4 @@
 <?php
-
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 1/06/2016
- * Time: 1:16 PM
- */
 namespace AlthingiAggregatorTest\Lib\Consumer\Stub;
 
 use AlthingiAggregator\Extractor\ExtractionInterface;

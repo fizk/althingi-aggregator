@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 9/06/15
- * Time: 7:19 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
+use AlthingiAggregator\Extractor\Assembly;
 
 class AssemblyTest extends TestCase
 {
@@ -73,15 +67,6 @@ class AssemblyTest extends TestCase
 
         $model = new Assembly();
         $model->extract($root);
-    }
-
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
-    public function testNotValidDomElement()
-    {
-        $model = new Assembly();
-        $result = $model->extract(new \stdClass());
     }
 
     public function testToCanBeNull()

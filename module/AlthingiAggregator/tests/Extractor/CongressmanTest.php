@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 9/06/15
- * Time: 7:19 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
+use AlthingiAggregator\Extractor\Congressman;
 
 class CongressmanTest extends TestCase
 {
@@ -62,16 +56,6 @@ class CongressmanTest extends TestCase
         $this->assertEquals(1, $result['id']);
         $this->assertEquals('Hundur', $result['name']);
         $this->assertEquals('2000-01-01', $result['birth']);
-    }
-
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
-    public function testNotValidDomElement()
-    {
-        $root = new \stdClass();
-        $model = new Congressman();
-        $model->extract($root);
     }
 
     public function testDatesInDifferentFormats()

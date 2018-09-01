@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 21/06/15
- * Time: 2:05 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMXPath;
+use AlthingiAggregator\Extractor\Constituency;
 
 class ConstituencyTest extends TestCase
 {

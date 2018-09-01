@@ -90,7 +90,7 @@ config/autoload/*.local.php
 
 # Data
 data/logs/
-data/cache/
+
 data/sessions/
 data/tmp/
 temp/
@@ -99,10 +99,6 @@ temp/
 demos/
 extras/documentation
 
-
-### Composer ###
-composer.phar
-vendor/
 
 # Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
 # You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
@@ -126,3 +122,13 @@ public/vendor
 .bower-tmp
 
 components
+
+data/cache/**/*.php
+data/cache/consumer/*
+!data/cache/consumer/.gitkeep
+
+data/cache/provider/*
+!data/cache/provider/.gitkeep
+
+data/log/
+!data/log/.gitkeep

@@ -1,5 +1,4 @@
 <?php
-
 namespace AlthingiAggregatorTest\Lib\Provider;
 
 use Monolog\Handler\NullHandler;

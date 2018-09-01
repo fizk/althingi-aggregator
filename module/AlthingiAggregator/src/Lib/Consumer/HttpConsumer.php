@@ -58,18 +58,37 @@ class HttpConsumer implements
      * @param string $storageKey
      * @param ExtractionInterface $extract
      * @return mixed
+     * @throws
      */
     public function save(DOMElement $element, $storageKey, ExtractionInterface $extract)
     {
         $params = $extract->extract($element);
+        $tries = 3;
 
-        if ($extract instanceof IdentityInterface) {
-            return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
-        } else if ($extract instanceof MediaInterface) {
-            $this->doFileUpload($extract, $params);
-        } else {
-            return $this->doUniqueRequest($storageKey, $params);
-        }
+        do {
+            try {
+                if ($extract instanceof IdentityInterface) {
+                    return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
+                } else if ($extract instanceof MediaInterface) {
+                    $this->doFileUpload($extract, $params);
+                } else {
+                    return $this->doUniqueRequest($storageKey, $params);
+                }
+
+                $tries = 0;
+
+            } catch (\Exception $e) {
+                $this->logger->warning('Can\t connect to consumer, ' . ($tries - 1) . ' tries left');
+                sleep(1);
+                $tries--;
+
+                if ($tries === 0) {
+                    throw $e;
+                }
+            }
+        } while ($tries > 0);
+
+        return true;
     }
 
     private function doFileUpload(MediaInterface $extract, $params)
@@ -312,12 +331,6 @@ class HttpConsumer implements
      */
     public function setCache(StorageInterface $cache)
     {
-//        $this->cache = clone $cache;
-//        $this->cache->setOptions(array_merge(
-//            $this->cache->getOptions()->toArray(),
-//            ['namespace' => 'consumer', 'cache_dir' => './data/cache/consumer', 'ttl' => (60*60*24*365)])
-//        );
-//        return $this;
         $this->cache = $cache;
         return $this;
     }

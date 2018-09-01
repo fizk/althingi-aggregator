@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 3/04/2016
- * Time: 9:00 PM
- */
+namespace AlthingiAggregatorTest\Lib\Provider;
 
-namespace AlthingiAggregator\Lib\Provider;
+use AlthingiAggregator\Lib\Provider\ProviderInterface;
 
 class TestProvider implements ProviderInterface
 {

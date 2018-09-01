@@ -5,25 +5,51 @@ return [
 
     'factories' => [
         'Psr\Log' => function ($sm) {
-            $rotatingLogHandler = new \Monolog\Handler\RotatingFileHandler('./data/log/althingi.log', 2, \Monolog\Logger::API);
-            $rotatingLogHandler->setFormatter(new \Monolog\Formatter\LineFormatter());
+            $logger = (new \Monolog\Logger('althingi'))
+                ->pushProcessor(new \Monolog\Processor\MemoryPeakUsageProcessor())
+                ->pushProcessor(new \Monolog\Processor\MemoryUsageProcessor());
 
-            $rotatingErrorHandler = new \Monolog\Handler\RotatingFileHandler('./data/log/althingi.error.json', 2, \Monolog\Logger::WARNING);
-            $rotatingErrorHandler->setFormatter(new \Monolog\Formatter\JsonFormatter(\Monolog\Formatter\JsonFormatter::BATCH_MODE_NEWLINES));
+            if (getenv('LOGGER_SAVE') === 'true') {
+                $rotatingLogHandler = new \Monolog\Handler\RotatingFileHandler('./data/log/althingi.log', 2, \Monolog\Logger::API);
+                $rotatingLogHandler->setFormatter(new \Monolog\Formatter\LineFormatter());
 
-            $consoleHandler = new \Monolog\Handler\StreamHandler('php://stdout');
-            $consoleHandler->setFormatter(new Bramus\Monolog\Formatter\ColoredLineFormatter());
+                $rotatingErrorHandler = new \Monolog\Handler\RotatingFileHandler('./data/log/althingi.error.json', 2, \Monolog\Logger::WARNING);
+                $rotatingErrorHandler->setFormatter(new \Monolog\Formatter\LineFormatter());
 
-            return (new \Monolog\Logger('althingi'))
-                ->pushHandler($consoleHandler)
-                ->pushHandler($rotatingLogHandler)
-                ->pushHandler($rotatingErrorHandler);
+                $logger->pushHandler($rotatingLogHandler);
+                $logger->pushHandler($rotatingErrorHandler);
+            }
+
+            if (getenv('LOGGER_STREAM') === 'true') {
+                $consoleHandler = new \Monolog\Handler\StreamHandler('php://stdout');
+
+                switch (strtolower(getenv('LOGGER_FORMAT'))) {
+                    case 'logstash':
+                        $consoleHandler->setFormatter(new \Monolog\Formatter\LogstashFormatter('althingi-aggregator'));
+                        $logger->pushHandler($consoleHandler);
+                        break;
+                    case 'json':
+                        $consoleHandler->setFormatter(new \Monolog\Formatter\JsonFormatter());
+                        $logger->pushHandler($consoleHandler);
+                        break;
+                    case 'line':
+                        $consoleHandler->setFormatter(new \Monolog\Formatter\LineFormatter());
+                        $logger->pushHandler($consoleHandler);
+                        break;
+                    case 'color':
+                        $consoleHandler->setFormatter(new Bramus\Monolog\Formatter\ColoredLineFormatter());
+                        $logger->pushHandler($consoleHandler);
+                        break;
+                }
+            }
+
+            return $logger;
         },
 
         'ConsumerCache' => function () {
             $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
                 'host' => getenv('CONSUMER_CACHE_HOST') ?: 'localhost',
-                'port' => getenv('CONSUMER_CACHE_PORT') ?: '1234'
+                'port' => getenv('CONSUMER_CACHE_PORT') ?: '6379'
             ])->setTtl(60*60*24*2);
             $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
                 ->setCacheDir('./data/cache/consumer')
@@ -71,7 +97,7 @@ return [
         'ProviderCache' => function () {
             $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
                 'host' => getenv('PROVIDER_CACHE_HOST') ?: 'localhost',
-                'port' => getenv('PROVIDER_CACHE_PORT') ?: '1234'
+                'port' => getenv('PROVIDER_CACHE_PORT') ?: '6379'
             ])->setTtl(60*60*24*2);
             $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
                 ->setCacheDir('./data/cache/provider')

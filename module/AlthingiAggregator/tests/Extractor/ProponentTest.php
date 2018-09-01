@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 18/03/2016
- * Time: 1:11 PM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use DOMDocument;
 use PHPUnit\Framework\TestCase;
+use AlthingiAggregator\Extractor\Proponent;
 
 class ProponentTest extends TestCase
 {

@@ -1,16 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 19/03/2016
- * Time: 11:23 AM
- */
-
 namespace AlthingiAggregatorTest\Extractor;
 
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
-use DOMXPath;
+use AlthingiAggregator\Extractor\VoteItem;
 
 class VoteItemTest extends TestCase
 {
