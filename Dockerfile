@@ -1,12 +1,18 @@
 FROM php:7.2-cli
 
+
 RUN apt-get update \
- && apt-get install -y  vim
+ && apt-get install -y git zlib1g-dev vim \
+ && docker-php-ext-install zip \
+ && curl -sS https://getcomposer.org/installer \
+  | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis
 
-ADD ./ /usr/src
+ENV LOG_PATH none
 
-WORKDIR /usr/src/public
+COPY ./ /usr/src
+
+WORKDIR /usr/src

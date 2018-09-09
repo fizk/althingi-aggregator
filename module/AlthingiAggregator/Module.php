@@ -12,6 +12,7 @@ class Module
         $sharedEventManager  = $eventManager->getSharedManager();
         $serviceManager = $app->getServiceManager();
 
+        /** @var  $logger \Psr\Log\LoggerInterface */
         $logger = $serviceManager->get('Psr\Log');
 
         set_error_handler(function ($level, $message, $file, $line) use ($logger) {

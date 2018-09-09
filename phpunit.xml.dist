@@ -2,16 +2,17 @@
 <phpunit colors="true">
     <testsuites>
         <testsuite name="ZendSkeletonApplication Test Suite">
-            <directory>./module/AlthingiAggregator/tests</directory>
+            <directory>./module/AlthingiAggregator/tests/.</directory>
         </testsuite>
     </testsuites>
 
     <php>
+        <env name="LOG_PATH" value="" />
+        <env name="CONSUMER_CACHE_TYPE" value="" />
+        <env name="CONSUMER_CACHE_TYPE" value="" />
+
         <var name="APPLICATION_ENVIRONMENT" value="production" />
-        <env name="CONSUMER_CACHE" value="false"/>
-        <env name="PROVIDER_CACHE" value="false"/>
-        <env name="LOGGER_SAVE" value="false"/>
-        <env name="LOGGER_STREAM" value="false"/>
+
     </php>
 
     <!--<logging>-->

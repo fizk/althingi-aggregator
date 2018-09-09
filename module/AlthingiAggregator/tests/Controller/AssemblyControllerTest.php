@@ -29,18 +29,14 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
         ));
 
         parent::setUp();
-//        $this->setApplicationConfig(
-//            include __DIR__ . '/../../../../config/application.config.php'
-//        );
-//        parent::setUp();
 
         $this->provider = new TestProvider();
         $this->consumer = new TestConsumer();
 
-//        $serviceManager = $this->getApplicationServiceLocator();
-//        $serviceManager->setAllowOverride(true);
-//        $serviceManager->setService('Provider', $this->provider);
-//        $serviceManager->setService('Consumer', $this->consumer);
+        $serviceManager = $this->getApplicationServiceLocator();
+        $serviceManager->setAllowOverride(true);
+        $serviceManager->setService('Provider', $this->provider);
+        $serviceManager->setService('Consumer', $this->consumer);
     }
 
     public function testAssemblyByNumberRouter()

@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  test:
+    container_name: althingi_aggregator_test_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+    - .:/usr/src
+    environment:
+    - APPLICATION_ENVIRONMENT=development
+    - CACHE_TYPE=none
+
+    command: bash -c "/usr/local/bin/composer install && /usr/local/bin/composer dump-autoload -o && /usr/src/vendor/bin/phpunit && /usr/src/vendor/bin/phpcs"

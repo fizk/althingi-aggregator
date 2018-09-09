@@ -4,44 +4,37 @@ return [
     'invokables' => [],
 
     'factories' => [
-        'Psr\Log' => function ($sm) {
-            $logger = (new \Monolog\Logger('althingi'))
+        'Psr\Log' => function () {
+            $handlers = [];
+            $logger = (new \Monolog\Logger('althingi-aggregator'))
                 ->pushProcessor(new \Monolog\Processor\MemoryPeakUsageProcessor())
                 ->pushProcessor(new \Monolog\Processor\MemoryUsageProcessor());
 
-            if (getenv('LOGGER_SAVE') === 'true') {
-                $rotatingLogHandler = new \Monolog\Handler\RotatingFileHandler('./data/log/althingi.log', 2, \Monolog\Logger::API);
-                $rotatingLogHandler->setFormatter(new \Monolog\Formatter\LineFormatter());
-
-                $rotatingErrorHandler = new \Monolog\Handler\RotatingFileHandler('./data/log/althingi.error.json', 2, \Monolog\Logger::WARNING);
-                $rotatingErrorHandler->setFormatter(new \Monolog\Formatter\LineFormatter());
-
-                $logger->pushHandler($rotatingLogHandler);
-                $logger->pushHandler($rotatingErrorHandler);
+            if (!empty(getenv('LOG_PATH')) && strtolower(getenv('LOG_PATH')) !== 'none' && getenv('LOG_PATH')) {
+                $handlers[] = new \Monolog\Handler\StreamHandler(getenv('LOG_PATH')?:'php://stdout');
             }
 
-            if (getenv('LOGGER_STREAM') === 'true') {
-                $consoleHandler = new \Monolog\Handler\StreamHandler('php://stdout');
-
-                switch (strtolower(getenv('LOGGER_FORMAT'))) {
+            $formattedHandlers = array_map(function (\Monolog\Handler\HandlerInterface $handler) {
+                switch (strtolower(getenv('LOG_FORMAT'))) {
                     case 'logstash':
-                        $consoleHandler->setFormatter(new \Monolog\Formatter\LogstashFormatter('althingi-aggregator'));
-                        $logger->pushHandler($consoleHandler);
+                        $handler->setFormatter(new \Monolog\Formatter\LogstashFormatter('althingi-aggregator'));
                         break;
                     case 'json':
-                        $consoleHandler->setFormatter(new \Monolog\Formatter\JsonFormatter());
-                        $logger->pushHandler($consoleHandler);
+                        $handler->setFormatter(new \Monolog\Formatter\JsonFormatter());
                         break;
                     case 'line':
-                        $consoleHandler->setFormatter(new \Monolog\Formatter\LineFormatter());
-                        $logger->pushHandler($consoleHandler);
+                        $handler->setFormatter(new \Monolog\Formatter\LineFormatter());
                         break;
                     case 'color':
-                        $consoleHandler->setFormatter(new Bramus\Monolog\Formatter\ColoredLineFormatter());
-                        $logger->pushHandler($consoleHandler);
+                        $handler->setFormatter(new \Bramus\Monolog\Formatter\ColoredLineFormatter());
                         break;
                 }
-            }
+                return $handler;
+            }, $handlers);
+
+            array_walk($formattedHandlers, function ($handler) use ($logger) {
+                $logger->pushHandler($handler);
+            });
 
             return $logger;
         },
