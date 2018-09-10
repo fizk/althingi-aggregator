@@ -16,3 +16,5 @@ ENV LOG_PATH none
 COPY ./ /usr/src
 
 WORKDIR /usr/src
+RUN /usr/local/bin/composer install --prefer-source --no-interaction --no-dev \
+    && /usr/local/bin/composer dump-autoload -o
