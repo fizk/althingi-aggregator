@@ -43,10 +43,10 @@ return [
             $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
                 'host' => getenv('CONSUMER_CACHE_HOST') ?: 'localhost',
                 'port' => getenv('CONSUMER_CACHE_PORT') ?: '6379'
-            ])->setTtl(60*60*24*2);
+            ])->setTtl(60  *60 * 24 *2);
             $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
                 ->setCacheDir('./data/cache/consumer')
-                ->setTtl(60*60*24*2)
+                ->setTtl(60 * 60 * 24 * 2)
                 ->setNamespace('consumer');
 
             // In-memory cache (Redis)
@@ -91,10 +91,10 @@ return [
             $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
                 'host' => getenv('PROVIDER_CACHE_HOST') ?: 'localhost',
                 'port' => getenv('PROVIDER_CACHE_PORT') ?: '6379'
-            ])->setTtl(60*60*12);
+            ])->setTtl(60 * 60 * 12);
             $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
                 ->setCacheDir('./data/cache/provider')
-                ->setTtl(60*60*12)
+                ->setTtl(60 * 60 * 12)
                 ->setNamespace('provider');
 
             // In-memory cache (Redis)
