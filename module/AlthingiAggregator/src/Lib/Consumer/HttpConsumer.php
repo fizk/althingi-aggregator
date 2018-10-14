@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 5/06/2016
- * Time: 10:42 AM
- */
-
 namespace AlthingiAggregator\Lib\Consumer;
 
 use AlthingiAggregator\Extractor\MediaInterface;
@@ -128,7 +121,7 @@ class HttpConsumer implements
     private function doPostRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info(0, ['CONSUMER_CACHE', $uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', 'POST', $uri->toString(), $params]);
             return true;
         }
 
@@ -137,15 +130,11 @@ class HttpConsumer implements
 
         switch ($postResponse->getStatusCode()) {
             case 201:
+            case 202:
+            case 204:
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
-                    $postResponse->getStatusCode(),
-                    ['POST', $uri->toString(), $params, $postResponse->getContent()]
-                );
-                break;
-            case 400:
-                $this->logger->error(
                     $postResponse->getStatusCode(),
                     ['POST', $uri->toString(), $params, $postResponse->getContent()]
                 );
@@ -177,7 +166,7 @@ class HttpConsumer implements
     private function doPutRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info(0, ['CONSUMER_CACHE', $uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', 'PUT', $uri->toString(), $params]);
             return true;
         }
 
@@ -186,16 +175,11 @@ class HttpConsumer implements
 
         switch ($putResponse->getStatusCode()) {
             case 201:
+            case 202:
+            case 204:
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
-                    $putResponse->getStatusCode(),
-                    ['PUT', $uri->toString(), $params, $putResponse->getContent()]
-                );
-                break;
-            case 418:
-            case 400:
-                $this->logger->error(
                     $putResponse->getStatusCode(),
                     ['PUT', $uri->toString(), $params, $putResponse->getContent()]
                 );
@@ -215,7 +199,7 @@ class HttpConsumer implements
     private function doPatchRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info(0, ['CONSUMER_CACHE', $uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', 'PATCH', $uri->toString(), $params]);
             return true;
         }
 
@@ -224,16 +208,11 @@ class HttpConsumer implements
 
         switch ($patchResponse->getStatusCode()) {
             case 201:
+            case 202:
             case 204:
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
-                    $patchResponse->getStatusCode(),
-                    ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
-                );
-                break;
-            case 404:
-                $this->logger->error(
                     $patchResponse->getStatusCode(),
                     ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
                 );
