@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 3/04/2016
- * Time: 5:27 PM
- */
-
 namespace AlthingiAggregator\Lib\Provider;
 
 use AlthingiAggregator\Lib\CacheableAwareInterface;
@@ -52,11 +45,12 @@ class ServerProvider implements
                 $tries = 0;
 
             } catch (\Exception $e) {
-                $this->logger->warning('Can\t connect to provider, ' . ($tries - 1) . ' tries left');
-                sleep(1);
+                $this->logger->info(0, ['Can\'t connect to provider, ' . ($tries - 1) . ' tries left']);
+                sleep(2);
                 $tries--;
 
                 if ($tries === 0) {
+                    $this->logger->error(0, ['Service is unavailable', $e->getMessage()]);
                     throw $e;
                 }
             }
@@ -67,11 +61,14 @@ class ServerProvider implements
             $this->cache->setItem($key, $content);
             return $dom;
         } else {
-            $this->logger->error(print_r(error_get_last(), true));
             throw new \Exception(print_r(error_get_last(), true));
         }
     }
 
+    /**
+     * @param Client $client
+     * @return $this
+     */
     public function setClient(Client $client)
     {
         $this->client = $client;
@@ -80,7 +77,7 @@ class ServerProvider implements
 
     private function cacheRequest($url)
     {
-        $this->logger->debug('CACHE Request: ' . $url);
+        $this->logger->info(0, ['PROVIDER_CACHE', $url]);
         return $this->cache->getItem(md5($url));
     }
 
@@ -104,17 +101,16 @@ class ServerProvider implements
         $status = $response->getStatusCode();
 
         if ($status === 200) {
-            $this->logger->debug('HTTP Request: ' . $url);
+            $this->logger->info(0, ['HTTP', $url]);
             return $response->getBody();
         } else {
-            $this->logger->error($response->getReasonPhrase(), [$status, $request->getUriString()]);
-//            throw new \Exception($response->getReasonPhrase());
+            $this->logger->error($status, ['HTTP_ERROR', $response->getReasonPhrase(), $request->getUriString()]);
         }
     }
 
     /**
      * @param LoggerInterface $logger
-     * @return mixed
+     * @return $this
      */
     public function setLogger(LoggerInterface $logger)
     {
@@ -122,15 +118,12 @@ class ServerProvider implements
         return $this;
     }
 
+    /**
+     * @param StorageInterface $cache
+     * @return $this
+     */
     public function setCache(StorageInterface $cache)
     {
-//        $this->cache = clone $cache;
-//        $this->cache->setOptions(array_merge(
-//            $this->cache->getOptions()->toArray(),
-//            ['namespace' => 'provider', 'cache_dir' => './data/cache/provider', 'ttl' => (60*60*24*2)])
-//        );
-//        return $this;
-
         $this->cache = $cache;
         return $this;
     }

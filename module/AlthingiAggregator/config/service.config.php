@@ -7,8 +7,8 @@ return [
         'Psr\Log' => function () {
             $handlers = [];
             $logger = (new \Monolog\Logger('althingi-aggregator'))
-                ->pushProcessor(new \Monolog\Processor\MemoryPeakUsageProcessor())
-                ->pushProcessor(new \Monolog\Processor\MemoryUsageProcessor());
+                ->pushProcessor(new \Monolog\Processor\MemoryPeakUsageProcessor(true, false))
+                ->pushProcessor(new \Monolog\Processor\MemoryUsageProcessor(true, false));
 
             if (!empty(getenv('LOG_PATH')) && strtolower(getenv('LOG_PATH')) !== 'none' && getenv('LOG_PATH')) {
                 $handlers[] = new \Monolog\Handler\StreamHandler(getenv('LOG_PATH')?:'php://stdout');
@@ -91,10 +91,10 @@ return [
             $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
                 'host' => getenv('PROVIDER_CACHE_HOST') ?: 'localhost',
                 'port' => getenv('PROVIDER_CACHE_PORT') ?: '6379'
-            ])->setTtl(60*60*24*2);
+            ])->setTtl(60*60*12);
             $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
                 ->setCacheDir('./data/cache/provider')
-                ->setTtl(60*60*24*2)
+                ->setTtl(60*60*12)
                 ->setNamespace('provider');
 
             // In-memory cache (Redis)
@@ -143,7 +143,7 @@ return [
                 ->setLogger($sm->get('Psr\Log'));
         },
 
-        'MediaClient' => function ($sm) {
+        'MediaClient' => function () {
             return (new \AlthingiAggregator\Lib\MediaClient\ThumborClient())
                 ->setClient(new \Zend\Http\Client())
                 ->setUri('http://127.0.0.1:8000/image');

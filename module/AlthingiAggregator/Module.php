@@ -31,16 +31,15 @@ class Module
 
              $exception = $event->getParam('exception');
              if ($exception instanceof \Exception) {
-                 $logger->error($exception->getMessage(), [
-                     'code' => $exception->getCode(),
-                     'file' => $exception->getFile(),
-                     'line' => $exception->getLine(),
+                 $logger->error(0, [
+                     $exception->getMessage(),
+                     "code: {$exception->getCode()} file: {$exception->getFile()} line: {$exception->getLine()}"
                  ]);
              }
 
              $event->stopPropagation(true);
              $message = $event->getError();
-             $logger->error($message);
+             $logger->error(0, [$message]);
 
          }, 1000);
 
@@ -67,7 +66,7 @@ class Module
                 'line' => $error['line']
             ];
 
-            $logger->error($error['message'], $extras);
+            $logger->error(0, [$error['message']], $extras);
             die(1);
         });
     }

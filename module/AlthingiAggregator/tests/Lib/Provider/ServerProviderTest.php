@@ -1,6 +1,7 @@
 <?php
 namespace AlthingiAggregatorTest\Lib\Provider;
 
+use AlthingiAggregator\Lib\Provider\ServerProvider;
 use Monolog\Handler\NullHandler;
 use Monolog\Logger;
 use org\bovigo\vfs\vfsStream;
