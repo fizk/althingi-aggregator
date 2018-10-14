@@ -19,4 +19,4 @@ WORKDIR /usr/src
 RUN /usr/local/bin/composer install --prefer-source --no-interaction --no-dev \
     && /usr/local/bin/composer dump-autoload -o
 
-WORKDIR /usr/src/auto
+#WORKDIR /usr/src/auto
