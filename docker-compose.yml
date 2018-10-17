@@ -13,4 +13,4 @@ services:
     - APPLICATION_ENVIRONMENT=development
     - CACHE_TYPE=none
 
-    command: bash -c "ls -al ./vendor/bin && ./vendor/bin/phpunit && ./vendor/bin/phpcs"
+    command: bash -c "/usr/local/bin/composer install --no-interaction --no-suggest && /usr/local/bin/composer dump-autoload -o ls -al /usr/src/vendor/bin && /usr/src/vendor/bin/phpunit && /usr/src/vendor/bin/phpcs"
