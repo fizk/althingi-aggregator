@@ -13,10 +13,11 @@ RUN pecl install -o -f redis \
 
 ENV LOG_PATH none
 
-COPY ./ /usr/src
+COPY . /usr/src
 
 WORKDIR /usr/src
-RUN /usr/local/bin/composer install --prefer-source --no-interaction --no-suggest \
+
+RUN /usr/local/bin/composer install --no-interaction --no-suggest \
     && /usr/local/bin/composer dump-autoload -o
 
 #WORKDIR /usr/src/auto
