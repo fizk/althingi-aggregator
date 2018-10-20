@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 9/06/15
- * Time: 7:15 PM
- */
-
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;

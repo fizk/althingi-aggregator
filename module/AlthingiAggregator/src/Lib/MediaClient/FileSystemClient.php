@@ -1,5 +1,4 @@
 <?php
-
 namespace AlthingiAggregator\Lib\MediaClient;
 
 use \Zend\Http\Client;

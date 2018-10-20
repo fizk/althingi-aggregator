@@ -17,10 +17,6 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
     public function setUp()
     {
-        // The module configuration should still be applicable for tests.
-        // You can override configuration here with test case specific values,
-        // such as sample view templates, path stacks, module_listener_options,
-        // etc.
         $configOverrides = [];
 
         $this->setApplicationConfig(ArrayUtils::merge(
@@ -37,38 +33,6 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
         $serviceManager->setAllowOverride(true);
         $serviceManager->setService('Provider', $this->provider);
         $serviceManager->setService('Consumer', $this->consumer);
-    }
-
-    public function testAssemblyByNumberRouter()
-    {
-        $this->provider = new class implements ProviderInterface {
-            public function get($url)
-            {
-                return new \DOMDocument();
-//                throw new \Zend\Http\Exception\RuntimeException();
-//            * @throws Client\Exception\RuntimeException
-            }
-
-            public function addDocument($url, \DOMDocument $dom)
-            {
-            }
-        };
-
-
-//        $serviceManager = $this->getApplicationServiceLocator();
-//        $serviceManager->setAllowOverride(true);
-//        $serviceManager->setService('Provider', $this->provider);
-
-
-        $this->provider->addDocument(
-            'http://www.althingi.is/altext/xml/loggjafarthing',
-            $this->getDomDocument()
-        );
-
-        $this->dispatch('load:assembly');
-
-        $this->assertControllerClass('AssemblyController');
-        $this->assertActionName('find-assembly');
     }
 
     public function testAssemblyByNumberData()

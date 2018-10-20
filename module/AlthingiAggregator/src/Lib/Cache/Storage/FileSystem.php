@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 12/04/2016
- * Time: 6:26 PM
- */
-
 namespace AlthingiAggregator\Lib\Cache\Storage;
 
 use Traversable;

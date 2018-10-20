@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 5/04/2016
- * Time: 12:28 PM
- */
-
 namespace AlthingiAggregator\Controller;
 
 use AlthingiAggregator\Extractor\Committee;
