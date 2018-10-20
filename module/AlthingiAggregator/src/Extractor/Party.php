@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 27/05/15
- * Time: 7:22 AM
- */
-
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
@@ -25,14 +18,14 @@ class Party implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('id')) {
+        if (! $object->hasAttribute('id')) {
             throw new ModelException('Missing [{id}] value', $object);
         }
 
         $this->setIdentity($object->getAttribute('id'));
         $name = $object->getElementsByTagName('heiti')->item(0)->nodeValue;
         $abbrShort = $object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue;
-        $abbrLong =  $object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue . PHP_EOL;
+        $abbrLong = $object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue . PHP_EOL;
 
         return [
             'id' => (int) $this->getIdentity(),

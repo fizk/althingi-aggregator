@@ -10,7 +10,7 @@ class IssueTest extends TestCase
 {
     public function testWithAllData()
     {
-        $expectedData =  [
+        $expectedData = [
             'id' => 60,
             'assembly_id' => 141,
             'category' => 'A',
@@ -40,7 +40,7 @@ class IssueTest extends TestCase
 
     public function testWithBData()
     {
-        $expectedData =  [
+        $expectedData = [
             'id' => 35,
             'assembly_id' => 148,
             'category' => 'B',
@@ -362,7 +362,8 @@ class IssueTest extends TestCase
             </þingmál>';
     }
 
-    private function getValidBIssueDocument() {
+    private function getValidBIssueDocument()
+    {
         return '<?xml version="1.0" encoding="UTF-8"?>
             <bmál>
                 <mál málsnúmer=\'35\' þingnúmer=\'148\' málsflokkur=\'B\'>
@@ -371,7 +372,9 @@ class IssueTest extends TestCase
                     <málstegund málstegund=\'ft\'>
                     <heiti>óundirbúinn fyrirspurnatími</heiti></málstegund>
                     <slóð>
-                        <html>https://www.althingi.is/thingstorf/thingmalalistar-eftir-thingum/bferill/?ltg=148&amp;mnr=35</html>
+                        <html>
+                            https://www.althingi.is/thingstorf/thingmalalistar-eftir-thingum/bferill/?ltg=148&amp;mnr=35
+                        </html>
                         <xml>http://www.althingi.is/altext/xml/thingmalalisti/bmal/?lthing=148&amp;malnr=35</xml>
                     </slóð>
                 </mál>

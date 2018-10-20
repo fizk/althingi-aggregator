@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 5/04/2016
- * Time: 12:31 PM
- */
-
 namespace AlthingiAggregator\Extractor;
 
 use AlthingiAggregator\Lib\IdentityInterface;
@@ -33,7 +26,7 @@ class CommitteeAgenda implements ExtractionInterface, IdentityInterface
      */
     public function extract(\DOMElement $object)
     {
-        if (!$object->hasAttribute('númer')) {
+        if (! $object->hasAttribute('númer')) {
             throw new ModelException('Missing [{númer}] value', $object);
         }
 

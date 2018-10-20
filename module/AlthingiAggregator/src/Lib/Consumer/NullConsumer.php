@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 3/04/2016
- * Time: 4:41 PM
- */
-
 namespace AlthingiAggregator\Lib\Consumer;
 
 use AlthingiAggregator\Extractor\Exception;
@@ -44,7 +37,7 @@ class NullConsumer implements
                 $api = sprintf('%s/%s', $api, $extract->getIdentity());
             }
             $this->logger->info($api, $data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage(), [$api]);
         }
 

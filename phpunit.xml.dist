@@ -9,10 +9,7 @@
     <php>
         <env name="LOG_PATH" value="" />
         <env name="CONSUMER_CACHE_TYPE" value="" />
-        <env name="CONSUMER_CACHE_TYPE" value="" />
-
         <var name="APPLICATION_ENVIRONMENT" value="production" />
-
     </php>
 
     <!--<logging>-->

@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 21/06/15
- * Time: 4:44 PM
- */
-
 namespace AlthingiAggregator\Controller;
 
 use DOMXPath;

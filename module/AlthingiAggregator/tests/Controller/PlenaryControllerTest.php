@@ -56,7 +56,6 @@ class PlenaryControllerTest extends AbstractConsoleControllerTestCase
         $this->assertCount(2, $consumerStoredData);
         $this->assertArrayHasKey('loggjafarthing/145/thingfundir/0', $consumerStoredData);
         $this->assertArrayHasKey('loggjafarthing/145/thingfundir/1', $consumerStoredData);
-
     }
 
     public function getDomDocument()

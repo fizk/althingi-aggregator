@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 5/06/2016
- * Time: 10:42 AM
- */
-
 namespace AlthingiAggregator\Lib\Consumer;
 
 use AlthingiAggregator\Extractor\MediaInterface;
@@ -25,7 +18,6 @@ use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Stdlib\Parameters;
 use Zend\Uri\Http;
-use Zend\Uri\Uri;
 
 class HttpConsumer implements
     ConsumerInterface,
@@ -69,17 +61,16 @@ class HttpConsumer implements
             try {
                 if ($extract instanceof IdentityInterface) {
                     return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
-                } else if ($extract instanceof MediaInterface) {
+                } elseif ($extract instanceof MediaInterface) {
                     $this->doFileUpload($extract, $params);
                 } else {
                     return $this->doUniqueRequest($storageKey, $params);
                 }
 
                 $tries = 0;
-
             } catch (\Exception $e) {
-                $this->logger->warning('Can\t connect to consumer, ' . ($tries - 1) . ' tries left');
-                sleep(1);
+                $this->logger->info(0, ['Can\'t connect to consumer, ' . ($tries - 1) . ' tries left']);
+                sleep(2);
                 $tries--;
 
                 if ($tries === 0) {
@@ -99,15 +90,9 @@ class HttpConsumer implements
                 $extract->getSlug(),
                 $extract->getContentType()
             );
-            $this->logger->info(
-                $writtenBites,
-                ['POST', $extract->getSlug(), $params]
-            );
+            $this->logger->info($writtenBites, ['POST', $extract->getSlug(), $params]);
         } catch (\Exception $e) {
-            $this->logger->error(
-                0,
-                ['POST', $extract->getSlug(), $params, $e->getMessage()]
-            );
+            $this->logger->error(0, ['POST', $extract->getSlug(), $params, $e->getMessage()]);
         }
     }
 
@@ -134,7 +119,7 @@ class HttpConsumer implements
     private function doPostRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->notice('- ', [$uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', 'POST', $uri->toString(), $params]);
             return true;
         }
 
@@ -143,14 +128,11 @@ class HttpConsumer implements
 
         switch ($postResponse->getStatusCode()) {
             case 201:
+            case 202:
+            case 204:
+            case 205:
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
-                    $postResponse->getStatusCode(),
-                    ['POST', $uri->toString(), $params, $postResponse->getContent()]
-                );
-                break;
-            case 400:
-                $this->logger->error(
                     $postResponse->getStatusCode(),
                     ['POST', $uri->toString(), $params, $postResponse->getContent()]
                 );
@@ -162,14 +144,17 @@ class HttpConsumer implements
                         $params
                     );
                 } else {
-                    $this->logger->warning(
-                        'Can\'t PATCH, no Location-Header',
-                        ['POST', $uri->toString(), $params, $postResponse->getContent()]
+                    $this->logger->error(
+                        0,
+                        [
+                            'POST',
+                            $uri->toString(), 'Can\'t PATCH, no Location-Header', $params, $postResponse->getContent()
+                        ]
                     );
                 }
                 break;
             default:
-                $this->logger->critical(
+                $this->logger->error(
                     $postResponse->getStatusCode(),
                     ['POST', $uri->toString(), $params, $postResponse->getContent()]
                 );
@@ -180,7 +165,7 @@ class HttpConsumer implements
     private function doPutRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->notice('- ', [$uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', 'PUT', $uri->toString(), $params]);
             return true;
         }
 
@@ -189,27 +174,11 @@ class HttpConsumer implements
 
         switch ($putResponse->getStatusCode()) {
             case 201:
-                $this->storeInCache($uri, $params);
-                $this->logger->info(
-                    201,
-                    ['PUT:create', $uri->toString(), $params, $putResponse->getContent()]
-                );
-                break;
+            case 202:
+            case 204:
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
-                    205,
-                    ['PUT:update', $uri->toString(), $params, $putResponse->getContent()]
-                );
-                break;
-            case 418:
-                $this->logger->notice(
-                    418,
-                    ['PUT', $uri->toString(), $params, $putResponse->getContent()]
-                );
-                break;
-            case 400:
-                $this->logger->error(
                     $putResponse->getStatusCode(),
                     ['PUT', $uri->toString(), $params, $putResponse->getContent()]
                 );
@@ -218,7 +187,7 @@ class HttpConsumer implements
                 $this->doPatchRequest($uri, $params);
                 break;
             default:
-                $this->logger->critical(
+                $this->logger->error(
                     $putResponse->getStatusCode(),
                     ['PUT', $uri->toString(), $params, $putResponse->getContent()]
                 );
@@ -229,7 +198,7 @@ class HttpConsumer implements
     private function doPatchRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->notice('- ', [$uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', 'PATCH', $uri->toString(), $params]);
             return true;
         }
 
@@ -237,21 +206,18 @@ class HttpConsumer implements
         $patchResponse = $this->client->send($patchRequest);
 
         switch ($patchResponse->getStatusCode()) {
+            case 201:
+            case 202:
+            case 204:
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
-                    205,
-                    ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
-                );
-                break;
-            case 404:
-                $this->logger->error(
-                    404,
+                    $patchResponse->getStatusCode(),
                     ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
                 );
                 break;
             default:
-                $this->logger->critical(
+                $this->logger->error(
                     $patchResponse->getStatusCode(),
                     ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
                 );
@@ -299,7 +265,7 @@ class HttpConsumer implements
      */
     public function setUri(Http $uri)
     {
-        $this->uri =  $uri;
+        $this->uri = $uri;
         return $this;
     }
 

@@ -24,25 +24,28 @@ class Module
             return false;
         });
 
-        $sharedEventManager->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH_ERROR, function (MvcEvent $event) use ($logger) {
-             if (!$event->isError()) {
-                 return;
-             }
+        $sharedEventManager->attach(
+            'Zend\Mvc\Application',
+            MvcEvent::EVENT_DISPATCH_ERROR,
+            function (MvcEvent $event) use ($logger) {
+                if (! $event->isError()) {
+                    return;
+                }
 
-             $exception = $event->getParam('exception');
-             if ($exception instanceof \Exception) {
-                 $logger->error($exception->getMessage(), [
-                     'code' => $exception->getCode(),
-                     'file' => $exception->getFile(),
-                     'line' => $exception->getLine(),
-                 ]);
-             }
+                 $exception = $event->getParam('exception');
+                if ($exception instanceof \Exception) {
+                    $logger->error(0, [
+                        $exception->getMessage(),
+                        "code: {$exception->getCode()} file: {$exception->getFile()} line: {$exception->getLine()}"
+                    ]);
+                }
 
-             $event->stopPropagation(true);
-             $message = $event->getError();
-             $logger->error($message);
-
-         }, 1000);
+                 $event->stopPropagation(true);
+                 $message = $event->getError();
+                 $logger->error(0, [$message]);
+            },
+            1000
+        );
 
         register_shutdown_function(function () use ($logger) {
             // get error
@@ -67,7 +70,7 @@ class Module
                 'line' => $error['line']
             ];
 
-            $logger->error($error['message'], $extras);
+            $logger->error(0, [$error['message']], $extras);
             die(1);
         });
     }

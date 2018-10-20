@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 17/03/2016
- * Time: 5:50 PM
- */
-
 namespace AlthingiAggregator\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
@@ -28,5 +21,4 @@ class PlenaryController extends AbstractActionController implements ConsumerAwar
             new Plenary()
         );
     }
-
 }

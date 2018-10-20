@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 27/05/15
- * Time: 7:22 AM
- */
-
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
@@ -32,7 +25,7 @@ class CongressmanImage implements ExtractionInterface, MediaInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('id')) {
+        if (! $object->hasAttribute('id')) {
             throw new ModelException('Missing [id] value', $object);
         }
 

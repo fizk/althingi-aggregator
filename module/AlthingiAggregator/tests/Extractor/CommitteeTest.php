@@ -10,7 +10,7 @@ class CommitteeTest extends TestCase
 {
     public function testWithAllData()
     {
-        $expectedData =  [
+        $expectedData = [
             'committee_id' => 151,
             'name' => 'allsherjarnefnd',
             'first_assembly_id' => 27,
@@ -29,7 +29,7 @@ class CommitteeTest extends TestCase
 
     public function testMissingEndAssembly()
     {
-        $expectedData =  [
+        $expectedData = [
             'committee_id' => 201,
             'name' => 'allsherjar- og menntamálanefnd',
             'first_assembly_id' => 140,

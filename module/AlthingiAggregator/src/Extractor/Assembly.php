@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 27/05/15
- * Time: 7:22 AM
- */
-
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
@@ -25,11 +18,11 @@ class Assembly implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('númer')) {
+        if (! $object->hasAttribute('númer')) {
             throw new ModelException('Missing [{númer}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('þingsetning')->item(0)) {
+        if (! $object->getElementsByTagName('þingsetning')->item(0)) {
             throw new ModelException('Missing [{þingsetning}] value', $object);
         }
 

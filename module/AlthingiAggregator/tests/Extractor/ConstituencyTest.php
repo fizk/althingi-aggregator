@@ -13,7 +13,7 @@ class ConstituencyTest extends TestCase
      */
     public function testMissingId()
     {
-        $expectedData =  [
+        $expectedData = [
             'name' => '-',
             'abbr_short' => '-',
             'abbr_long' => '',
@@ -28,12 +28,11 @@ class ConstituencyTest extends TestCase
         $resultedData = $extractor->extract($element->item(0));
 
         $this->assertEquals($expectedData, $resultedData);
-
     }
 
     public function testEverythingAlmostEmpty()
     {
-        $expectedData =  [
+        $expectedData = [
             'name' => '',
             'abbr_short' => '-',
             'abbr_long' => '',
@@ -48,7 +47,6 @@ class ConstituencyTest extends TestCase
         $resultedData = $extractor->extract($element->item(2));
 
         $this->assertEquals($expectedData, $resultedData);
-
     }
 
     private function buildNodeList($source)

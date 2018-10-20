@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 19/03/2016
- * Time: 11:21 AM
- */
-
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
@@ -22,11 +15,11 @@ class VoteItem implements ExtractionInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('id')) {
+        if (! $object->hasAttribute('id')) {
             throw new ModelException('Missing [{id}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('atkvæði')->item(0)) {
+        if (! $object->getElementsByTagName('atkvæði')->item(0)) {
             throw new ModelException('Missing [{atkvæði}] value', $object);
         }
 

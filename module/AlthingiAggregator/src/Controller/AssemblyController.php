@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 17/03/2016
- * Time: 5:46 PM
- */
-
 namespace AlthingiAggregator\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
@@ -36,5 +29,4 @@ class AssemblyController extends AbstractActionController implements ConsumerAwa
             new Assembly()
         );
     }
-
 }
