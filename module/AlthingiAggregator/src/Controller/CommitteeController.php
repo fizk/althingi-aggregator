@@ -24,22 +24,29 @@ class CommitteeController extends AbstractActionController implements ConsumerAw
     {
         $assemblyNumber = $this->params('assembly');
 
-        $meetings = $this->queryForNoteList("http://huginn.althingi.is/altext/xml/nefndarfundir/?lthing={$assemblyNumber}", '//nefndarfundir/nefndarfundur');
+        $meetings = $this->queryForNoteList(
+            "http://huginn.althingi.is/altext/xml/nefndarfundir/?lthing={$assemblyNumber}",
+            '//nefndarfundir/nefndarfundur'
+        );
 
         foreach ($meetings as $meeting) {
             $meetingId = (int) $meeting->getAttribute('númer');
             $committeeId = (int) $meeting->getElementsByTagName('nefnd')->item(0)->getAttribute('id');
 
-            $meetingElement = $this->queryForDocument("http://www.althingi.is/altext/xml/nefndarfundir/nefndarfundur/?dagskrarnumer={$meetingId}");
+            $meetingElement = $this->queryForDocument(
+                "http://www.althingi.is/altext/xml/nefndarfundir/nefndarfundur/?dagskrarnumer={$meetingId}"
+            );
 
             $this->saveDomElement(
                 $meetingElement->documentElement,
-                "loggjafarthing/{$assemblyNumber}/nefndir/{$committeeId}/nefndarfundir", new CommitteeMeeting()
+                "loggjafarthing/{$assemblyNumber}/nefndir/{$committeeId}/nefndarfundir",
+                new CommitteeMeeting()
             );
 
             $this->saveDomNodeList(
                 $meetingElement->getElementsByTagName('dagskrárliður'),
-                "loggjafarthing/{$assemblyNumber}/nefndir/{$committeeId}/nefndarfundir/{$meetingId}/dagskralidir", new CommitteeAgenda()
+                "loggjafarthing/{$assemblyNumber}/nefndir/{$committeeId}/nefndarfundir/{$meetingId}/dagskralidir",
+                new CommitteeAgenda()
             );
         }
     }

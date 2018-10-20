@@ -25,19 +25,19 @@ class Plenary implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('númer')) {
+        if (! $object->hasAttribute('númer')) {
             throw new ModelException('Missing [{númer}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('fundarheiti')->item(0)) {
+        if (! $object->getElementsByTagName('fundarheiti')->item(0)) {
             throw new ModelException('Missing [{fundarheiti}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('fundursettur')->item(0)) {
+        if (! $object->getElementsByTagName('fundursettur')->item(0)) {
             throw new ModelException('Missing [{fundursettur}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('fuslit')->item(0)) {
+        if (! $object->getElementsByTagName('fuslit')->item(0)) {
             throw new ModelException('Missing [{fuslit}] value', $object);
         }
 

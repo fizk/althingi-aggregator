@@ -5,7 +5,7 @@ namespace AlthingiAggregator;
 use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Router\Http\Regex;
 
-return array(
+return [
     'router' => [
         'routes' => [
             'index' => [
@@ -22,9 +22,9 @@ return array(
         ],
     ],
     'service_manager' => [],
-    'controllers' =>[
+    'controllers' => [
         'factories' => [
-            Controller\IndexController::class =>  InvokableFactory::class,
+            Controller\IndexController::class => InvokableFactory::class,
             Controller\HelpController::class => InvokableFactory::class,
             Controller\AssemblyController::class => function ($container) {
                 return (new Controller\AssemblyController())
@@ -187,4 +187,4 @@ return array(
             ],
         ],
     ],
-);
+];

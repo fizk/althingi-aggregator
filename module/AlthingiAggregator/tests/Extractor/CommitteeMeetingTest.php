@@ -65,5 +65,4 @@ class CommitteeMeetingTest extends TestCase
 
         $this->assertEquals($expectedResult, $returnedResults);
     }
-
 }

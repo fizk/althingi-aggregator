@@ -25,19 +25,19 @@ class Speech implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('fundarnúmer')) {
+        if (! $object->hasAttribute('fundarnúmer')) {
             throw new ModelException('Missing [{fundarnúmer}] value', $object);
         }
 
-        if (!$object->hasAttribute('þingnúmer')) {
+        if (! $object->hasAttribute('þingnúmer')) {
             throw new ModelException('Missing [{þingnúmer}] value', $object);
         }
 
-        if (!$object->hasAttribute('þingmaður')) {
+        if (! $object->hasAttribute('þingmaður')) {
             throw new ModelException('Missing [{þingmaður}] value', $object);
         }
 
-        if (!$object->hasAttribute('þingmál')) {
+        if (! $object->hasAttribute('þingmál')) {
             throw new ModelException('Missing [{þingmál}] value', $object);
         }
 
@@ -111,7 +111,7 @@ class Speech implements ExtractionInterface, IdentityInterface
 
     private function resolveDate(DOMElement $element = null)
     {
-        if (!$element) {
+        if (! $element) {
             return null;
         }
 
@@ -131,12 +131,11 @@ class Speech implements ExtractionInterface, IdentityInterface
         }
 
         return md5(time()); //TODO this is not good
-
     }
 
     private function resolveIteration(DOMElement $element = null)
     {
-        if (!$element) {
+        if (! $element) {
             return null;
         }
 

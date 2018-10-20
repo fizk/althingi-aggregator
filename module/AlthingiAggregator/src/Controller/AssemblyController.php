@@ -36,5 +36,4 @@ class AssemblyController extends AbstractActionController implements ConsumerAwa
             new Assembly()
         );
     }
-
 }

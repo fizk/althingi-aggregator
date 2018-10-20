@@ -26,7 +26,8 @@ class FileSystemClient implements MediaClientAdapter
         $request = (new Request())
             ->setMethod('get')
             ->setHeaders((new Headers())->addHeaders([
-                'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36',
+                'User-Agent' => 'Mozilla/5.0 (Macintosh; '.
+                    'Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36',
                 'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
                 'Host' => 'www.althingi.is'
             ]))
@@ -38,7 +39,6 @@ class FileSystemClient implements MediaClientAdapter
         } catch (\Exception $e) {
             return 0;
         }
-
     }
 
     public function setClient(Client $client)
@@ -64,5 +64,4 @@ class FileSystemClient implements MediaClientAdapter
         $this->base = $base;
         return $this;
     }
-
 }

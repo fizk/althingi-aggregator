@@ -61,14 +61,13 @@ class HttpConsumer implements
             try {
                 if ($extract instanceof IdentityInterface) {
                     return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
-                } else if ($extract instanceof MediaInterface) {
+                } elseif ($extract instanceof MediaInterface) {
                     $this->doFileUpload($extract, $params);
                 } else {
                     return $this->doUniqueRequest($storageKey, $params);
                 }
 
                 $tries = 0;
-
             } catch (\Exception $e) {
                 $this->logger->info(0, ['Can\'t connect to consumer, ' . ($tries - 1) . ' tries left']);
                 sleep(2);
@@ -91,8 +90,7 @@ class HttpConsumer implements
                 $extract->getSlug(),
                 $extract->getContentType()
             );
-            $this->logger->info($writtenBites, ['POST', $extract->getSlug(), $params]
-            );
+            $this->logger->info($writtenBites, ['POST', $extract->getSlug(), $params]);
         } catch (\Exception $e) {
             $this->logger->error(0, ['POST', $extract->getSlug(), $params, $e->getMessage()]);
         }
@@ -147,7 +145,8 @@ class HttpConsumer implements
                     );
                 } else {
                     $this->logger->error(
-                        0, [
+                        0,
+                        [
                             'POST',
                             $uri->toString(), 'Can\'t PATCH, no Location-Header', $params, $postResponse->getContent()
                         ]
@@ -266,7 +265,7 @@ class HttpConsumer implements
      */
     public function setUri(Http $uri)
     {
-        $this->uri =  $uri;
+        $this->uri = $uri;
         return $this;
     }
 

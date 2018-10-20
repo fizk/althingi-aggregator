@@ -51,8 +51,7 @@ class IssueController extends AbstractActionController implements
                 $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
                 $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
                 $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
-
-            } else if($issueElement->getAttribute('málsflokkur') === 'B') {
+            } elseif ($issueElement->getAttribute('málsflokkur') === 'B') {
                 $issueDocumentDom = $this->queryForDocument($issueUrl);
                 $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
@@ -74,11 +73,20 @@ class IssueController extends AbstractActionController implements
             $issue->setAttribute('framsögumaður', $proponentId);
         }
 
-        $summaryDoc = $this->queryForDocument("http://www.althingi.is/altext/xml/samantektir/samantekt/?lthing={$assemblyNumber}&malnr={$issueNumber}");
-        $summaryElements = ['markmið', 'helstuBreytingar', 'breytingaráLögum', 'kostnaðurOgTekjur', 'afgreiðsla', 'aðrarUpplýsingar'];
+        $summaryDoc = $this->queryForDocument(
+            "http://www.althingi.is/altext/xml/samantektir/samantekt/?lthing={$assemblyNumber}&malnr={$issueNumber}"
+        );
+        $summaryElements = [
+            'markmið',
+            'helstuBreytingar',
+            'breytingaráLögum',
+            'kostnaðurOgTekjur',
+            'afgreiðsla',
+            'aðrarUpplýsingar'
+        ];
         foreach ($summaryElements as $element) {
             $placeholderElement = null;
-            if($summaryDoc->getElementsByTagName($element)->item(0)) {
+            if ($summaryDoc->getElementsByTagName($element)->item(0)) {
                 $externalElement = $summaryDoc->getElementsByTagName($element)->item(0);
                 $placeholderElement = $issue->ownerDocument->importNode($externalElement, true);
             } else {
@@ -92,7 +100,6 @@ class IssueController extends AbstractActionController implements
             "loggjafarthing/{$assemblyNumber}/thingmal",
             new Issue()
         );
-
     }
 
     private function processIssueCategory($assemblyNumber, $issueNumber, DOMXPath $xPath)

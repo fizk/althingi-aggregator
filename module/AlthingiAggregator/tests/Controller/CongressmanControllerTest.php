@@ -78,7 +78,6 @@ class CongressmanControllerTest extends AbstractConsoleControllerTestCase
 //        $this->assertArrayHasKey('thingmenn/1021/thingseta', $consumerStoredData);
 //        $this->assertArrayHasKey('thingmenn/648/thingseta', $consumerStoredData);
         $this->assertTrue(true);
-
     }
 
     public function getDomDocument()
@@ -96,7 +95,9 @@ class CongressmanControllerTest extends AbstractConsoleControllerTestCase
                         <lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=1021</lífshlaup>
                         <hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=1021</hagsmunir>
                         <þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=1021</þingseta>
-                        <nefndaseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/nefndaseta/?nr=1021</nefndaseta>
+                        <nefndaseta>
+                            http://www.althingi.is/altext/xml/thingmenn/thingmadur/nefndaseta/?nr=1021
+                        </nefndaseta>
                     </xml>
                     <html>
                         <lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=1021</lífshlaup>
@@ -114,7 +115,9 @@ class CongressmanControllerTest extends AbstractConsoleControllerTestCase
                         <lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=648</lífshlaup>
                         <hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=648</hagsmunir>
                         <þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=648</þingseta>
-                        <nefndaseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/nefndaseta/?nr=648</nefndaseta>
+                        <nefndaseta>
+                            http://www.althingi.is/altext/xml/thingmenn/thingmadur/nefndaseta/?nr=648
+                        </nefndaseta>
                     </xml>
                     <html>
                         <lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=648</lífshlaup>

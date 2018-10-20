@@ -20,7 +20,10 @@ class CategoryController extends AbstractActionController implements ConsumerAwa
 
     public function findCategoriesAction()
     {
-        $superCategoriesList = $this->queryForNoteList('http://www.althingi.is/altext/xml/efnisflokkar/', '//efnisflokkar/yfirflokkur');
+        $superCategoriesList = $this->queryForNoteList(
+            'http://www.althingi.is/altext/xml/efnisflokkar/',
+            '//efnisflokkar/yfirflokkur'
+        );
         foreach ($superCategoriesList as $superCategory) {
             $this->saveDomElement($superCategory, 'thingmal/efnisflokkar', new SuperCategory());
 
@@ -28,7 +31,11 @@ class CategoryController extends AbstractActionController implements ConsumerAwa
 
             $categoryList = $superCategory->getElementsByTagName('efnisflokkur');
             foreach ($categoryList as $category) {
-                $this->saveDomElement($category, "thingmal/efnisflokkar/{$superCategoryId}/undirflokkar", new Category());
+                $this->saveDomElement(
+                    $category,
+                    "thingmal/efnisflokkar/{$superCategoryId}/undirflokkar",
+                    new Category()
+                );
             }
         }
     }

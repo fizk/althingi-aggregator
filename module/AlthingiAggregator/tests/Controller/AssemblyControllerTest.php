@@ -51,7 +51,6 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
             public function addDocument($url, \DOMDocument $dom)
             {
-
             }
         };
 
@@ -85,7 +84,6 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
         $this->assertCount(1, $consumerStoredData);
         $this->assertArrayHasKey('loggjafarthing/1', $consumerStoredData);
-
     }
 
     public function testAssemblyCurrentRouter()
@@ -114,7 +112,6 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
         $this->assertCount(1, $consumerStoredData);
         $this->assertArrayHasKey('loggjafarthing/1', $consumerStoredData);
-
     }
 
     public function getDomDocument()

@@ -88,7 +88,6 @@ class IssueControllerTest extends AbstractConsoleControllerTestCase
 //
 //        $this->assertEquals($expectedIssue, $actual['loggjafarthing/1/bmal/35']);
 //        $this->assertEquals($expectedSpeech, $actual['loggjafarthing/1/bmal/1/raedur/20171219T133304']);
-
     }
 
     public function getDomDocument()

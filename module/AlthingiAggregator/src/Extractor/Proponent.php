@@ -25,11 +25,11 @@ class Proponent implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('id')) {
+        if (! $object->hasAttribute('id')) {
             throw new ModelException('Missing [{id}] value', $object);
         }
 
-        if (!$object->hasAttribute('röð')) {
+        if (! $object->hasAttribute('röð')) {
             throw new ModelException('Missing [{röð}] value', $object);
         }
 

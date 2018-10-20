@@ -56,7 +56,6 @@ class CommitteeControllerTest extends AbstractConsoleControllerTestCase
         $this->assertCount(2, $consumerStoredData);
         $this->assertArrayHasKey('nefndir/201', $consumerStoredData);
         $this->assertArrayHasKey('nefndir/151', $consumerStoredData);
-
     }
 
     public function getDomDocument()

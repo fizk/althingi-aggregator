@@ -55,7 +55,6 @@ class PartyControllerTest extends AbstractConsoleControllerTestCase
 
         $this->assertCount(1, $consumerStoredData);
         $this->assertArrayHasKey('thingflokkar/27', $consumerStoredData);
-
     }
 
     public function getDomDocument()

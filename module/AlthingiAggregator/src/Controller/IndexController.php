@@ -17,5 +17,4 @@ class IndexController extends AbstractActionController
     {
         return 'output';
     }
-
 }

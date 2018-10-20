@@ -28,5 +28,4 @@ class PlenaryController extends AbstractActionController implements ConsumerAwar
             new Plenary()
         );
     }
-
 }

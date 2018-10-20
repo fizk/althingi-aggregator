@@ -43,7 +43,6 @@ class ServerProvider implements
                     : $this->httpRequest($url);
 
                 $tries = 0;
-
             } catch (\Exception $e) {
                 $this->logger->info(0, ['Can\'t connect to provider, ' . ($tries - 1) . ' tries left']);
                 sleep(2);

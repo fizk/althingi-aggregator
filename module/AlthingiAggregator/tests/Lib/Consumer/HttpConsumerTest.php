@@ -597,5 +597,4 @@ class HttpConsumerTest extends TestCase
 
         $consumer->save(new \DOMElement('element'), '', new ExtractorValidPut($data));
     }
-
 }

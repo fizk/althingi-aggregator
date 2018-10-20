@@ -23,19 +23,19 @@ class President implements ExtractionInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('id')) {
+        if (! $object->hasAttribute('id')) {
             throw new ModelException('Missing [{id}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('nafn')->item(0)) {
+        if (! $object->getElementsByTagName('nafn')->item(0)) {
             throw new ModelException('Missing [{nafn}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('þing')->item(0)) {
+        if (! $object->getElementsByTagName('þing')->item(0)) {
             throw new ModelException('Missing [{þing}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('inn')->item(0)) {
+        if (! $object->getElementsByTagName('inn')->item(0)) {
             throw new ModelException('Missing [{þing}] value', $object);
         }
 

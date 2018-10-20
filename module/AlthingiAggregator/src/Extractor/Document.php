@@ -25,15 +25,15 @@ class Document implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('málsnúmer')) {
+        if (! $object->hasAttribute('málsnúmer')) {
             throw new ModelException('Missing [{málsnúmer}] value', $object);
         }
 
-        if (!$object->hasAttribute('skjalsnúmer')) {
+        if (! $object->hasAttribute('skjalsnúmer')) {
             throw new ModelException('Missing [{skjalsnúmer}] value', $object);
         }
 
-        if (!$object->hasAttribute('þingnúmer')) {
+        if (! $object->hasAttribute('þingnúmer')) {
             throw new ModelException('Missing [{þingnúmer}] value', $object);
         }
 
@@ -43,7 +43,7 @@ class Document implements ExtractionInterface, IdentityInterface
         $url = $object->getElementsByTagName('html')->length
             ? trim($object->getElementsByTagName('html')->item(0)->nodeValue)
             : null;
-        $type =  $object->getElementsByTagName('skjalategund')->item(0)
+        $type = $object->getElementsByTagName('skjalategund')->item(0)
             ? trim($object->getElementsByTagName('skjalategund')->item(0)->nodeValue)
             : null;
 

@@ -29,27 +29,27 @@ class Issue implements ExtractionInterface, IdentityInterface
 //            throw new ModelException('Missing [{málsflokkur}] value', $object);
 //        }
 
-        if (!$object->hasAttribute('málsnúmer')) {
+        if (! $object->hasAttribute('málsnúmer')) {
             throw new ModelException('Missing [{málsnúmer}] value', $object);
         }
 
-        if (!$object->hasAttribute('þingnúmer')) {
+        if (! $object->hasAttribute('þingnúmer')) {
             throw new ModelException('Missing [{þingnúmer}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('málsheiti')->item(0)) {
+        if (! $object->getElementsByTagName('málsheiti')->item(0)) {
             throw new ModelException('Missing [{málsheiti}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('málstegund')->item(0)) {
+        if (! $object->getElementsByTagName('málstegund')->item(0)) {
             throw new ModelException('Missing [{málstegund}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('málstegund')->item(0)->hasAttribute('málstegund')) {
+        if (! $object->getElementsByTagName('málstegund')->item(0)->hasAttribute('málstegund')) {
             throw new ModelException('Missing [{málstegund}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti')->item(0)) {
+        if (! $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti')->item(0)) {
             throw new ModelException('Missing [{heiti}] value', $object);
         }
 
@@ -78,7 +78,7 @@ class Issue implements ExtractionInterface, IdentityInterface
             : null;
         $typeName = $object->getElementsByTagName('málstegund')
             ->item(0)->getElementsByTagName('heiti')->item(0)->nodeValue;
-        $typeSubName =  $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti2')->length
+        $typeSubName = $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti2')->length
             ? $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti2')->item(0)->nodeValue
             : null;
         $congressmanId = $object->hasAttribute('framsögumaður')

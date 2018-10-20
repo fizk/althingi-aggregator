@@ -28,7 +28,6 @@ class CommitteeAgendaTest extends TestCase
         $returnedResults = (new CommitteeAgenda())->extract($dom->documentElement);
 
         $this->assertEquals($expectedResult, $returnedResults);
-
     }
 
     public function testWithOutIssue()
@@ -52,6 +51,5 @@ class CommitteeAgendaTest extends TestCase
         $returnedResults = (new CommitteeAgenda())->extract($dom->documentElement);
 
         $this->assertEquals($expectedResult, $returnedResults);
-
     }
 }

@@ -33,7 +33,7 @@ class CommitteeAgenda implements ExtractionInterface, IdentityInterface
      */
     public function extract(\DOMElement $object)
     {
-        if (!$object->hasAttribute('númer')) {
+        if (! $object->hasAttribute('númer')) {
             throw new ModelException('Missing [{númer}] value', $object);
         }
 

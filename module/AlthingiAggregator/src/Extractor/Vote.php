@@ -25,23 +25,23 @@ class Vote implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('málsnúmer')) {
+        if (! $object->hasAttribute('málsnúmer')) {
             throw new ModelException('Missing [{málsnúmer}] value', $object);
         }
 
-        if (!$object->hasAttribute('þingnúmer')) {
+        if (! $object->hasAttribute('þingnúmer')) {
             throw new ModelException('Missing [{þingnúmer}] value', $object);
         }
 
-        if (!$object->hasAttribute('atkvæðagreiðslunúmer')) {
+        if (! $object->hasAttribute('atkvæðagreiðslunúmer')) {
             throw new ModelException('Missing [{atkvæðagreiðslunúmer}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('tími')) {
+        if (! $object->getElementsByTagName('tími')) {
             throw new ModelException('Missing [{tími}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('tegund')) {
+        if (! $object->getElementsByTagName('tegund')) {
             throw new ModelException('Missing [{tegund}] value', $object);
         }
 

@@ -26,5 +26,4 @@ class HelpController extends AbstractActionController
 //        return $result;
         return '';
     }
-
 }

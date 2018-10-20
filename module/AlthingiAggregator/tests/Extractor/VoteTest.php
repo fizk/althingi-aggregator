@@ -59,5 +59,4 @@ class VoteTest extends TestCase
               </niðurstaða>
             </atkvæðagreiðsla>';
     }
-
 }

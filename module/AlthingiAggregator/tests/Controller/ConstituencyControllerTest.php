@@ -57,7 +57,6 @@ class ConstituencyControllerTest extends AbstractConsoleControllerTestCase
         $this->assertArrayHasKey('kjordaemi/1', $consumerStoredData);
         $this->assertArrayHasKey('kjordaemi/5', $consumerStoredData);
         $this->assertArrayHasKey('kjordaemi/2', $consumerStoredData);
-
     }
 
     public function getDomDocument()
