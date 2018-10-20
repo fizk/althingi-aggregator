@@ -22,15 +22,15 @@ class Committee implements ExtractionInterface, IdentityInterface
      */
     public function extract(\DOMElement $object)
     {
-        if (!$object->hasAttribute('id')) {
+        if (! $object->hasAttribute('id')) {
             throw new ModelException('Missing [{id}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('heiti')->length) {
+        if (! $object->getElementsByTagName('heiti')->length) {
             throw new ModelException('Missing [{heiti}] value', $object);
         }
 
-        if (!$object->getElementsByTagName('fyrstaþing')->length) {
+        if (! $object->getElementsByTagName('fyrstaþing')->length) {
             throw new ModelException('Missing [{fyrstaþing}] value', $object);
         }
 

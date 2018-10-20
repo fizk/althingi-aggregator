@@ -7,8 +7,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    # volumes:
-    # - .:/usr/src
     environment:
     - APPLICATION_ENVIRONMENT=development
     - CACHE_TYPE=none
