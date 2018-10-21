@@ -139,6 +139,15 @@ return [
                         ]
                     ]
                 ],
+                'plenary-agenda' => [
+                    'options' => [
+                        'route'    => 'load:plenary-agenda [--assembly=|-a]',
+                        'defaults' => [
+                            'controller' => Controller\PlenaryController::class,
+                            'action'     => 'find-plenary-agenda'
+                        ]
+                    ]
+                ],
                 'issue' => [
                     'options' => [
                         'route'    => 'load:issue [--assembly=|-a]',
