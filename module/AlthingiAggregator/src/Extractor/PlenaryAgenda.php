@@ -20,7 +20,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        if (!$object->hasAttribute('númer')) {
+        if (! $object->hasAttribute('númer')) {
             throw new ModelException('Missing [{númer}] value', $object);
         }
 
@@ -32,7 +32,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
             ? $object->getElementsByTagName('mál')->item(0)
             : null;
 
-        if (!$issue) {
+        if (! $issue) {
             throw new ModelException('Missing [{mál}] element', $object);
         }
 
