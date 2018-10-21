@@ -13,7 +13,7 @@ class PlenaryAgendaTest extends TestCase
         $expectedData = [
             'plenary_id' => 0,
             'issue_id' => 5,
-            'issue_category' => 'B',
+            'category' => 'B',
             'assembly_id' => 148,
             'item_id' => 1,
             'iteration_type' => '*',
@@ -43,7 +43,7 @@ class PlenaryAgendaTest extends TestCase
         $expectedData = [
             'plenary_id' => 0,
             'issue_id' => 63,
-            'issue_category' => 'A',
+            'category' => 'A',
             'assembly_id' => 148,
             'item_id' => 3,
             'iteration_type' => '1',
@@ -73,7 +73,7 @@ class PlenaryAgendaTest extends TestCase
         $expectedData = [
             'plenary_id' => 0,
             'issue_id' => 90,
-            'issue_category' => 'B',
+            'category' => 'B',
             'assembly_id' => 148,
             'item_id' => 1,
             'iteration_type' => '*',
@@ -103,7 +103,7 @@ class PlenaryAgendaTest extends TestCase
         $expectedData = [
             'plenary_id' => 0,
             'issue_id' => 90,
-            'issue_category' => 'B',
+            'category' => 'B',
             'assembly_id' => 148,
             'item_id' => 1,
             'iteration_type' => '*',

@@ -95,7 +95,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
             'iteration_comment' => empty(trim($iterationComment)) ? null : trim($iterationComment),
             'comment' => empty(trim($comment)) ? null : preg_replace("/(\r|\n)|(\s+)/", " ", trim($comment)),
             'comment_type' => $commentType,
-            'posed_id' => $posedId ? (int) $posedId: null,
+            'posed_id' => $posedId ? (int) $posedId : null,
             'posed' => empty(trim($posed)) ? null : trim($posed),
             'answerer_id' => $answererId ? (int) $answererId : null,
             'answerer' => empty(trim($answerer)) ? null : trim($answerer),
