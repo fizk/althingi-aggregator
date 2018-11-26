@@ -61,7 +61,10 @@ class Issue implements ExtractionInterface, IdentityInterface
         $status = ($object->getElementsByTagName('staðamáls')->length)
             ? trim($object->getElementsByTagName('staðamáls')->item(0)->nodeValue)
             : null;
-        $name = $object->getElementsByTagName('málsheiti')->item(0)->nodeValue;
+        //@todo currently it seems that the málsheiti and undirheiti have accidentally been switch my the provider.
+        $name = $category === 'A'
+            ? $object->getElementsByTagName('málsheiti')->item(0)->nodeValue
+            : $object->getElementsByTagName('undirheiti')->item(0)->nodeValue;
         $subName = $object->getElementsByTagName('efnisgreining')->length
             ? $object->getElementsByTagName('efnisgreining')->item(0)->nodeValue
             : null;
