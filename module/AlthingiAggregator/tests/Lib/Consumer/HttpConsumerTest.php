@@ -248,11 +248,11 @@ class HttpConsumerTest extends TestCase
         $logger = Mockery::mock('Psr\Log\LoggerInterface')
             ->shouldReceive('error')
             ->andReturnUsing(function ($code, $params) {
-                $this->assertEquals(500, $code);
-                $this->assertEquals('PATCH', $params[0]);
+                $this->assertTrue($code === 409 || $code === 500);
+                $this->assertTrue($params[0] === 'POST' || $params[0] === 'PATCH');
                 return null;
             })
-            ->once()
+            ->twice()
             ->getMock();
 
         $consumer = (new HttpConsumer())
@@ -295,6 +295,14 @@ class HttpConsumerTest extends TestCase
             ->setAdapter($adapter);
 
         $logger = Mockery::mock('Psr\Log\LoggerInterface')
+            ->shouldReceive('error')
+            ->andReturnUsing(function ($message, $params) {
+                $this->assertEquals(409, $message);
+                $this->assertEquals('POST', $params[0]);
+                return null;
+            })
+            ->once()
+            ->getMock()
             ->shouldReceive('info')
             ->andReturnUsing(function ($message, $params) {
                 $this->assertEquals(204, $message);
@@ -342,11 +350,11 @@ class HttpConsumerTest extends TestCase
         $logger = Mockery::mock('Psr\Log\LoggerInterface')
             ->shouldReceive('error')
             ->andReturnUsing(function ($code, $params) {
-                $this->assertEquals(404, $code);
-                $this->assertEquals('PATCH', $params[0]);
+                $this->assertTrue($code === 409 || $code === 404);
+                $this->assertTrue($params[0] === 'POST' || $params[0] === 'PATCH');
                 return null;
             })
-            ->once()
+            ->twice()
             ->getMock();
 
         $consumer = (new HttpConsumer())
@@ -580,6 +588,14 @@ class HttpConsumerTest extends TestCase
             ->setAdapter($adapter);
 
         $logger = Mockery::mock('Psr\Log\LoggerInterface')
+            ->shouldReceive('error')
+            ->andReturnUsing(function ($message, $params) {
+                $this->assertEquals(409, $message);
+                $this->assertEquals('PUT', $params[0]);
+                return null;
+            })
+            ->once()
+            ->getMock()
             ->shouldReceive('info')
             ->andReturnUsing(function ($message, $params) {
                 $this->assertEquals(204, $message);

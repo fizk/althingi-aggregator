@@ -119,7 +119,7 @@ class HttpConsumer implements
     private function doPostRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info(0, ['CONSUMER_CACHE', 'POST', $uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', $uri->toString(), $params]);
             return true;
         }
 
@@ -139,6 +139,10 @@ class HttpConsumer implements
                 break;
             case 409:
                 if ($postResponse->getHeaders()->get('Location')) {
+                    $this->logger->error(
+                        $postResponse->getStatusCode(),
+                        ['POST', $uri->toString(), 'Going to try PATCH', $params, $postResponse->getContent()]
+                    );
                     $this->doPatchRequest(
                         $uri->setPath($postResponse->getHeaders()->get('Location')->getFieldValue()),
                         $params
@@ -165,7 +169,7 @@ class HttpConsumer implements
     private function doPutRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info(0, ['CONSUMER_CACHE', 'PUT', $uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', $uri->toString(), $params]);
             return true;
         }
 
@@ -184,6 +188,10 @@ class HttpConsumer implements
                 );
                 break;
             case 409:
+                $this->logger->error(
+                    $putResponse->getStatusCode(),
+                    ['PUT', $uri->toString(), 'Going to try PATCH', $params, $putResponse->getContent()]
+                );
                 $this->doPatchRequest($uri, $params);
                 break;
             default:
@@ -198,7 +206,7 @@ class HttpConsumer implements
     private function doPatchRequest(Http $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
-            $this->logger->info(0, ['CONSUMER_CACHE', 'PATCH', $uri->toString(), $params]);
+            $this->logger->info(0, ['CONSUMER_CACHE', $uri->toString(), $params]);
             return true;
         }
 

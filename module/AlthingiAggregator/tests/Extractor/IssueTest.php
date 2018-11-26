@@ -45,7 +45,7 @@ class IssueTest extends TestCase
             'assembly_id' => 148,
             'category' => 'B',
             'status' => null,
-            'name' => 'óundirbúinn fyrirspurnatími',
+            'name' => 'nýting fjármuna heilbrigðiskerfisins',
             'sub_name' => null,
             'type' => 'ft',
             'type_name' => 'óundirbúinn fyrirspurnatími',
@@ -368,7 +368,7 @@ class IssueTest extends TestCase
             <bmál>
                 <mál málsnúmer=\'35\' þingnúmer=\'148\' málsflokkur=\'B\'>
                     <málsheiti>óundirbúinn fyrirspurnatími</málsheiti>
-                    <undirheiti>óundirbúinn fyrirspurnatími</undirheiti>
+                    <undirheiti>nýting fjármuna heilbrigðiskerfisins</undirheiti>
                     <málstegund málstegund=\'ft\'>
                     <heiti>óundirbúinn fyrirspurnatími</heiti></málstegund>
                     <slóð>

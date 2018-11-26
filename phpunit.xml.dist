@@ -12,11 +12,13 @@
         <var name="APPLICATION_ENVIRONMENT" value="production" />
     </php>
 
+    <!--<filter>-->
+        <!--<whitelist processUncoveredFilesFromWhitelist="true">-->
+            <!--<directory suffix=".php">./module/AlthingiAggregator/src</directory>-->
+        <!--</whitelist>-->
+    <!--</filter>-->
     <!--<logging>-->
-        <!--<log type="junit" target="../docs/tests/report.junit.xml" />-->
-        <!--<log type="coverage-html" target="../docs/tests/report" charset="UTF-8"-->
-             <!--yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"/>-->
-        <!--<log type="testdox-html" target="../docs/tests/testdox.html" />-->
+        <!--<log type="coverage-html" target="../docs/tests/report" lowUpperBound="50" highLowerBound="80"/>-->
     <!--</logging>-->
 
 </phpunit>
