@@ -71,6 +71,16 @@ return [
                     ->setConsumer($container->get('Consumer'))
                     ->setProvider($container->get('Provider'));
             },
+            Controller\InflationController::class => function ($container) {
+                return (new Controller\InflationController())
+                    ->setConsumer($container->get('Consumer'))
+                    ->setProvider($container->get('Provider'));
+            },
+            Controller\GovernmentController::class => function ($container) {
+                return (new Controller\GovernmentController())
+                    ->setConsumer($container->get('Consumer'))
+                    ->setProvider($container->get('Provider'));
+            },
         ],
     ],
     'console' => [
@@ -190,6 +200,24 @@ return [
                         'defaults' => [
                             'controller' => Controller\CategoryController::class,
                             'action'     => 'find-categories'
+                        ]
+                    ]
+                ],
+                'inflation' => [
+                    'options' => [
+                        'route'    => 'load:inflation [--date=|-d]',
+                        'defaults' => [
+                            'controller' => Controller\InflationController::class,
+                            'action'     => 'find-inflation'
+                        ]
+                    ]
+                ],
+                'government' => [
+                    'options' => [
+                        'route'    => 'load:government',
+                        'defaults' => [
+                            'controller' => Controller\GovernmentController::class,
+                            'action'     => 'find-governments'
                         ]
                     ]
                 ],

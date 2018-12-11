@@ -1,6 +1,7 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
+use AlthingiAggregator\Extractor\Exception;
 use DOMXPath;
 use DOMNodeList;
 use DOMElement;
@@ -37,6 +38,7 @@ trait ConsoleHelper
      * @param $storageKey
      * @param $xPath
      * @param ExtractionInterface $extract
+     * @throws \Exception
      */
     private function queryAndSave($url, $storageKey, $xPath, ExtractionInterface $extract)
     {
@@ -80,12 +82,13 @@ trait ConsoleHelper
      * Get one DOMDocument from the provider.
      *
      * @param $url
+     * @param callable $cb
      * @return \DOMDocument
      * @throws \Exception
      */
-    private function queryForDocument($url)
+    private function queryForDocument($url, callable $cb = null)
     {
-        return $this->provider->get($url);
+        return $this->provider->get($url, $cb);
     }
 
     /**
@@ -98,12 +101,14 @@ trait ConsoleHelper
      * DOMXpath object in your code.
      *
      * @param $url
+     * @param callable $cb
      * @param $xPath
      * @return \DOMNodeList
+     * @throws \Exception
      */
-    private function queryForNoteList($url, $xPath)
+    private function queryForNoteList($url, $xPath, callable $cb = null)
     {
-        $dom = $this->queryForDocument($url);
+        $dom = $this->queryForDocument($url, $cb);
         $xpath = new DOMXpath($dom);
         return $xpath->query($xPath);
     }

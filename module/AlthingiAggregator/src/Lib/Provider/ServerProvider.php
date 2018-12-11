@@ -27,10 +27,11 @@ class ServerProvider implements
 
     /**
      * @param string $url
+     * @param callable $cb
      * @return \DOMDocument
      * @throws \Exception
      */
-    public function get($url)
+    public function get($url, callable $cb = null)
     {
         $tries = 3;
         $content = '';
@@ -55,12 +56,18 @@ class ServerProvider implements
             }
         } while ($tries > 0);
 
-        $dom = @new \DOMDocument();
-        if ($dom->loadXML($content)) {
+        if ($cb) {
+            $newDom = $cb($content);
             $this->cache->setItem($key, $content);
-            return $dom;
+            return $newDom;
         } else {
-            throw new \Exception(print_r(error_get_last(), true));
+            $dom = @new \DOMDocument();
+            if (@$dom->loadXML($content)) {
+                $this->cache->setItem($key, $content);
+                return $dom;
+            } else {
+                throw new \Exception(print_r(error_get_last(), true));
+            }
         }
     }
 
