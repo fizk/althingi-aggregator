@@ -14,7 +14,6 @@ class Inflation implements ExtractionInterface, IdentityInterface
      *
      * @param  DOMElement $object
      * @return array|null
-     * @throws \AlthingiAggregator\Extractor\Exception
      */
     public function extract(DOMElement $object)
     {
