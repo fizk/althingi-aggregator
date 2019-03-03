@@ -28,6 +28,9 @@ class Congressman implements ExtractionInterface, IdentityInterface
         $this->setIdentity($object->getAttribute('id'));
 
         $name = $object->getElementsByTagName('nafn')->item(0)->nodeValue;
+        $abbreviation = $object->getElementsByTagName('skammstöfun')->item(0)
+            ? $object->getElementsByTagName('skammstöfun')->item(0)->nodeValue
+            : null;
         $birth = ($object->getElementsByTagName('fæðingardagur')->item(0))
             ? date('Y-m-d', strtotime($object->getElementsByTagName('fæðingardagur')->item(0)->nodeValue))
             : null ;
@@ -37,6 +40,7 @@ class Congressman implements ExtractionInterface, IdentityInterface
             'id' => (int) $this->getIdentity(),
             'name' => $name,
             'birth' => $birth,
+            'abbreviation' => $abbreviation,
             'death' => '' //TODO look into why this can't be null;
         ];
     }

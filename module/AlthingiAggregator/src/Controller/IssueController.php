@@ -21,6 +21,22 @@ class IssueController extends AbstractActionController implements
 {
     use ConsoleHelper;
 
+    public function findSingleIssueAction()
+    {
+        $assemblyNumber = $this->params('assembly');
+        $issueNumber = $this->params('issue');
+        $category = $this->params('category');
+
+        $this->queryIssueInformation(
+            $assemblyNumber,
+            $issueNumber,
+            $category === 'B'
+                ? "http://www.althingi.is/altext/xml/thingmalalisti/bmal/?lthing={$assemblyNumber}&malnr={$issueNumber}"
+                : "http://www.althingi.is/altext/xml/thingmalalisti/thingmal/?lthing={$assemblyNumber}&malnr={$issueNumber}",
+            $category
+        );
+    }
+
     public function findIssueAction()
     {
         $assemblyNumber = $this->params('assembly');
@@ -33,24 +49,33 @@ class IssueController extends AbstractActionController implements
         foreach ($issuesNodeList as $issueElement) {
             $issueNumber = $issueElement->getAttribute('málsnúmer');
             $issueUrl = $issueElement->getElementsByTagName('xml')->item(0)->nodeValue;
+            $this->queryIssueInformation(
+                $assemblyNumber,
+                $issueNumber,
+                $issueUrl,
+                $issueElement->getAttribute('málsflokkur')
+            );
+        }
+    }
 
-            if ($issueElement->getAttribute('málsflokkur') === 'A') {
-                $issueDocumentDom = $this->queryForDocument($issueUrl);
-                $issueDocumentXPath = new DOMXPath($issueDocumentDom);
+    private function queryIssueInformation($assemblyNumber, $issueNumber, $url, $category)
+    {
+        if ($category === 'A') {
+            $issueDocumentDom = $this->queryForDocument($url);
+            $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
-                $this->processIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
-                $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
-                $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
-                $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
-                $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
-                $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
-            } elseif ($issueElement->getAttribute('málsflokkur') === 'B') {
-                $issueDocumentDom = $this->queryForDocument($issueUrl);
-                $issueDocumentXPath = new DOMXPath($issueDocumentDom);
+            $this->processIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
+        } elseif ($category === 'B') {
+            $issueDocumentDom = $this->queryForDocument($url);
+            $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
-                $this->processUndocumentedIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
-                $this->processUndocumentedSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
-            }
+            $this->processUndocumentedIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processUndocumentedSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
         }
     }
 

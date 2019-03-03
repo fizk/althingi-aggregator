@@ -81,6 +81,11 @@ return [
                     ->setConsumer($container->get('Consumer'))
                     ->setProvider($container->get('Provider'));
             },
+            Controller\SpeechController::class => function ($container) {
+                return (new Controller\SpeechController())
+                    ->setConsumer($container->get('Consumer'))
+                    ->setProvider($container->get('Provider'));
+            },
         ],
     ],
     'console' => [
@@ -167,6 +172,15 @@ return [
                         ]
                     ]
                 ],
+                'single-issue' => [
+                    'options' => [
+                        'route'    => 'load:single-issue [--assembly=|-a]  [--issue=|-i]  [--category=|-c]',
+                        'defaults' => [
+                            'controller' => Controller\IssueController::class,
+                            'action'     => 'find-single-issue'
+                        ]
+                    ]
+                ],
                 'committee' => [
                     'options' => [
                         'route'    => 'load:committee',
@@ -218,6 +232,15 @@ return [
                         'defaults' => [
                             'controller' => Controller\GovernmentController::class,
                             'action'     => 'find-governments'
+                        ]
+                    ]
+                ],
+                'tmp-speech' => [
+                    'options' => [
+                        'route'    => 'load:tmp-speech [--assembly=|-a]',
+                        'defaults' => [
+                            'controller' => Controller\SpeechController::class,
+                            'action'     => 'find-temporary'
                         ]
                     ]
                 ],
