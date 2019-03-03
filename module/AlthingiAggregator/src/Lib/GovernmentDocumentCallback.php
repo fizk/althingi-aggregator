@@ -1,18 +1,21 @@
 <?php
 namespace AlthingiAggregator\Lib;
 
+use DOMDocument;
+use DOMXpath;
+
 class GovernmentDocumentCallback
 {
-    public function __invoke(string $content): \DOMDocument
+    public function __invoke(string $content): DOMDocument
     {
-        $pageDom = new \DOMDocument();
+        $pageDom = new DOMDocument();
         $utf8content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
         @$pageDom->loadHTML($utf8content);
 
-        $xpath = new \DOMXpath($pageDom);
+        $xpath = new DOMXpath($pageDom);
         $list = $xpath->query('//*[@id="main"]/div[5]/div[2]/ul')->item(0)->getElementsByTagName('li');
 
-        $tmpDom = new \DOMDocument();
+        $tmpDom = new DOMDocument();
         foreach ($list as $i) {
             $ti = $tmpDom->importNode($i, true);
             $tmpDom->appendChild($ti);
@@ -24,7 +27,7 @@ class GovernmentDocumentCallback
             $tmpDom->appendChild($ti);
         }
 
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         $rootElement = $dom->createElement('root');
         $dom->appendChild($rootElement);
         foreach ($tmpDom->childNodes as $item) {

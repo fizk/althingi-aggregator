@@ -2,8 +2,8 @@
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
+use DateTime;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
 
 class Government implements ExtractionInterface, IdentityInterface
 {
@@ -17,7 +17,7 @@ class Government implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        $id = (new \DateTime($object->getAttribute('from')))->format('Ymd');
+        $id = (new DateTime($object->getAttribute('from')))->format('Ymd');
         $this->setIdentity($id);
 
         return [
