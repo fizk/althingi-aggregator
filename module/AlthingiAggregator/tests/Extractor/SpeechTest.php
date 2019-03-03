@@ -23,6 +23,7 @@ class SpeechTest extends TestCase
             'type' => 'flutningsræða',
             'category' => 'B',
             'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>',
+            'validated' => 'true',
         ];
 
         $elements = $this->buildNodeList($this->getValidNewDocument());
@@ -46,6 +47,7 @@ class SpeechTest extends TestCase
             'type' => 'útbýting þingskjala',
             'text' => null,
             'category' => 'A',
+            'validated' => 'true',
         ];
 
         $elements = $this->buildNodeList($this->getValidOldDocument());
@@ -71,6 +73,7 @@ class SpeechTest extends TestCase
                     <mgr>Virðulegi forseti.</mgr>
                 </ræðutexti>',
             'category' => 'A',
+            'validated' => 'true',
         ];
 
         $elements = $this->buildNodeList($this->getTemporaryDocument());

@@ -75,7 +75,8 @@ class Speech implements ExtractionInterface, IdentityInterface
             'iteration' => $iteration,
             'type' => $type,
             'text' => $text,
-            'category' => $issueType
+            'category' => $issueType,
+            'validated' => $object->hasAttribute('temporary') ? 'false' : 'true'
         ];
     }
 
