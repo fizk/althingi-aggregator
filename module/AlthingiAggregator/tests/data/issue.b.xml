@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bmál>
+    <mál málsflokkur="B" málsnúmer="693" þingnúmer="148">
+        <málsheiti>fundur Alþingis á Þingvöllum</málsheiti>
+        <málstegund málstegund="tk">
+            <heiti>tilkynningar forseta</heiti>
+        </málstegund>
+        <slóð>
+            <html>https://www.althingi.is/thingstorf/thingmalalistar-eftir-thingum/bferill/?ltg=148&amp;mnr=693</html>
+            <xml>http://www.althingi.is/altext/xml/thingmalalisti/bmal/?lthing=148&amp;malnr=693</xml>
+        </slóð>
+    </mál>
+    <atkvæðagreiðslur/>
+    <ræður>
+        <ræða fundarnúmer="81" þingmaður="557" þingnúmer="148">
+            <forsetiAlþingis/>
+            <nafn id="557">Steingrímur J. Sigfússon</nafn>
+            <ræðahófst>2018-07-17T15:13:01</ræðahófst>
+            <ræðulauk>2018-07-17T15:14:09</ræðulauk>
+            <slóðir/>
+            <tegundræðu>ræða</tegundræðu>
+            <umræða>*</umræða>
+        </ræða>
+    </ræður>
+</bmál>
