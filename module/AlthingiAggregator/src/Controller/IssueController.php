@@ -26,13 +26,13 @@ class IssueController extends AbstractActionController implements
         $assemblyNumber = $this->params('assembly');
         $issueNumber = $this->params('issue');
         $category = $this->params('category');
-
+        $url = 'http://www.althingi.is/altext/xml/thingmalalisti';
         $this->queryIssueInformation(
             $assemblyNumber,
             $issueNumber,
             $category === 'B'
-                ? "http://www.althingi.is/altext/xml/thingmalalisti/bmal/?lthing={$assemblyNumber}&malnr={$issueNumber}"
-                : "http://www.althingi.is/altext/xml/thingmalalisti/thingmal/?lthing={$assemblyNumber}&malnr={$issueNumber}",
+                ? "{$url}/bmal/?lthing={$assemblyNumber}&malnr={$issueNumber}"
+                : "{$url}/thingmal/?lthing={$assemblyNumber}&malnr={$issueNumber}",
             $category
         );
     }
