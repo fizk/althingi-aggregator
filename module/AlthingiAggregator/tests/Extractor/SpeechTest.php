@@ -23,6 +23,7 @@ class SpeechTest extends TestCase
             'type' => 'flutningsræða',
             'category' => 'B',
             'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>',
+            'validated' => 'true',
         ];
 
         $elements = $this->buildNodeList($this->getValidNewDocument());
@@ -46,9 +47,36 @@ class SpeechTest extends TestCase
             'type' => 'útbýting þingskjala',
             'text' => null,
             'category' => 'A',
+            'validated' => 'true',
         ];
 
         $elements = $this->buildNodeList($this->getValidOldDocument());
+        $resultedData = (new Speech())->extract($elements->item(0));
+
+        $this->assertEquals($expectingData, $resultedData);
+    }
+
+    public function testTemporaryDocument()
+    {
+        $expectingData = [
+            'id' => '20171229T130226',
+            'from' => '2017-12-29 13:02:26',
+            'to' => '2017-12-29 13:05:07',
+            'plenary_id' => 12,
+            'assembly_id' => 148,
+            'issue_id' => 76,
+            'congressman_type' => 'utanríkisráðherra',
+            'congressman_id' => 656,
+            'iteration' => null,
+            'type' => 'flutningsræða',
+            'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema">
+                    <mgr>Virðulegi forseti.</mgr>
+                </ræðutexti>',
+            'category' => 'A',
+            'validated' => 'true',
+        ];
+
+        $elements = $this->buildNodeList($this->getTemporaryDocument());
         $resultedData = (new Speech())->extract($elements->item(0));
 
         $this->assertEquals($expectingData, $resultedData);
@@ -107,6 +135,27 @@ class SpeechTest extends TestCase
                 <slóðir/>
                 <tegundræðu>útbýting þingskjala</tegundræðu>
                 <umræða>-</umræða>
+            </ræða>';
+    }
+
+    private function getTemporaryDocument()
+    {
+        return '<?xml version="1.0"?>
+            <ræða fundarnúmer="12" þingmaður="656" þingmál="76" þingnúmer="148">
+                <ráðherra>utanríkisráðherra</ráðherra>
+                <nafn id="656">Guðlaugur Þór Þórðarson</nafn>
+                <ræðahófst>2017-12-29T13:02:26</ræðahófst>
+                <ræðulauk>2017-12-29T13:05:07</ræðulauk>
+                <slóðir/>
+                <tegundræðu>flutningsræða</tegundræðu>
+                <umræða>F</umræða>
+                <mál málsflokkur="A" málstegund="a" nr="76" xmlns="http://skema.althingi.is/skema">
+                    <málsheiti>samningur</málsheiti>
+                    <undirtitill/>
+                </mál>
+                <ræðutexti xmlns="http://skema.althingi.is/skema">
+                    <mgr>Virðulegi forseti.</mgr>
+                </ræðutexti>
             </ræða>';
     }
 }
