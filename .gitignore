@@ -132,3 +132,5 @@ data/cache/provider/*
 
 data/log/
 !data/log/.gitkeep
+
+assets/docs/tests

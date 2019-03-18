@@ -8,7 +8,13 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-    - APPLICATION_ENVIRONMENT=development
-    - CACHE_TYPE=none
+      - APPLICATION_ENVIRONMENT=development
+      - PROVIDER_CACHE_TYPE=none
+      - CONSUMER_CACHE_TYPE=none
+    volumes:
+      - ./auto/:/usr/src/auto
+      - ./config/:/usr/src/config
+      - ./module/:/usr/src/module
+      - ./public/:/usr/src/public
 
-    command: bash -c "/usr/src/vendor/bin/phpunit && /usr/src/vendor/bin/phpcs"
+    command: bash -c "composer development-enable && /usr/src/vendor/bin/phpunit && /usr/src/vendor/bin/phpcs"

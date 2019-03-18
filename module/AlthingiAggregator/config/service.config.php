@@ -40,17 +40,13 @@ return [
         },
 
         'ConsumerCache' => function () {
-            $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
-                'host' => getenv('CONSUMER_CACHE_HOST') ?: 'localhost',
-                'port' => getenv('CONSUMER_CACHE_PORT') ?: '6379'
-            ])->setTtl(60 * 60 * 24 * 2);
-            $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
-                ->setCacheDir('./data/cache/consumer')
-                ->setTtl(60 * 60 * 24 * 2)
-                ->setNamespace('consumer');
-
             // In-memory cache (Redis)
             if (strtolower(getenv('CONSUMER_CACHE_TYPE')) === 'memory') {
+                $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
+                    'host' => getenv('CONSUMER_CACHE_HOST') ?: 'localhost',
+                    'port' => getenv('CONSUMER_CACHE_PORT') ?: '6379'
+                ])->setTtl(60 * 60 * 24 * 2);
+
                 if (strtolower(getenv('CONSUMER_CACHE')) === 'true') {
                     return new \Zend\Cache\Storage\Adapter\Redis($memoryConfig);
                 }
@@ -66,6 +62,10 @@ return [
                 };
             // FileSystem cache (for development)
             } elseif (strtolower(getenv('CONSUMER_CACHE_TYPE')) === 'file') {
+                $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
+                    ->setCacheDir('./data/cache/consumer')
+                    ->setTtl(60 * 60 * 24 * 2)
+                    ->setNamespace('consumer');
                 // Get data from cache (file-system)
                 if (strtolower(getenv('CONSUMER_CACHE')) === 'true') {
                     return new \Zend\Cache\Storage\Adapter\Filesystem($fileConfig);
@@ -88,17 +88,12 @@ return [
         },
 
         'ProviderCache' => function () {
-            $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
-                'host' => getenv('PROVIDER_CACHE_HOST') ?: 'localhost',
-                'port' => getenv('PROVIDER_CACHE_PORT') ?: '6379'
-            ])->setTtl(60 * 60 * 12);
-            $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
-                ->setCacheDir('./data/cache/provider')
-                ->setTtl(60 * 60 * 12)
-                ->setNamespace('provider');
-
             // In-memory cache (Redis)
             if (strtolower(getenv('PROVIDER_CACHE_TYPE')) === 'memory') {
+                $memoryConfig = (new Zend\Cache\Storage\Adapter\RedisOptions())->setServer([
+                    'host' => getenv('PROVIDER_CACHE_HOST') ?: 'localhost',
+                    'port' => getenv('PROVIDER_CACHE_PORT') ?: '6379'
+                ])->setTtl(60 * 60 * 12);
                 // Get data from cache (in-memory)
                 if (strtolower(getenv('PROVIDER_CACHE')) === 'true') {
                     return new \Zend\Cache\Storage\Adapter\Redis($memoryConfig);
@@ -116,6 +111,10 @@ return [
                 };
             // FileSystem cache (for development)
             } elseif (strtolower(getenv('PROVIDER_CACHE_TYPE')) === 'file') {
+                $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
+                    ->setCacheDir('./data/cache/provider')
+                    ->setTtl(60 * 60 * 12)
+                    ->setNamespace('provider');
                 // Get data from cache (file-system)
                 if (strtolower(getenv('PROVIDER_CACHE')) === 'true') {
                     return new \Zend\Cache\Storage\Adapter\Filesystem($fileConfig);

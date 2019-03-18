@@ -97,6 +97,13 @@ class GovernmentDocumentCallback
 
     private function zeroSetDay($day)
     {
+        if (is_string($day)) {
+            if ($day[0] === '0') {
+                $day = (int) substr($day, 1);
+            } else {
+                $day = (int) $day;
+            }
+        }
         return $day > 9 ? (string) $day : "0{$day}";
     }
 }
