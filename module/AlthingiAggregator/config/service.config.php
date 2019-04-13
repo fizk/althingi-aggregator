@@ -146,17 +146,9 @@ return [
             return (new \AlthingiAggregator\Lib\MediaClient\ThumborClient())
                 ->setClient(new \Zend\Http\Client())
                 ->setUri('http://127.0.0.1:8000/image');
-
-//            return (new \AlthingiAggregator\Lib\MediaClient\FileSystemClient())
-//                ->setClient(new \Zend\Http\Client())
-//                ->setBase('./data/avatar');
         },
 
         'Consumer' => function ($sm) {
-
-//            return (new \AlthingiAggregator\Lib\Consumer\NullConsumer())
-//                ->setLogger($sm->get('Psr\Log'));
-
             return (new \AlthingiAggregator\Lib\Consumer\HttpConsumer())
                 ->setCache($sm->get('ConsumerCache'))
                 ->setClient(new \Zend\Http\Client())
