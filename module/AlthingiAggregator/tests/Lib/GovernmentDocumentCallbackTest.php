@@ -9,7 +9,7 @@ class GovernmentDocumentCallbackTest extends \PHPUnit\Framework\TestCase
     public function testHasToAttribute()
     {
         $callback = new GovernmentDocumentCallback();
-        $dom = $callback(file_get_contents(__DIR__ . '/data/index.html'));
+        $dom = $callback(file_get_contents(__DIR__ . '/data/governments.html'));
 
         $items = $dom->getElementsByTagName('item');
 

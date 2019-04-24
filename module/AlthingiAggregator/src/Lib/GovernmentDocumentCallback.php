@@ -36,7 +36,7 @@ class GovernmentDocumentCallback
                 '/([0-9]{0,2})\.? '.
                 '(janúar|febrúar|mars|apríl|maí|júní|júlí|ágúst|september|október|nóvember|desember)\.? '.
                 '*([0-9]{4})/',
-                $item->getElementsByTagName('div')->item(1)->nodeValue,
+                $item->getElementsByTagName('div')->item(0)->nodeValue,
                 $regexResults,
                 PREG_SET_ORDER
             );
