@@ -68,14 +68,14 @@ class IssueController extends AbstractActionController implements
             $this->processIssueCategory($assemblyNumber, $issueNumber, $issueDocumentXPath);
             $this->processDocuments($assemblyNumber, $issueNumber, $issueDocumentXPath);
             $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
-//            $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
-//            $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
         } elseif ($category === 'B') {
             $issueDocumentDom = $this->queryForDocument($url);
             $issueDocumentXPath = new DOMXPath($issueDocumentDom);
 
             $this->processUndocumentedIssue($assemblyNumber, $issueNumber, $issueDocumentXPath);
-//            $this->processUndocumentedSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processUndocumentedSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
         }
     }
 
@@ -115,7 +115,7 @@ class IssueController extends AbstractActionController implements
 
         $this->saveDomElement(
             $issue,
-            "loggjafarthing/{$assemblyNumber}/thingmal",
+            "loggjafarthing/{$assemblyNumber}/thingmal/a",
             new Issue()
         );
     }
@@ -125,7 +125,7 @@ class IssueController extends AbstractActionController implements
         $categories = $xPath->query('//þingmál/efnisflokkar/yfirflokkur/efnisflokkur');
         $this->saveDomNodeList(
             $categories,
-            "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/efnisflokkar",
+            "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/efnisflokkar",
             new IssueCategory()
         );
     }
@@ -136,7 +136,7 @@ class IssueController extends AbstractActionController implements
 
         $this->saveDomNodeList(
             $documentsNodeList,
-            "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/thingskjal",
+            "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/thingskjal",
             new Document()
         );
     }
@@ -149,7 +149,7 @@ class IssueController extends AbstractActionController implements
             $voteItemDocumentDom = $this->queryForDocument($voteNode->nodeValue);
             $this->saveDomElement(
                 $voteItemDocumentDom->documentElement,
-                "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/atkvaedagreidslur",
+                "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/atkvaedagreidslur",
                 new Vote()
             );
 
@@ -158,7 +158,8 @@ class IssueController extends AbstractActionController implements
             foreach ($voteItemDocumentDom->getElementsByTagName('þingmaður') as $vote) {
                 $this->saveDomElement(
                     $vote,
-                    "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/atkvaedagreidslur/{$voteNumber}/atkvaedi",
+                    "loggjafarthing/{$assemblyNumber}/".
+                    "thingmal/a/{$issueNumber}/atkvaedagreidslur/{$voteNumber}/atkvaedi",
                     new VoteItem()
                 );
             }
@@ -178,7 +179,7 @@ class IssueController extends AbstractActionController implements
             foreach ($congressmenNodeList as $congressman) {
                 $this->saveDomElement(
                     $congressman,
-                    "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/thingskjal/{$documentId}/flutningsmenn",
+                    "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/thingskjal/{$documentId}/flutningsmenn",
                     new Proponent()
                 );
             }
@@ -193,7 +194,7 @@ class IssueController extends AbstractActionController implements
 
             $this->saveDomElement(
                 $speechDocument->documentElement,
-                "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/raedur",
+                "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/raedur",
                 new Speech()
             );
         }
@@ -204,7 +205,7 @@ class IssueController extends AbstractActionController implements
         $issue = $xPath->query('//bmál/mál')->item(0);
         $this->saveDomElement(
             $issue,
-            "loggjafarthing/{$assemblyNumber}/bmal",
+            "loggjafarthing/{$assemblyNumber}/thingmal/b",
             new Issue()
         );
     }
@@ -217,7 +218,7 @@ class IssueController extends AbstractActionController implements
 
             $this->saveDomElement(
                 $speechDocument->documentElement,
-                "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/raedur",
+                "loggjafarthing/{$assemblyNumber}/thingmal/b/{$issueNumber}/raedur",
                 new Speech()
             );
         }
