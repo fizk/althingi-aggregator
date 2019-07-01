@@ -1,6 +1,7 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
+use AlthingiAggregator\Extractor\IssueLink;
 use DOMElement;
 use DOMXPath;
 use DOMDocument;
@@ -70,6 +71,7 @@ class IssueController extends AbstractActionController implements
             $this->processProponents($assemblyNumber, $issueNumber, $issueDocumentXPath);
             $this->processVotes($assemblyNumber, $issueNumber, $issueDocumentXPath);
             $this->processSpeeches($assemblyNumber, $issueNumber, $issueDocumentXPath);
+            $this->processLinks($assemblyNumber, $issueNumber, $issueDocumentXPath);
         } elseif ($category === 'B') {
             $issueDocumentDom = $this->queryForDocument($url);
             $issueDocumentXPath = new DOMXPath($issueDocumentDom);
@@ -196,6 +198,31 @@ class IssueController extends AbstractActionController implements
                 $speechDocument->documentElement,
                 "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/raedur",
                 new Speech()
+            );
+        }
+    }
+
+    private function processLinks($assemblyNumber, $issueNumber, DOMXPath $xPath)
+    {
+        $issues = $xPath->query('//þingmál/tengdMál/skyltMál/mál');
+
+        foreach ($issues as $issue) {
+            $issue->setAttribute('type', 'related');
+            $this->saveDomElement(
+                $issue,
+                "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}",
+                new IssueLink()
+            );
+        }
+
+        $issues = $xPath->query('//þingmál/tengdMál/lagtFramÁðurSem/mál');
+
+        foreach ($issues as $issue) {
+            $issue->setAttribute('type', 'reissue');
+            $this->saveDomElement(
+                $issue,
+                "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}",
+                new IssueLink()
             );
         }
     }
