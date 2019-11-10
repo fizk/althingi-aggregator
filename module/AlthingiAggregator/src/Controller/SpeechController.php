@@ -65,10 +65,10 @@ class SpeechController extends AbstractActionController implements ConsumerAware
             $temporarySpeechDocument->documentElement->appendChild($speechElement);
             $temporarySpeechDocument->documentElement->setAttribute('þingmál', $issueNumber);
             $temporarySpeechDocument->documentElement->setAttribute('temporary', 'yes');
-
+            $category = strtolower($category);
             $this->saveDomElement(
                 $temporarySpeechDocument->documentElement,
-                "loggjafarthing/{$assemblyNumber}/thingmal/{$issueNumber}/raedur",
+                "loggjafarthing/{$assemblyNumber}/thingmal/{$category}/{$issueNumber}/raedur",
                 new Speech()
             );
         }
