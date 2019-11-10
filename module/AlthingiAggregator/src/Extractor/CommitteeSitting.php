@@ -6,8 +6,6 @@ use AlthingiAggregator\Extractor\Exception as ModelException;
 
 class CommitteeSitting implements ExtractionInterface
 {
-    private $id;
-
     /**
      * @param \DOMElement $object
      * @return array
