@@ -55,7 +55,7 @@ class SpeechControllerTest extends AbstractConsoleControllerTestCase
         $consumerStoredData = $this->consumer->getObjects();
 
         $this->assertCount(1, $consumerStoredData);
-        $this->assertArrayHasKey('loggjafarthing/148/thingmal/76/raedur/20171229T130226', $consumerStoredData);
+        $this->assertArrayHasKey('loggjafarthing/148/thingmal/a/76/raedur/20171229T130226', $consumerStoredData);
     }
 
     public function testTemporarySpeechB()
@@ -78,7 +78,7 @@ class SpeechControllerTest extends AbstractConsoleControllerTestCase
         $consumerStoredData = $this->consumer->getObjects();
 
         $this->assertCount(1, $consumerStoredData);
-        $this->assertArrayHasKey('loggjafarthing/148/thingmal/693/raedur/20180717T151301', $consumerStoredData);
+        $this->assertArrayHasKey('loggjafarthing/148/thingmal/b/693/raedur/20180717T151301', $consumerStoredData);
     }
 
     public function getSMLDocumentA()
