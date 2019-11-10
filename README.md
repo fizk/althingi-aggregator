@@ -42,17 +42,20 @@ pass in as an argument the number of the assembly you want to process.
 
 **presidents.sh**: This one gets all congressmen as well as all presidents of the parliament.
 
-## Docker
 
-You can run the application from Docker as a single function/action. 
-First you have to build it of course. Here I'm giving it the name of `aggregator`. The next thing is to actually run it. 
 
-The Docker container will start in the `./auto` directory. From there you can run any of the **scripts**.
-
-Since there are so many variables available, it's best to just load them from a file. 
-
-```bash
-$ docker build -t aggregator .
-
-$ docker run -i --rm --env-file=./.env aggregator ./globals.sh
+For PHPStorm
+Create an interpreter: 
+```shell script
+docker build --build-arg WITH_XDEBUG=true -t dev_agg .
 ```
+
+This will create a Docker image that has the name **dev_agg** and has Xdebug installed.
+
+Then in Settings | Languages and frameworks | PHP > CLI interpreter, 
+pick the Docker image.
+
+Next go over to   Settings | Languages and frameworks | PHP | Test Frameworks and select the same Docker image,
+set this for the _path to script_ /opt/project/vendor/autoload.php
+
+For default configuration file, set /opt/project/phpunit.xml.dist

@@ -1,7 +1,7 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\CongressmanImage;
+use AlthingiAggregator\Extractor\CommitteeSitting;
 use Zend\Mvc\Controller\AbstractActionController;
 use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
 use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
@@ -36,22 +36,29 @@ class CongressmanController extends AbstractActionController implements Consumer
             new Congressman()
         );
 
-//        $this->saveDomNodeList(
-//            $congressmenElements,
-//            'thingmenn',
-//            new CongressmanImage()
-//        );
-
         if ($assemblyNumber) {
+            /** @var  $congressmanElement \DOMElement*/
             foreach ($congressmenElements as $congressmanElement) {
                 $congressmanId = $congressmanElement->getAttribute('id');
-                $congressmanSessionUrl = $congressmanElement->getElementsByTagName('þingseta')->item(0)->nodeValue;
+                $congressmanSessionUrl = trim(
+                    $congressmanElement->getElementsByTagName('þingseta')->item(0)->nodeValue
+                );
+                $congressmanCommitteeUrl = trim(
+                    $congressmanElement->getElementsByTagName('nefndaseta')->item(0)->nodeValue
+                );
 
                 $this->queryAndSave(
                     $congressmanSessionUrl,
                     "thingmenn/{$congressmanId}/thingseta",
                     '//þingmaður/þingsetur/þingseta',
                     new Session()
+                );
+
+                $this->queryAndSave(
+                    $congressmanCommitteeUrl,
+                    "thingmenn/{$congressmanId}/nefndaseta",
+                    '//þingmaður/nefndasetur/nefndaseta',
+                    new CommitteeSitting()
                 );
             }
         }
