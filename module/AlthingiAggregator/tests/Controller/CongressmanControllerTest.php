@@ -88,6 +88,60 @@ class CongressmanControllerTest extends AbstractConsoleControllerTestCase
         $this->assertArrayHasKey('thingmenn/648/nefndaseta', $consumerStoredData);
     }
 
+    public function testMinisterRoute()
+    {
+        $this->provider->addDocument(
+            'https://www.althingi.is/altext/xml/radherrar',
+            $this->getMinisterDomDocument()
+        );
+
+        $this->dispatch('load:minister');
+
+        $this->assertControllerName(Controller\CongressmanController::class);
+        $this->assertActionName('find-minister');
+    }
+
+    public function testSessionAndMinister()
+    {
+        $this->provider->addDocument(
+            'https://www.althingi.is/altext/xml/radherrar/?lthing=1',
+            $this->getMinisterDomDocument()
+        );
+        $this->provider->addDocument(
+            'http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=1261',
+            $this->getSessionDocument()
+        );
+        $this->provider->addDocument(
+            'http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=707',
+            $this->getSessionDocument()
+        );
+        $this->provider->addDocument(
+            'http://www.althingi.is/altext/xml/radherrar/radherraseta/?nr=1261',
+            $this->getMinisterSession()
+        );
+        $this->provider->addDocument(
+            'http://www.althingi.is/altext/xml/radherrar/radherraseta/?nr=707',
+            $this->getMinisterSession()
+        );
+
+        $this->dispatch('load:minister --assembly=1');
+
+        $expected = [
+            'thingmenn/1261',
+            'thingmenn/707',
+            'thingmenn/1261/thingseta',
+            'thingmenn/1261/radherraseta',
+            'thingmenn/707/thingseta',
+            'thingmenn/707/radherraseta'
+        ];
+
+        $i = array_keys($this->consumer->getObjects());
+
+        $this->assertControllerName(Controller\CongressmanController::class);
+        $this->assertActionName('find-minister');
+        $this->assertEquals($expected, array_keys($this->consumer->getObjects()));
+    }
+
     public function getDomDocument()
     {
         $source = '<?xml version="1.0" encoding="UTF-8"?>
@@ -206,6 +260,93 @@ class CongressmanControllerTest extends AbstractConsoleControllerTestCase
                </nefndasetur>
             </þingmaður>
         ';
+        $dom = new \DOMDocument();
+        $dom->loadXML($source);
+        return $dom;
+    }
+
+    public function getMinisterDomDocument()
+    {
+        $source = '<?xml version="1.0" encoding="UTF-8"?>
+            <ráðherralisti>
+                <ráðherra id=\'1261\'>
+                    <nafn>Áslaug Arna Sigurbjörnsdóttir</nafn>
+                    <fæðingardagur>1990-11-30</fæðingardagur>
+                    <xml>
+                        <nánar>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=1261</nánar>
+                        <lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=1261</lífshlaup>
+                        <hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=1261</hagsmunir>
+                        <þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=1261</þingseta>
+                        <ráðherraseta>http://www.althingi.is/altext/xml/radherrar/radherraseta/?nr=1261</ráðherraseta>
+                    </xml>
+                    <html>
+                        <lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=1261</lífshlaup>
+                        <hagsmunir>http://www.althingi.is/altext/hagsmunir/?faerslunr=1261</hagsmunir>
+                        <þingstörf>http://www.althingi.is/vefur/thmstorf.html?nfaerslunr=1261</þingstörf>
+                    </html>
+                </ráðherra>
+            
+                <ráðherra id=\'707\'>
+                    <nafn>Ásmundur Einar Daðason</nafn>
+                    <fæðingardagur>1982-10-29</fæðingardagur>
+                    <xml>
+                        <nánar>http://www.althingi.is/altext/xml/thingmenn/thingmadur/?nr=707</nánar>
+                        <lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=707</lífshlaup>
+                        <hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=707</hagsmunir>
+                        <þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=707</þingseta>
+                        <ráðherraseta>http://www.althingi.is/altext/xml/radherrar/radherraseta/?nr=707</ráðherraseta>
+                    </xml>
+                    <html>
+                        <lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=707</lífshlaup>
+                        <hagsmunir>http://www.althingi.is/altext/hagsmunir/?faerslunr=707</hagsmunir>
+                        <þingstörf>http://www.althingi.is/vefur/thmstorf.html?nfaerslunr=707</þingstörf>
+                    </html>
+                </ráðherra>
+            </ráðherralisti>';
+        $dom = new \DOMDocument();
+        $dom->loadXML($source);
+        return $dom;
+    }
+
+    public function getMinisterSession()
+    {
+        $source = '<?xml version="1.0" encoding="UTF-8"?>
+                <einstaklingur id=\'1261\'>
+                <nafn>Áslaug Arna Sigurbjörnsdóttir</nafn>
+                <xml>
+                <lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=1261</lífshlaup>
+                <hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=1261</hagsmunir>
+                <þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=1261</þingseta>
+                <ráðherraseta>http://www.althingi.is/altext/xml/radherrar/radherraseta/?nr=1261</ráðherraseta>
+                </xml>
+                <html>
+                <lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=1261</lífshlaup>
+                <hagsmunir>http://www.althingi.is/altext/hagsmunir/?faerslunr=1261</hagsmunir>
+                <þingstörf>http://www.althingi.is/vefur/thmstorf.html?nfaerslunr=1261</þingstörf>
+                </html>
+                
+                <ráðherrasetur>
+                <ráðherraseta>
+                <þing>149</þing>
+                <skammstöfun>ÁslS</skammstöfun>
+                <embætti id=\'224\'>dómsmálaráðherra</embætti>
+                <þingflokkur id=\'35\'>Sjálfstæðisflokkur</þingflokkur>
+                <tímabil>
+                <inn>06.09.2019</inn><út>09.09.2019</út></tímabil>
+                </ráðherraseta>
+                
+                <ráðherraseta>
+                <þing>150</þing>
+                <skammstöfun>ÁslS</skammstöfun>
+                <embætti id=\'224\'>dómsmálaráðherra</embætti>
+                <þingflokkur id=\'35\'>Sjálfstæðisflokkur</þingflokkur>
+                <tímabil>
+                <inn>10.09.2019</inn><út></út></tímabil>
+                </ráðherraseta>
+                
+                </ráðherrasetur>
+                </einstaklingur>
+                ';
         $dom = new \DOMDocument();
         $dom->loadXML($source);
         return $dom;

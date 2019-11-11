@@ -86,6 +86,11 @@ return [
                     ->setConsumer($container->get('Consumer'))
                     ->setProvider($container->get('Provider'));
             },
+            Controller\MinistryController::class => function ($container) {
+                return (new Controller\MinistryController())
+                    ->setConsumer($container->get('Consumer'))
+                    ->setProvider($container->get('Provider'));
+            },
         ],
     ],
     'console' => [
@@ -142,6 +147,24 @@ return [
                         'defaults' => [
                             'controller' => Controller\CongressmanController::class,
                             'action'     => 'find-congressman'
+                        ]
+                    ]
+                ],
+                'minister' => [
+                    'options' => [
+                        'route'    => 'load:minister [--assembly=|-a]',
+                        'defaults' => [
+                            'controller' => Controller\CongressmanController::class,
+                            'action'     => 'find-minister'
+                        ]
+                    ]
+                ],
+                'ministry' => [
+                    'options' => [
+                        'route'    => 'load:ministry',
+                        'defaults' => [
+                            'controller' => Controller\MinistryController::class,
+                            'action'     => 'find-ministry'
                         ]
                     ]
                 ],
