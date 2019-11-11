@@ -15,7 +15,7 @@ class MinistryTest extends TestCase
             'ministry_id' => 123,
             'name' => 'atvinnumálaráðherra',
             'abbr_short' => 'atvmrh.',
-            'abbr_slong' => 'atvinnumálarh.',
+            'abbr_long' => 'atvinnumálarh.',
             'first' => 1,
             'last' => 100,
         ];
@@ -35,7 +35,7 @@ class MinistryTest extends TestCase
             'ministry_id' => 123,
             'name' => 'atvinnumálaráðherra',
             'abbr_short' => null,
-            'abbr_slong' => null,
+            'abbr_long' => null,
             'first' => 1,
             'last' => 100,
         ];
@@ -55,7 +55,7 @@ class MinistryTest extends TestCase
             'ministry_id' => 123,
             'name' => 'atvinnumálaráðherra',
             'abbr_short' => 'atvmrh.',
-            'abbr_slong' => 'atvinnumálarh.',
+            'abbr_long' => 'atvinnumálarh.',
             'first' => 1,
             'last' => null,
         ];

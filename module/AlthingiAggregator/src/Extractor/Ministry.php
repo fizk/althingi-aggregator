@@ -44,7 +44,7 @@ class Ministry implements ExtractionInterface, IdentityInterface
             'ministry_id' => (int) $this->getIdentity(),
             'name' => $name,
             'abbr_short' => $abbrShort,
-            'abbr_slong' => $abbrLong,
+            'abbr_long' => $abbrLong,
             'first' => empty($first) ? null : (int) $first,
             'last' => empty($last) ? null : (int) $last,
         ];
