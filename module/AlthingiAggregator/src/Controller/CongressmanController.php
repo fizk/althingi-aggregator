@@ -71,9 +71,7 @@ class CongressmanController extends AbstractActionController implements Consumer
      * for given assembly will be fetched.
      *
      * If no additional params is given, only the congressmen are fetched but not
-     * their session in parliment.
-     *
-     * //https://www.althingi.is/altext/xml/radherrar/?lthing=149
+     * their session in parliament.
      *
      * @throws \Exception
      */

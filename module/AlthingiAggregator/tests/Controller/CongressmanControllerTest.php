@@ -312,39 +312,40 @@ class CongressmanControllerTest extends AbstractConsoleControllerTestCase
     {
         $source = '<?xml version="1.0" encoding="UTF-8"?>
                 <einstaklingur id=\'1261\'>
-                <nafn>Áslaug Arna Sigurbjörnsdóttir</nafn>
-                <xml>
-                <lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=1261</lífshlaup>
-                <hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=1261</hagsmunir>
-                <þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=1261</þingseta>
-                <ráðherraseta>http://www.althingi.is/altext/xml/radherrar/radherraseta/?nr=1261</ráðherraseta>
-                </xml>
-                <html>
-                <lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=1261</lífshlaup>
-                <hagsmunir>http://www.althingi.is/altext/hagsmunir/?faerslunr=1261</hagsmunir>
-                <þingstörf>http://www.althingi.is/vefur/thmstorf.html?nfaerslunr=1261</þingstörf>
-                </html>
-                
-                <ráðherrasetur>
-                <ráðherraseta>
-                <þing>149</þing>
-                <skammstöfun>ÁslS</skammstöfun>
-                <embætti id=\'224\'>dómsmálaráðherra</embætti>
-                <þingflokkur id=\'35\'>Sjálfstæðisflokkur</þingflokkur>
-                <tímabil>
-                <inn>06.09.2019</inn><út>09.09.2019</út></tímabil>
-                </ráðherraseta>
-                
-                <ráðherraseta>
-                <þing>150</þing>
-                <skammstöfun>ÁslS</skammstöfun>
-                <embætti id=\'224\'>dómsmálaráðherra</embætti>
-                <þingflokkur id=\'35\'>Sjálfstæðisflokkur</þingflokkur>
-                <tímabil>
-                <inn>10.09.2019</inn><út></út></tímabil>
-                </ráðherraseta>
-                
-                </ráðherrasetur>
+                    <nafn>Áslaug Arna Sigurbjörnsdóttir</nafn>
+                    <xml>
+                        <lífshlaup>http://www.althingi.is/altext/xml/thingmenn/thingmadur/lifshlaup/?nr=1261</lífshlaup>
+                        <hagsmunir>http://www.althingi.is/altext/xml/thingmenn/thingmadur/hagsmunir/?nr=1261</hagsmunir>
+                        <þingseta>http://www.althingi.is/altext/xml/thingmenn/thingmadur/thingseta/?nr=1261</þingseta>
+                        <ráðherraseta>http://www.althingi.is/altext/xml/radherrar/radherraseta/?nr=1261</ráðherraseta>
+                    </xml>
+                    <html>
+                        <lífshlaup>http://www.althingi.is/altext/cv/?nfaerslunr=1261</lífshlaup>
+                        <hagsmunir>http://www.althingi.is/altext/hagsmunir/?faerslunr=1261</hagsmunir>
+                        <þingstörf>http://www.althingi.is/vefur/thmstorf.html?nfaerslunr=1261</þingstörf>
+                    </html>
+                    <ráðherrasetur>
+                        <ráðherraseta>
+                            <þing>149</þing>
+                            <skammstöfun>ÁslS</skammstöfun>
+                            <embætti id=\'224\'>dómsmálaráðherra</embætti>
+                            <þingflokkur id=\'35\'>Sjálfstæðisflokkur</þingflokkur>
+                            <tímabil>
+                                <inn>06.09.2019</inn>
+                                <út>09.09.2019</út>
+                            </tímabil>
+                        </ráðherraseta>
+                        <ráðherraseta>
+                            <þing>150</þing>
+                            <skammstöfun>ÁslS</skammstöfun>
+                            <embætti id=\'224\'>dómsmálaráðherra</embætti>
+                            <þingflokkur id=\'35\'>Sjálfstæðisflokkur</þingflokkur>
+                            <tímabil>
+                                <inn>10.09.2019</inn>
+                                <út></út>
+                            </tímabil>
+                        </ráðherraseta>
+                    </ráðherrasetur>
                 </einstaklingur>
                 ';
         $dom = new \DOMDocument();
