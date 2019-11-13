@@ -2,6 +2,7 @@
 namespace AlthingiAggregatorTest\Lib\Provider;
 
 use AlthingiAggregator\Lib\Provider\ServerProvider;
+use Monolog\Handler\NullHandler;
 use PHPUnit\Framework\TestCase;
 use Zend\Cache\Storage\Adapter\Memory;
 use Monolog\Logger;
@@ -38,12 +39,15 @@ class ServerProviderTest extends TestCase
             '
         );
 
+        $logger = new Logger('logger');
+        $logger->setHandlers([new NullHandler()]);
+
         $client = new \Zend\Http\Client();
         $client->setAdapter($adapter);
 
         $serverProvider = (new ServerProvider())
             ->setClient($client)
-            ->setLogger((new Logger('logger')))
+            ->setLogger($logger)
             ->setCache(new Memory());
 
         $dom = $serverProvider->get('http://example.com');
