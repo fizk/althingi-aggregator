@@ -2,64 +2,77 @@
 namespace AlthingiAggregatorTest\Lib\Provider;
 
 use AlthingiAggregator\Lib\Provider\ServerProvider;
-use Monolog\Handler\NullHandler;
-use Monolog\Logger;
-use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
-use Zend\Http\Client;
-use Zend\Http\Client\Adapter\Test;
+use Zend\Cache\Storage\Adapter\Memory;
+use Monolog\Logger;
 
 class ServerProviderTest extends TestCase
 {
-    public function testTrue()
+    public function testHtmlEntity()
     {
-        $this->assertTrue(true);
+        $adapter = new \Zend\Http\Client\Adapter\Test();
+        $adapter->setResponse(
+            "HTTP/1.1 200 OK"      . "\r\n" .
+            "Content-Type: text/xml; charset=utf-8" . "\r\n" .
+            "\r\n" .
+
+            '<?xml version="1.0" encoding="UTF-8"?>
+                <nefndarfundir>
+                    <nefndarfundur númer=\'13025\' þingnúmer=\'143\'>
+                        <nefnd id=\'205\'>velferðarnefnd &nbsp;</nefnd>
+                        <tegundFundar></tegundFundar>
+                        <staður>í Austurstræti 8&ndash;10</staður>
+                        <hefst>
+                             &amp;, &quot;, &lt;, &gt;, &apos;
+                             &quot;
+                             
+                            <tag>&apos;</tag>
+                            <texti> 2. október 13, kl.  9:30 árdegis</texti>
+                            <dagur>2013-10-02</dagur>
+                            <timi>09:30</timi>
+                            <dagurtími>2013-10-02T09:30:00</dagurtími>
+                        </hefst>
+                        <staður>í Austurstræti 8&ndash;10</staður>
+                    </nefndarfundur>
+                </nefndarfundir>
+            '
+        );
+
+        $client = new \Zend\Http\Client();
+        $client->setAdapter($adapter);
+
+        $serverProvider = (new ServerProvider())
+            ->setClient($client)
+            ->setLogger((new Logger('logger')))
+            ->setCache(new Memory());
+
+        $dom = $serverProvider->get('http://example.com');
+
+        $this->assertInstanceOf(\DOMDocument::class, $dom);
     }
 
-    // public function testSimpleRequest()
-    // {
-    //     $logger = (new Logger('test'))
-    //         ->setHandlers([new NullHandler()]);
+    /**
+     * @expectedException \Exception
+     */
+    public function test403()
+    {
+        $adapter = new \Zend\Http\Client\Adapter\Test();
+        $adapter->setResponse(
+            "HTTP/1.1 403 Forbidden"      . "\r\n" .
+            "Content-Type: text/xml; charset=utf-8" . "\r\n" .
+            "\r\n"
+        );
 
-    //     $testClientAdapter = new Test();
-    //     $testClientAdapter->setResponse($this->createValidHttpResponse());
-    //     $client = (new Client())
-    //         ->setAdapter($testClientAdapter);
+        $client = new \Zend\Http\Client();
+        $client->setAdapter($adapter);
 
-    //     $serverProvider = (new ServerProvider(['save'=> false]))
-    //         ->setClient($client)
-    //         ->setLogger($logger);
+        $serverProvider = (new ServerProvider())
+            ->setClient($client)
+            ->setLogger((new Logger('logger')))
+            ->setCache(new Memory());
 
-    //     $domDocument = $serverProvider->get('hudnur.is');
+        $dom = $serverProvider->get('http://example.com');
 
-    //     $this->assertInstanceOf('DOMDocument', $domDocument);
-    // }
-
-    // public function testSaveCacheToDisk()
-    // {
-    //     $root = vfsStream::setup('./');
-
-    //     $logger = (new Logger('test'))
-    //         ->setHandlers([new NullHandler()]);
-
-    //     $testClientAdapter = new Test();
-    //     $testClientAdapter->setResponse($this->createValidHttpResponse());
-    //     $client = (new Client())
-    //         ->setAdapter($testClientAdapter);
-
-    //     $serverProvider = (new ServerProvider(['save'=> true]))
-    //         ->setClient($client)
-    //         ->setLogger($logger);
-
-    //     $serverProvider->get('http://gaman.is/skra');
-    // }
-/*
-    // private function createValidHttpResponse()
-    // {
-    //     return
-    //         "HTTP/1.1 200 OK\r\n\r\n" .
-    //         "<?xml version=\"1.0\" ?>\r\n" .
-    //         "<root />";
-    // }
-*/
+        $this->assertInstanceOf(\DOMDocument::class, $dom);
+    }
 }
