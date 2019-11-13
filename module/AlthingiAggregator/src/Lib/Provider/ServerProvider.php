@@ -61,6 +61,13 @@ class ServerProvider implements
             $this->cache->setItem($key, $content);
             return $newDom;
         } else {
+            $content = preg_replace_callback('/\&.*?;/im', function ($item) {
+                $entry = (count($item) > 0) ? $item[0] : '';
+                if (in_array($entry, ['&lt;', '&gt;', '&apos;', '&amp;'])) {
+                    return '';
+                }
+                return html_entity_decode($entry);
+            }, $content);
             $dom = @new \DOMDocument();
             if (@$dom->loadXML($content)) {
                 $this->cache->setItem($key, $content);
@@ -109,6 +116,8 @@ class ServerProvider implements
         if ($status === 200) {
             $this->logger->info(0, ['HTTP', $url]);
             return $response->getBody();
+        } elseif ($status === 403) {
+            throw new \Exception($response->getReasonPhrase() . ' | ' . $request->getUriString(), $status);
         } else {
             $this->logger->error($status, ['HTTP_ERROR', $response->getReasonPhrase(), $request->getUriString()]);
         }
