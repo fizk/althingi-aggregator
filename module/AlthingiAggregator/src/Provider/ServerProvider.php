@@ -102,7 +102,8 @@ class ServerProvider implements
             ->setUri($url)
             ->setHeaders((new Headers())->addHeaders([
                 'User-Agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) '.
-                    'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36'
+                    'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36',
+                'Keep-Alive' => 'timeout=5, max=1000',
             ]));
 
         try {

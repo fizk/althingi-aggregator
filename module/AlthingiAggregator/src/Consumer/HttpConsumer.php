@@ -243,7 +243,8 @@ class HttpConsumer implements
         return (new Request())
             ->setMethod('post')
             ->setHeaders((new Headers())->addHeaders([
-                'X-HTTP-Method-Override' => $verb
+                'X-HTTP-Method-Override' => $verb,
+                'Keep-Alive' => 'timeout=5, max=1000',
             ]))
             ->setUri($uri)
             ->setPost(new Parameters($param));
