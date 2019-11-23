@@ -1,10 +1,10 @@
 <?php
-namespace AlthingiAggregator\Lib\Provider;
+namespace AlthingiAggregator\Provider;
 
 use AlthingiAggregator\Lib\CacheableAwareInterface;
 use AlthingiAggregator\Lib\ClientAwareInterface;
-use AlthingiAggregator\Lib\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
 use Zend\Cache\Storage\StorageInterface;
 use Zend\Http\Client;
 use Zend\Http\Headers;
@@ -113,12 +113,12 @@ class ServerProvider implements
 
         $status = $response->getStatusCode();
 
-        if ($status === 200) {
+        if ($status === 200) { //success retrieving document
             $this->logger->info(0, ['HTTP', $url]);
             return $response->getBody();
-        } elseif ($status === 403) {
+        } elseif ($status === 403) { // access denied, try again
             throw new \Exception($response->getReasonPhrase() . ' | ' . $request->getUriString(), $status);
-        } else {
+        } else { //other errors
             $this->logger->error($status, ['HTTP_ERROR', $response->getReasonPhrase(), $request->getUriString()]);
         }
     }

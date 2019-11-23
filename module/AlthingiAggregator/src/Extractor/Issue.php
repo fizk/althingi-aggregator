@@ -3,7 +3,7 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class Issue implements ExtractionInterface, IdentityInterface
 {
@@ -19,31 +19,31 @@ class Issue implements ExtractionInterface, IdentityInterface
     public function extract(DOMElement $object)
     {
 //        if (!$object->hasAttribute('málsflokkur')) {
-//            throw new ModelException('Missing [{málsflokkur}] value', $object);
+//            throw new Extractor\Exception('Missing [{málsflokkur}] value', $object);
 //        }
 
         if (! $object->hasAttribute('málsnúmer')) {
-            throw new ModelException('Missing [{málsnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{málsnúmer}] value', $object);
         }
 
         if (! $object->hasAttribute('þingnúmer')) {
-            throw new ModelException('Missing [{þingnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
         }
 
         if (! $object->getElementsByTagName('málsheiti')->item(0)) {
-            throw new ModelException('Missing [{málsheiti}] value', $object);
+            throw new Extractor\Exception('Missing [{málsheiti}] value', $object);
         }
 
         if (! $object->getElementsByTagName('málstegund')->item(0)) {
-            throw new ModelException('Missing [{málstegund}] value', $object);
+            throw new Extractor\Exception('Missing [{málstegund}] value', $object);
         }
 
         if (! $object->getElementsByTagName('málstegund')->item(0)->hasAttribute('málstegund')) {
-            throw new ModelException('Missing [{málstegund}] value', $object);
+            throw new Extractor\Exception('Missing [{málstegund}] value', $object);
         }
 
         if (! $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti')->item(0)) {
-            throw new ModelException('Missing [{heiti}] value', $object);
+            throw new Extractor\Exception('Missing [{heiti}] value', $object);
         }
 
         //----

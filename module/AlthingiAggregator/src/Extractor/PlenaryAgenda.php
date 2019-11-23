@@ -3,7 +3,7 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class PlenaryAgenda implements ExtractionInterface, IdentityInterface
 {
@@ -21,7 +21,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('númer')) {
-            throw new ModelException('Missing [{númer}] value', $object);
+            throw new Extractor\Exception('Missing [{númer}] value', $object);
         }
 
         $this->setIdentity($object->getAttribute('númer'));
@@ -33,7 +33,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
             : null;
 
         if (! $issue) {
-            throw new ModelException('Missing [{mál}] element', $object);
+            throw new Extractor\Exception('Missing [{mál}] element', $object);
         }
 
         $issueId = $issue->getAttribute('málsnúmer');
@@ -41,7 +41,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
         $assemblyId = $issue->getAttribute('þingnúmer');
 
         if (empty($issueId) || empty($issueCategory) || empty($assemblyId)) {
-            throw new ModelException('Missing [{málsnúmer}, {málsflokkur}, {þingnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{málsnúmer}, {málsflokkur}, {þingnúmer}] value', $object);
         }
 
         $iterationType = $object->getElementsByTagName('umræða')->length

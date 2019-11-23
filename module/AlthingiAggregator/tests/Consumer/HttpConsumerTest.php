@@ -1,15 +1,15 @@
 <?php
-namespace AlthingiAggregatorTest\Lib\Consumer;
+namespace AlthingiAggregatorTest\Consumer;
 
 use PHPUnit\Framework\TestCase;
 use Mockery;
 use Zend\Http\Client\Adapter\Test as ClientTestAdapter;
 use Zend\Http\Client as ClientTest;
 use Zend\Uri\Http;
-use AlthingiAggregator\Lib\Consumer\HttpConsumer;
+use AlthingiAggregator\Consumer\HttpConsumer;
 
-use AlthingiAggregatorTest\Lib\Consumer\Stub\ExtractorValidPut;
-use AlthingiAggregatorTest\Lib\Consumer\Stub\ExtractorValidPost;
+use AlthingiAggregatorTest\Consumer\Stub\ExtractorValidPut;
+use AlthingiAggregatorTest\Consumer\Stub\ExtractorValidPost;
 
 class HttpConsumerTest extends TestCase
 {

@@ -1,10 +1,15 @@
 <?php
+use Zend\ServiceManager\ServiceManager;
+
+use AlthingiAggregator\Consumer;
+use AlthingiAggregator\Provider;
+use Psr\Log;
 
 return [
     'invokables' => [],
 
     'factories' => [
-        'Psr\Log' => function () {
+        Log\LoggerInterface::class => function () {
             $handlers = [];
             $logger = (new \Monolog\Logger('althingi-aggregator'))
                 ->pushProcessor(new \Monolog\Processor\MemoryPeakUsageProcessor(true, false))
@@ -15,20 +20,7 @@ return [
             }
 
             $formattedHandlers = array_map(function (\Monolog\Handler\HandlerInterface $handler) {
-                switch (strtolower(getenv('LOG_FORMAT'))) {
-                    case 'logstash':
-                        $handler->setFormatter(new \Monolog\Formatter\LogstashFormatter('althingi-aggregator'));
-                        break;
-                    case 'json':
-                        $handler->setFormatter(new \Monolog\Formatter\JsonFormatter());
-                        break;
-                    case 'line':
-                        $handler->setFormatter(new \Monolog\Formatter\LineFormatter());
-                        break;
-                    case 'color':
-                        $handler->setFormatter(new \Bramus\Monolog\Formatter\ColoredLineFormatter());
-                        break;
-                }
+                $handler->setFormatter(new \Monolog\Formatter\LineFormatter());
                 return $handler;
             }, $handlers);
 
@@ -37,6 +29,26 @@ return [
             });
 
             return $logger;
+        },
+
+        Provider\ProviderInterface::class => function (ServiceManager $sm) {
+            return (new Provider\ServerProvider())
+                ->setClient(new \Zend\Http\Client())
+                ->setCache($sm->get('ProviderCache'))
+                ->setLogger($sm->get(Log\LoggerInterface::class));
+        },
+
+        Consumer\ConsumerInterface::class => function (ServiceManager $sm) {
+            $uri = (new \Zend\Uri\Uri())
+                ->setScheme(getenv('AGGREGATOR_CONSUMER_SCHEMA') ? : 'http')
+                ->setHost(getenv('AGGREGATOR_CONSUMER_HOST') ? : 'localhost')
+                ->setPort(getenv('AGGREGATOR_CONSUMER_PORT') ? : '8080');
+
+            return (new Consumer\HttpConsumer())
+                ->setCache($sm->get('ConsumerCache'))
+                ->setClient(new \Zend\Http\Client())
+                ->setLogger($sm->get(Log\LoggerInterface::class))
+                ->setUri(new Zend\Uri\Http($uri));
         },
 
         'ConsumerCache' => function () {
@@ -60,7 +72,7 @@ return [
                         return false;
                     }
                 };
-            // FileSystem cache (for development)
+                // FileSystem cache (for development)
             } elseif (strtolower(getenv('CONSUMER_CACHE_TYPE')) === 'file') {
                 $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
                     ->setCacheDir('./data/cache/consumer')
@@ -109,7 +121,7 @@ return [
                         return false;
                     }
                 };
-            // FileSystem cache (for development)
+                // FileSystem cache (for development)
             } elseif (strtolower(getenv('PROVIDER_CACHE_TYPE')) === 'file') {
                 $fileConfig = (new Zend\Cache\Storage\Adapter\FilesystemOptions())
                     ->setCacheDir('./data/cache/provider')
@@ -134,30 +146,6 @@ return [
             // No cache
             return new \Zend\Cache\Storage\Adapter\BlackHole();
         },
-
-        'Provider' => function ($sm) {
-            return (new \AlthingiAggregator\Lib\Provider\ServerProvider())
-                ->setClient(new \Zend\Http\Client())
-                ->setCache($sm->get('ProviderCache'))
-                ->setLogger($sm->get('Psr\Log'));
-        },
-
-        'MediaClient' => function () {
-            return (new \AlthingiAggregator\Lib\MediaClient\ThumborClient())
-                ->setClient(new \Zend\Http\Client())
-                ->setUri('http://127.0.0.1:8000/image');
-        },
-
-        'Consumer' => function ($sm) {
-            return (new \AlthingiAggregator\Lib\Consumer\HttpConsumer())
-                ->setCache($sm->get('ConsumerCache'))
-                ->setClient(new \Zend\Http\Client())
-                ->setLogger($sm->get('Psr\Log'))
-                ->setMediaClient($sm->get('MediaClient'))
-                ->setUri(new Zend\Uri\Http(
-                    getenv('AGGREGATOR_CONSUMER') ? : 'http://localhost:8080'
-                ));
-        }
     ],
 
     'initializers' => [],

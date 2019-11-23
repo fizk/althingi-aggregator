@@ -1,10 +1,11 @@
 <?php
 
-namespace AlthingiAggregatorTest\Lib;
+namespace AlthingiAggregatorTest\Callback;
 
-use AlthingiAggregator\Lib\GovernmentDocumentCallback;
+use AlthingiAggregator\Callback\GovernmentDocumentCallback;
+use \PHPUnit\Framework\TestCase;
 
-class GovernmentDocumentCallbackTest extends \PHPUnit\Framework\TestCase
+class GovernmentDocumentCallbackTest extends TestCase
 {
     public function testHasToAttribute()
     {

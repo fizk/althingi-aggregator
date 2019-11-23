@@ -2,7 +2,7 @@
 namespace AlthingiAggregator\Extractor;
 
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class CommitteeAgenda implements ExtractionInterface, IdentityInterface
 {
@@ -11,7 +11,7 @@ class CommitteeAgenda implements ExtractionInterface, IdentityInterface
     /**
      * @param \DOMElement $object
      * @return array
-     * @throws ModelException
+     * @throws Extractor\Exception
      * @todo extract <Gestir />
      *
      *  <dagskrárliður númer="1">
@@ -27,7 +27,7 @@ class CommitteeAgenda implements ExtractionInterface, IdentityInterface
     public function extract(\DOMElement $object)
     {
         if (! $object->hasAttribute('númer')) {
-            throw new ModelException('Missing [{númer}] value', $object);
+            throw new Extractor\Exception('Missing [{númer}] value', $object);
         }
 
         $this->setIdentity((int) $object->getAttribute('númer'));

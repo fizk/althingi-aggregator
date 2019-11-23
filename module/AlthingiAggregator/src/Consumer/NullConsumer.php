@@ -1,13 +1,12 @@
 <?php
-namespace AlthingiAggregator\Lib\Consumer;
+namespace AlthingiAggregator\Consumer;
 
-use AlthingiAggregator\Extractor\Exception;
-use DOMElement;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
 use AlthingiAggregator\Lib\ConfigAwareInterface;
 use AlthingiAggregator\Lib\IdentityInterface;
 use AlthingiAggregator\Extractor\ExtractionInterface;
+use DOMElement;
 
 class NullConsumer implements
     ConsumerInterface,

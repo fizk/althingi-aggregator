@@ -1,9 +1,9 @@
 <?php
-namespace AlthingiAggregatorTest\Lib\Consumer\Stub;
+namespace AlthingiAggregatorTest\Consumer\Stub;
 
 use AlthingiAggregator\Extractor\ExtractionInterface;
 
-class ExtractorValidPost implements ExtractionInterface
+class ExtractorValid implements ExtractionInterface
 {
     private $data = [];
 

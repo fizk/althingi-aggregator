@@ -3,7 +3,7 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class IssueLink implements ExtractionInterface, IdentityInterface
 {
@@ -17,11 +17,11 @@ class IssueLink implements ExtractionInterface, IdentityInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('málsnúmer')) {
-            throw new ModelException('Missing [{málsnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{málsnúmer}] value', $object);
         }
 
         if (! $object->hasAttribute('þingnúmer')) {
-            throw new ModelException('Missing [{þingnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
         }
 
         return [

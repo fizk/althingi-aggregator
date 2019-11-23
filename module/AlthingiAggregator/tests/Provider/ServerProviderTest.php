@@ -1,14 +1,18 @@
 <?php
-namespace AlthingiAggregatorTest\Lib\Provider;
+namespace AlthingiAggregatorTest\Provider;
 
-use AlthingiAggregator\Lib\Provider\ServerProvider;
+use AlthingiAggregator\Provider\ServerProvider;
 use Monolog\Handler\NullHandler;
 use PHPUnit\Framework\TestCase;
 use Zend\Cache\Storage\Adapter\Memory;
 use Monolog\Logger;
+use Monolog\Handler;
 
 class ServerProviderTest extends TestCase
 {
+    /**
+     * @throws \Exception
+     */
     public function testHtmlEntity()
     {
         $adapter = new \Zend\Http\Client\Adapter\Test();
@@ -67,16 +71,57 @@ class ServerProviderTest extends TestCase
             "\r\n"
         );
 
+        $testLogHandler = new Handler\TestHandler();
+
+        $logger = new Logger('logger');
+        $logger->setHandlers([new NullHandler()]);
+
         $client = new \Zend\Http\Client();
         $client->setAdapter($adapter);
 
         $serverProvider = (new ServerProvider())
             ->setClient($client)
-            ->setLogger((new Logger('logger')))
+            ->setLogger($logger)
             ->setCache(new Memory());
 
         $dom = $serverProvider->get('http://example.com');
-
         $this->assertInstanceOf(\DOMDocument::class, $dom);
+    }
+
+    public function testErrorLogs()
+    {
+        $adapter = new \Zend\Http\Client\Adapter\Test();
+        $adapter->setResponse(
+            "HTTP/1.1 403 Forbidden"      . "\r\n" .
+            "Content-Type: text/xml; charset=utf-8" . "\r\n" .
+            "\r\n"
+        );
+
+        $testLogHandler = new Handler\TestHandler();
+
+        $logger = new Logger('logger');
+        $logger->setHandlers([$testLogHandler]);
+
+        $client = new \Zend\Http\Client();
+        $client->setAdapter($adapter);
+
+        $serverProvider = (new ServerProvider())
+            ->setClient($client)
+            ->setLogger($logger)
+            ->setCache(new Memory());
+
+        try {
+            $dom = $serverProvider->get('http://example.com');
+            $this->assertInstanceOf(\DOMDocument::class, $dom);
+        } catch (\Throwable $e) {
+            $records = array_map(function ($record) {
+                $match = [];
+                preg_match('/(\[[0-9\-: ]+\]) (.*)/', $record['formatted'], $match);
+                return $match[2];
+            }, $testLogHandler->getRecords());
+
+            $this->assertCount(4, $records);
+
+        }
     }
 }

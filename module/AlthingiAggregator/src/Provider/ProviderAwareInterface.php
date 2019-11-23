@@ -1,5 +1,5 @@
 <?php
-namespace AlthingiAggregator\Lib\Provider;
+namespace AlthingiAggregator\Provider;
 
 interface ProviderAwareInterface
 {

@@ -1,11 +1,14 @@
 <?php
-namespace AlthingiAggregatorTest\Lib\Consumer\Stub;
+namespace AlthingiAggregatorTest\Consumer\Stub;
 
 use AlthingiAggregator\Extractor\ExtractionInterface;
+use AlthingiAggregator\Lib\IdentityInterface;
 
-class ExtractorValid implements ExtractionInterface
+class ExtractorValidPut implements ExtractionInterface, IdentityInterface
 {
     private $data = [];
+
+    private $id = 1;
 
     public function __construct(array $data = [])
     {
@@ -19,5 +22,15 @@ class ExtractorValid implements ExtractionInterface
     public function extract(\DOMElement $object)
     {
         return $this->data;
+    }
+
+    public function setIdentity($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getIdentity()
+    {
+        return $this->id;
     }
 }

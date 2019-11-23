@@ -12,11 +12,11 @@
         <var name="APPLICATION_ENVIRONMENT" value="production" />
     </php>
 
-    <!--<filter>-->
-        <!--<whitelist processUncoveredFilesFromWhitelist="true">-->
-            <!--<directory suffix=".php">./module/AlthingiAggregator/src</directory>-->
-        <!--</whitelist>-->
-    <!--</filter>-->
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./module/AlthingiAggregator/src</directory>
+        </whitelist>
+    </filter>
 
     <!--<logging>-->
         <!--<log type="coverage-html" target="./assets/docs/tests/report" lowUpperBound="35" highLowerBound="70"/>-->

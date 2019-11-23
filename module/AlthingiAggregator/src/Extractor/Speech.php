@@ -3,7 +3,7 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class Speech implements ExtractionInterface, IdentityInterface
 {
@@ -19,19 +19,19 @@ class Speech implements ExtractionInterface, IdentityInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('fundarnúmer')) {
-            throw new ModelException('Missing [{fundarnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{fundarnúmer}] value', $object);
         }
 
         if (! $object->hasAttribute('þingnúmer')) {
-            throw new ModelException('Missing [{þingnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
         }
 
         if (! $object->hasAttribute('þingmaður')) {
-            throw new ModelException('Missing [{þingmaður}] value', $object);
+            throw new Extractor\Exception('Missing [{þingmaður}] value', $object);
         }
 
         if (! $object->hasAttribute('þingmál')) {
-            throw new ModelException('Missing [{þingmál}] value', $object);
+            throw new Extractor\Exception('Missing [{þingmál}] value', $object);
         }
 
         $this->setIdentity($this->createIdentity($object));

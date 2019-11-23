@@ -12,8 +12,9 @@ class Government implements ExtractionInterface, IdentityInterface
     /**
      * Extract values from an object
      *
-     * @param  DOMElement $object
+     * @param DOMElement $object
      * @return array|null
+     * @throws \Exception
      */
     public function extract(DOMElement $object)
     {

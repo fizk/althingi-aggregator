@@ -2,19 +2,55 @@ version: '3'
 
 services:
 
+  run:
+    container_name: althingi_aggregator_run_container
+    build:
+      args:
+        - WITH_DEV=true
+        - WITH_XDEBUG=true
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - APPLICATION_ENVIRONMENT=development
+
+      - LOG_PATH=${ENV_LOG_PATH:-php://stdout}
+
+      - CONSUMER_CACHE_TYPE=${ENV_CONSUMER_CACHE_TYPE:-none}
+      - CONSUMER_CACHE_HOST=${ENV_CONSUMER_CACHE_HOST:-localhost}
+      - CONSUMER_CACHE_PORT=${ENV_CONSUMER_CACHE_PORT:-6379}
+      - CONSUMER_CACHE=${ENV_CONSUMER_CACHE:-false}
+
+      - PROVIDER_CACHE_TYPE=${ENV_PROVIDER_CACHE_TYPE:-none}
+      - PROVIDER_CACHE_HOST=${ENV_PROVIDER_CACHE_HOST:-localhost}
+      - PROVIDER_CACHE_PORT=${ENV_PROVIDER_CACHE_PORT:-6379}
+      - PROVIDER_CACHE=${ENV_PROVIDER_CACHE:-false}
+
+      - AGGREGATOR_CONSUMER_SCHEMA=${ENV_AGGREGATOR_CONSUMER_SCHEMA:-http}
+      - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
+      - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-8080}
+    volumes:
+      - ./auto/:/usr/src/auto
+      - ./config/:/usr/src/config
+      - ./module/:/usr/src/module
+      - ./public/:/usr/src/public
+    working_dir: /usr/src/auto
+
   test:
     container_name: althingi_aggregator_test_container
     build:
+      args:
+        - WITH_DEV=true
+        - WITH_XDEBUG=false
       context: .
       dockerfile: Dockerfile
     environment:
       - APPLICATION_ENVIRONMENT=development
       - PROVIDER_CACHE_TYPE=none
       - CONSUMER_CACHE_TYPE=none
+      - LOG_PATH=none
     volumes:
       - ./auto/:/usr/src/auto
       - ./config/:/usr/src/config
       - ./module/:/usr/src/module
       - ./public/:/usr/src/public
-
-    command: bash -c "composer development-enable && /usr/src/vendor/bin/phpunit && /usr/src/vendor/bin/phpcs"
+    command: bash -c "composer development-disable && /usr/src/vendor/bin/phpunit && /usr/src/vendor/bin/phpcs"

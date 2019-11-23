@@ -2,7 +2,7 @@
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class Session implements ExtractionInterface
 {
@@ -16,43 +16,43 @@ class Session implements ExtractionInterface
     public function extract(DOMElement $object)
     {
         if (! $object->getElementsByTagName('inn')->item(0)) {
-            throw new ModelException('Missing [{inn}] value', $object);
+            throw new Extractor\Exception('Missing [{inn}] value', $object);
         }
 
         if (! $object->getElementsByTagName('þing')->item(0)) {
-            throw new ModelException('Missing [{þing}] value', $object);
+            throw new Extractor\Exception('Missing [{þing}] value', $object);
         }
 
         if (! $object->getElementsByTagName('skammstöfun')->item(0)) {
-            throw new ModelException('Missing [{skammstöfun}] value', $object);
+            throw new Extractor\Exception('Missing [{skammstöfun}] value', $object);
         }
 
         if (! $object->getElementsByTagName('tegund')->item(0)) {
-            throw new ModelException('Missing [{tegund}] value', $object);
+            throw new Extractor\Exception('Missing [{tegund}] value', $object);
         }
 
         if (! $object->getElementsByTagName('þingflokkur')->item(0)) {
-            throw new ModelException('Missing [{þingflokkur}] value', $object);
+            throw new Extractor\Exception('Missing [{þingflokkur}] value', $object);
         }
 
         if (! $object->getElementsByTagName('þingflokkur')->item(0)->hasAttribute('id')) {
-            throw new ModelException('Missing [{þingflokkur.id}] value', $object);
+            throw new Extractor\Exception('Missing [{þingflokkur.id}] value', $object);
         }
 
         if (! $object->getElementsByTagName('kjördæmi')->item(0)) {
-            throw new ModelException('Missing [{kjördæmi}] value', $object);
+            throw new Extractor\Exception('Missing [{kjördæmi}] value', $object);
         }
 
         if (! $object->getElementsByTagName('kjördæmi')->item(0)->hasAttribute('id')) {
-            throw new ModelException('Missing [{kjördæmi.id}] value', $object);
+            throw new Extractor\Exception('Missing [{kjördæmi.id}] value', $object);
         }
 
         if (! $object->getElementsByTagName('kjördæmanúmer')->item(0)) {
-            throw new ModelException('Missing [{kjördæmanúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{kjördæmanúmer}] value', $object);
         }
 
         if (! $object->getElementsByTagName('þingsalssæti')->item(0)) {
-            throw new ModelException('Missing [{þingsalssæti}] value', $object);
+            throw new Extractor\Exception('Missing [{þingsalssæti}] value', $object);
         }
 
         $id = (int) $object->getElementsByTagName('þing')->item(0)->nodeValue;

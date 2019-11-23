@@ -2,6 +2,7 @@
 namespace AlthingiAggregator;
 
 use Zend\Mvc\MvcEvent;
+use Psr\Log;
 
 class Module
 {
@@ -13,7 +14,7 @@ class Module
         $serviceManager = $app->getServiceManager();
 
         /** @var  $logger \Psr\Log\LoggerInterface */
-        $logger = $serviceManager->get('Psr\Log');
+        $logger = $serviceManager->get(Log\LoggerInterface::class);
 
         set_error_handler(function ($level, $message, $file, $line) use ($logger) {
             $minErrorLevel = error_reporting();
@@ -32,8 +33,8 @@ class Module
                     return;
                 }
 
-                 $exception = $event->getParam('exception');
-                if ($exception instanceof \Exception) {
+                $exception = $event->getParam('exception');
+                if ($exception instanceof \Throwable) {
                     $logger->error(0, [
                         $exception->getMessage(),
                         "code: {$exception->getCode()} file: {$exception->getFile()} line: {$exception->getLine()}"
@@ -70,7 +71,7 @@ class Module
                 'line' => $error['line']
             ];
 
-            $logger->error(0, [$error['message']], $extras);
+            $logger->error(0, [$error['message'], $extras]);
             die(1);
         });
     }

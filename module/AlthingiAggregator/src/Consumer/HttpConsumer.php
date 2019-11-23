@@ -1,31 +1,27 @@
 <?php
-namespace AlthingiAggregator\Lib\Consumer;
+namespace AlthingiAggregator\Consumer;
 
-use AlthingiAggregator\Extractor\MediaInterface;
-use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Lib\MediaClient\MediaClientAdapter;
-use DOMElement;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
-use Zend\Cache\Storage\StorageInterface;
-use Zend\Http\Client;
+use AlthingiAggregator\Lib\IdentityInterface;
 use AlthingiAggregator\Extractor\ExtractionInterface;
 use AlthingiAggregator\Lib\CacheableAwareInterface;
 use AlthingiAggregator\Lib\ClientAwareInterface;
 use AlthingiAggregator\Lib\UriAwareInterface;
-use AlthingiAggregator\Lib\MediaClient\MediaClientAwareInterface;
+use Zend\Cache\Storage\StorageInterface;
+use Zend\Http\Client;
 use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Stdlib\Parameters;
 use Zend\Uri\Http;
+use DOMElement;
 
 class HttpConsumer implements
     ConsumerInterface,
     LoggerAwareInterface,
     ClientAwareInterface,
     CacheableAwareInterface,
-    UriAwareInterface,
-    MediaClientAwareInterface
+    UriAwareInterface
 {
 
     /** @var  Http */
@@ -39,9 +35,6 @@ class HttpConsumer implements
 
     /** @var  StorageInterface */
     private $cache;
-
-    /** @var  \AlthingiAggregator\Lib\MediaClient\MediaClientAdapter */
-    private $mediaClient;
 
     /**
      * Save $extract to storage/consumer.
@@ -61,13 +54,9 @@ class HttpConsumer implements
             try {
                 if ($extract instanceof IdentityInterface) {
                     return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
-                } elseif ($extract instanceof MediaInterface) {
-                    $this->doFileUpload($extract, $params);
                 } else {
                     return $this->doUniqueRequest($storageKey, $params);
                 }
-
-                $tries = 0;
             } catch (\Exception $e) {
                 $this->logger->info(0, ['Can\'t connect to consumer, ' . ($tries - 1) . ' tries left']);
                 sleep(2);
@@ -80,20 +69,6 @@ class HttpConsumer implements
         } while ($tries > 0);
 
         return true;
-    }
-
-    private function doFileUpload(MediaInterface $extract, $params)
-    {
-        try {
-            $writtenBites = $this->mediaClient->save(
-                $extract->getFileName(),
-                $extract->getSlug(),
-                $extract->getContentType()
-            );
-            $this->logger->info($writtenBites, ['POST', $extract->getSlug(), $params]);
-        } catch (\Exception $e) {
-            $this->logger->error(0, ['POST', $extract->getSlug(), $params, $e->getMessage()]);
-        }
     }
 
     private function doIdentityRequest($storageKey, $identity, $params)
@@ -329,15 +304,5 @@ class HttpConsumer implements
     public static function createStorageValue(array $entry)
     {
         return md5(json_encode($entry));
-    }
-
-    /**
-     * @param MediaClientAdapter $mediaClient
-     * @return $this
-     */
-    public function setMediaClient(MediaClientAdapter $mediaClient)
-    {
-        $this->mediaClient = $mediaClient;
-        return $this;
     }
 }

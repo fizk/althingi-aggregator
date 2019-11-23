@@ -2,9 +2,9 @@
 namespace AlthingiAggregator\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Extractor\Party;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class PartyController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -16,7 +16,7 @@ class PartyController extends AbstractActionController implements ConsumerAwareI
             'http://www.althingi.is/altext/xml/thingflokkar',
             'thingflokkar',
             '//þingflokkar/þingflokkur',
-            new Party()
+            new Extractor\Party()
         );
     }
 }

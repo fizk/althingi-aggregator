@@ -3,7 +3,7 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class Proponent implements ExtractionInterface, IdentityInterface
 {
@@ -19,11 +19,11 @@ class Proponent implements ExtractionInterface, IdentityInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('id')) {
-            throw new ModelException('Missing [{id}] value', $object);
+            throw new Extractor\Exception('Missing [{id}] value', $object);
         }
 
         if (! $object->hasAttribute('röð')) {
-            throw new ModelException('Missing [{röð}] value', $object);
+            throw new Extractor\Exception('Missing [{röð}] value', $object);
         }
 
         $this->setIdentity($object->getAttribute('id'));

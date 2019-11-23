@@ -1,11 +1,10 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\PlenaryAgenda;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Extractor\Plenary;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class PlenaryController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -19,7 +18,7 @@ class PlenaryController extends AbstractActionController implements ConsumerAwar
             "http://www.althingi.is/altext/xml/thingfundir/?lthing={$assemblyNumber}",
             "loggjafarthing/{$assemblyNumber}/thingfundir",
             '//þingfundir/þingfundur',
-            new Plenary()
+            new Extractor\Plenary()
         );
     }
 
@@ -41,7 +40,7 @@ class PlenaryController extends AbstractActionController implements ConsumerAwar
                 $this->saveDomElement(
                     $agendaItem,
                     "loggjafarthing/{$assemblyNumber}/thingfundir/{$plenaryNumber}/lidir",
-                    new PlenaryAgenda()
+                    new Extractor\PlenaryAgenda()
                 );
             }
         }

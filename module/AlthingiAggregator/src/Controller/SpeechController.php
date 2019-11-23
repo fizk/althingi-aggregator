@@ -1,11 +1,11 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Lib\TemporarySpeechDocumentCallback;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Extractor\Speech;
+use AlthingiAggregator\Callback\TemporarySpeechDocumentCallback;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 use DOMDocument;
 use DOMElement;
 
@@ -69,7 +69,7 @@ class SpeechController extends AbstractActionController implements ConsumerAware
             $this->saveDomElement(
                 $temporarySpeechDocument->documentElement,
                 "loggjafarthing/{$assemblyNumber}/thingmal/{$category}/{$issueNumber}/raedur",
-                new Speech()
+                new Extractor\Speech()
             );
         }
     }

@@ -1,5 +1,5 @@
 <?php
-namespace AlthingiAggregator\Lib\Consumer;
+namespace AlthingiAggregator\Consumer;
 
 interface ConsumerAwareInterface
 {

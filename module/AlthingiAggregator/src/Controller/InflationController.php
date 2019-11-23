@@ -1,10 +1,10 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\Inflation;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class InflationController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -20,7 +20,11 @@ class InflationController extends AbstractActionController implements ConsumerAw
         );
 
         foreach ($list as $item) {
-            $this->saveDomElement($item, 'verdbolga', new Inflation());
+            $this->saveDomElement(
+                $item,
+                'verdbolga',
+                new Extractor\Inflation()
+            );
         }
     }
 }

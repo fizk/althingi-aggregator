@@ -1,17 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: einarvalur
- * Date: 3/04/2016
- * Time: 8:58 PM
- */
-
-namespace AlthingiAggregatorTest\Lib\Consumer;
+namespace AlthingiAggregatorTest\Consumer;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
 use AlthingiAggregator\Extractor\ExtractionInterface;
-use AlthingiAggregator\Lib\Consumer\ConsumerInterface;
+use AlthingiAggregator\Consumer\ConsumerInterface;
 
 class TestConsumer implements ConsumerInterface
 {

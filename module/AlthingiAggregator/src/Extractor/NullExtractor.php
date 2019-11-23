@@ -3,7 +3,6 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
 
 class NullExtractor implements ExtractionInterface, IdentityInterface
 {
@@ -18,7 +17,6 @@ class NullExtractor implements ExtractionInterface, IdentityInterface
      */
     public function extract(DOMElement $object)
     {
-        $i = 0;
         return [];
     }
 

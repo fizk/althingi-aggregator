@@ -1,5 +1,5 @@
 <?php
-namespace AlthingiAggregator\Lib\Consumer;
+namespace AlthingiAggregator\Consumer;
 
 use DOMElement;
 use AlthingiAggregator\Extractor\ExtractionInterface;

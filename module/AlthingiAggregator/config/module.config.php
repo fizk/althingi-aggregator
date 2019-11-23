@@ -3,7 +3,10 @@
 namespace AlthingiAggregator;
 
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\ServiceManager\ServiceManager;
 use Zend\Router\Http\Regex;
+use AlthingiAggregator\Consumer;
+use AlthingiAggregator\Provider;
 
 return [
     'router' => [
@@ -26,70 +29,70 @@ return [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\HelpController::class => InvokableFactory::class,
-            Controller\AssemblyController::class => function ($container) {
+            Controller\AssemblyController::class => function (ServiceManager $container) {
                 return (new Controller\AssemblyController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\CongressmanController::class => function ($container) {
+            Controller\CongressmanController::class => function (ServiceManager $container) {
                 return (new Controller\CongressmanController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\ConstituencyController::class => function ($container) {
+            Controller\ConstituencyController::class => function (ServiceManager $container) {
                 return (new Controller\ConstituencyController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\IssueController::class => function ($container) {
+            Controller\IssueController::class => function (ServiceManager $container) {
                 return (new Controller\IssueController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\PartyController::class => function ($container) {
+            Controller\PartyController::class => function (ServiceManager $container) {
                 return (new Controller\PartyController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\PlenaryController::class => function ($container) {
+            Controller\PlenaryController::class => function (ServiceManager $container) {
                 return (new Controller\PlenaryController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\CommitteeController::class => function ($container) {
+            Controller\CommitteeController::class => function (ServiceManager $container) {
                 return (new Controller\CommitteeController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\PresidentController::class => function ($container) {
+            Controller\PresidentController::class => function (ServiceManager $container) {
                 return (new Controller\PresidentController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\CategoryController::class => function ($container) {
+            Controller\CategoryController::class => function (ServiceManager $container) {
                 return (new Controller\CategoryController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\InflationController::class => function ($container) {
+            Controller\InflationController::class => function (ServiceManager $container) {
                 return (new Controller\InflationController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\GovernmentController::class => function ($container) {
+            Controller\GovernmentController::class => function (ServiceManager $container) {
                 return (new Controller\GovernmentController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\SpeechController::class => function ($container) {
+            Controller\SpeechController::class => function (ServiceManager $container) {
                 return (new Controller\SpeechController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
-            Controller\MinistryController::class => function ($container) {
+            Controller\MinistryController::class => function (ServiceManager $container) {
                 return (new Controller\MinistryController())
-                    ->setConsumer($container->get('Consumer'))
-                    ->setProvider($container->get('Provider'));
+                    ->setConsumer($container->get(Consumer\ConsumerInterface::class))
+                    ->setProvider($container->get(Provider\ProviderInterface::class));
             },
         ],
     ],

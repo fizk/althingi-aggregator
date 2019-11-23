@@ -1,13 +1,10 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\Committee;
-use AlthingiAggregator\Extractor\CommitteeAgenda;
-use AlthingiAggregator\Extractor\CommitteeMeeting;
-use AlthingiAggregator\Extractor\NullExtractor;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class CommitteeController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -33,13 +30,13 @@ class CommitteeController extends AbstractActionController implements ConsumerAw
             $this->saveDomElement(
                 $meetingElement->documentElement,
                 "loggjafarthing/{$assemblyNumber}/nefndir/{$committeeId}/nefndarfundir",
-                new CommitteeMeeting()
+                new Extractor\CommitteeMeeting()
             );
 
             $this->saveDomNodeList(
                 $meetingElement->getElementsByTagName('dagskrárliður'),
                 "loggjafarthing/{$assemblyNumber}/nefndir/{$committeeId}/nefndarfundir/{$meetingId}/dagskralidir",
-                new CommitteeAgenda()
+                new Extractor\CommitteeAgenda()
             );
         }
     }
@@ -50,7 +47,7 @@ class CommitteeController extends AbstractActionController implements ConsumerAw
             'http://www.althingi.is/altext/xml/nefndir',
             'nefndir',
             '//nefndir/nefnd',
-            new Committee()
+            new Extractor\Committee()
         );
     }
 }

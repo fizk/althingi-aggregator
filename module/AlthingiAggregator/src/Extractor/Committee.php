@@ -2,7 +2,7 @@
 namespace AlthingiAggregator\Extractor;
 
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class Committee implements ExtractionInterface, IdentityInterface
 {
@@ -11,20 +11,20 @@ class Committee implements ExtractionInterface, IdentityInterface
     /**
      * @param \DOMElement $object
      * @return array
-     * @throws ModelException
+     * @throws Extractor\Exception
      */
     public function extract(\DOMElement $object)
     {
         if (! $object->hasAttribute('id')) {
-            throw new ModelException('Missing [{id}] value', $object);
+            throw new Extractor\Exception('Missing [{id}] value', $object);
         }
 
         if (! $object->getElementsByTagName('heiti')->length) {
-            throw new ModelException('Missing [{heiti}] value', $object);
+            throw new Extractor\Exception('Missing [{heiti}] value', $object);
         }
 
         if (! $object->getElementsByTagName('fyrstaþing')->length) {
-            throw new ModelException('Missing [{fyrstaþing}] value', $object);
+            throw new Extractor\Exception('Missing [{fyrstaþing}] value', $object);
         }
 
         $this->setIdentity((int) $object->getAttribute('id'));

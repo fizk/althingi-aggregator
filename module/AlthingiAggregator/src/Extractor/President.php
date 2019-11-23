@@ -2,7 +2,7 @@
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class President implements ExtractionInterface
 {
@@ -17,19 +17,19 @@ class President implements ExtractionInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('id')) {
-            throw new ModelException('Missing [{id}] value', $object);
+            throw new Extractor\Exception('Missing [{id}] value', $object);
         }
 
         if (! $object->getElementsByTagName('nafn')->item(0)) {
-            throw new ModelException('Missing [{nafn}] value', $object);
+            throw new Extractor\Exception('Missing [{nafn}] value', $object);
         }
 
         if (! $object->getElementsByTagName('þing')->item(0)) {
-            throw new ModelException('Missing [{þing}] value', $object);
+            throw new Extractor\Exception('Missing [{þing}] value', $object);
         }
 
         if (! $object->getElementsByTagName('inn')->item(0)) {
-            throw new ModelException('Missing [{þing}] value', $object);
+            throw new Extractor\Exception('Missing [{þing}] value', $object);
         }
 
         $from = date(

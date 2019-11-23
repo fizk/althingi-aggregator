@@ -1,7 +1,7 @@
 <?php
-namespace AlthingiAggregatorTest\Lib\Provider;
+namespace AlthingiAggregatorTest\Provider;
 
-use AlthingiAggregator\Lib\Provider\ProviderInterface;
+use AlthingiAggregator\Provider\ProviderInterface;
 
 class TestProvider implements ProviderInterface
 {

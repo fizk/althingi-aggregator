@@ -1,5 +1,5 @@
 <?php
-namespace AlthingiAggregatorTest\Lib\Consumer\Stub;
+namespace AlthingiAggregatorTest\Consumer\Stub;
 
 use AlthingiAggregator\Extractor\ExtractionInterface;
 use AlthingiAggregator\Extractor\Exception as ModelException;

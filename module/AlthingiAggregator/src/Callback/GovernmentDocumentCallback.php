@@ -1,5 +1,5 @@
 <?php
-namespace AlthingiAggregator\Lib;
+namespace AlthingiAggregator\Callback;
 
 use DOMDocument;
 use DOMXpath;
