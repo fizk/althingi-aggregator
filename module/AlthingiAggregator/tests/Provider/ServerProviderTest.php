@@ -118,7 +118,6 @@ class ServerProviderTest extends TestCase
             $this->assertInstanceOf(\DOMDocument::class, $dom);
         } catch (\Throwable $e) {
             $this->assertLogHandler($testLogHandler);
-
         }
     }
 
