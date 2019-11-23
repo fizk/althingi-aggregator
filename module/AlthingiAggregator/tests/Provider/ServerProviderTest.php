@@ -2,6 +2,7 @@
 namespace AlthingiAggregatorTest\Provider;
 
 use AlthingiAggregator\Provider\ServerProvider;
+use AlthingiAggregatorTest\Helpers\LogTrait;
 use Monolog\Handler\NullHandler;
 use PHPUnit\Framework\TestCase;
 use Zend\Cache\Storage\Adapter\Memory;
@@ -10,6 +11,8 @@ use Monolog\Handler;
 
 class ServerProviderTest extends TestCase
 {
+    use LogTrait;
+
     /**
      * @throws \Exception
      */
@@ -88,7 +91,7 @@ class ServerProviderTest extends TestCase
         $this->assertInstanceOf(\DOMDocument::class, $dom);
     }
 
-    public function testErrorLogs()
+    public function testLogs403()
     {
         $adapter = new \Zend\Http\Client\Adapter\Test();
         $adapter->setResponse(
@@ -114,14 +117,134 @@ class ServerProviderTest extends TestCase
             $dom = $serverProvider->get('http://example.com');
             $this->assertInstanceOf(\DOMDocument::class, $dom);
         } catch (\Throwable $e) {
-            $records = array_map(function ($record) {
-                $match = [];
-                preg_match('/(\[[0-9\-: ]+\]) (.*)/', $record['formatted'], $match);
-                return $match[2];
-            }, $testLogHandler->getRecords());
-
-            $this->assertCount(4, $records);
+            $this->assertLogHandler($testLogHandler);
 
         }
+    }
+
+    public function testLogs200()
+    {
+        $adapter = new \Zend\Http\Client\Adapter\Test();
+        $adapter->setResponse(
+            "HTTP/1.1 200 OK"      . "\r\n" .
+            "Content-Type: text/xml; charset=utf-8" . "\r\n" .
+            "\r\n" .
+
+            '<?xml version="1.0" encoding="UTF-8"?>
+             <root />
+            '
+        );
+
+        $testLogHandler = new Handler\TestHandler();
+
+        $logger = new Logger('logger');
+        $logger->setHandlers([$testLogHandler]);
+
+        $client = new \Zend\Http\Client();
+        $client->setAdapter($adapter);
+
+        (new ServerProvider())
+            ->setClient($client)
+            ->setLogger($logger)
+            ->setCache(new Memory())
+            ->get('http://example.com');
+
+        $this->assertLogHandler($testLogHandler);
+    }
+
+    public function testLogs500()
+    {
+        $adapter = new \Zend\Http\Client\Adapter\Test();
+        $adapter->setResponse(
+            "HTTP/1.1 500 Internal Server Error"      . "\r\n" .
+            "Content-Type: text/xml; charset=utf-8" . "\r\n" .
+            "\r\n" .
+
+            '<?xml version="1.0" encoding="UTF-8"?>
+             <root />
+            '
+        );
+
+        $testLogHandler = new Handler\TestHandler();
+
+        $logger = (new Logger('logger'))
+            ->setHandlers([$testLogHandler]);
+
+        $client = (new \Zend\Http\Client())
+            ->setAdapter($adapter);
+
+        (new ServerProvider())
+            ->setClient($client)
+            ->setLogger($logger)
+            ->setCache(new Memory())
+            ->get('http://example.com');
+
+        $this->assertLogHandler($testLogHandler);
+    }
+
+    public function testLogsCache()
+    {
+        $adapter = new \Zend\Http\Client\Adapter\Test();
+        $adapter->setResponse(
+            "HTTP/1.1 200 OK"      . "\r\n" .
+            "Content-Type: text/xml; charset=utf-8" . "\r\n" .
+            "\r\n" .
+
+            '<?xml version="1.0" encoding="UTF-8"?>
+             <root />
+            '
+        );
+
+        $url = 'http://example.com';
+
+        $testLogHandler = new Handler\TestHandler();
+
+        $logger = (new Logger('logger'))
+            ->setHandlers([$testLogHandler]);
+
+        $client = (new \Zend\Http\Client())
+            ->setAdapter($adapter);
+
+        $cache = (new Memory());
+        $cache->addItem(md5($url), '<?xml version="1.0" encoding="UTF-8"?><root />');
+
+        (new ServerProvider())
+            ->setClient($client)
+            ->setLogger($logger)
+            ->setCache($cache)
+            ->get($url);
+
+        $this->assertLogHandler($testLogHandler);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testCanNotParseXML()
+    {
+        $adapter = new \Zend\Http\Client\Adapter\Test();
+        $adapter->setResponse(
+            "HTTP/1.1 200 OK"      . "\r\n" .
+            "Content-Type: text/xml; charset=utf-8" . "\r\n" .
+            "\r\n" .
+
+            'not valid xml'
+        );
+
+        $url = 'http://example.com';
+
+        $testLogHandler = new Handler\TestHandler();
+
+        $logger = (new Logger('logger'))
+            ->setHandlers([$testLogHandler]);
+
+        $client = (new \Zend\Http\Client())
+            ->setAdapter($adapter);
+
+        (new ServerProvider())
+            ->setClient($client)
+            ->setLogger($logger)
+            ->setCache(new Memory())
+            ->get($url);
     }
 }

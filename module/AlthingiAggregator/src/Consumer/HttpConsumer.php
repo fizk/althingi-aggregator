@@ -15,6 +15,7 @@ use Zend\Http\Request;
 use Zend\Stdlib\Parameters;
 use Zend\Uri\Http;
 use DOMElement;
+use Zend\Uri\Uri;
 
 class HttpConsumer implements
     ConsumerInterface,
@@ -58,7 +59,9 @@ class HttpConsumer implements
                     return $this->doUniqueRequest($storageKey, $params);
                 }
             } catch (\Exception $e) {
-                $this->logger->info(0, ['Can\'t connect to consumer, ' . ($tries - 1) . ' tries left']);
+                $this->logger->info(0, ['CONSUMER', $storageKey, [
+                    'message' => 'Can\'t connect to consumer, ' . ($tries - 1) . ' tries left'
+                ]]);
                 sleep(2);
                 $tries--;
 
@@ -116,7 +119,9 @@ class HttpConsumer implements
                 if ($postResponse->getHeaders()->get('Location')) {
                     $this->logger->error(
                         $postResponse->getStatusCode(),
-                        ['POST', $uri->toString(), 'Going to try PATCH', $params, $postResponse->getContent()]
+                        ['POST', $uri->toString(), [
+                            'message' => 'Going to try PATCH', 'params' => $params
+                        ], $postResponse->getContent()]
                     );
                     $this->doPatchRequest(
                         $uri->setPath($postResponse->getHeaders()->get('Location')->getFieldValue()),
@@ -125,10 +130,9 @@ class HttpConsumer implements
                 } else {
                     $this->logger->error(
                         0,
-                        [
-                            'POST',
-                            $uri->toString(), 'Can\'t PATCH, no Location-Header', $params, $postResponse->getContent()
-                        ]
+                        ['POST', $uri->toString(), [
+                            'message' => 'Can\'t PATCH, no Location-Header', 'params' => $params
+                        ], $postResponse->getContent()]
                     );
                 }
                 break;
@@ -165,7 +169,10 @@ class HttpConsumer implements
             case 409:
                 $this->logger->error(
                     $putResponse->getStatusCode(),
-                    ['PUT', $uri->toString(), 'Going to try PATCH', $params, $putResponse->getContent()]
+                    ['PUT', $uri->toString(), [
+                        'message' => 'Going to try PATCH',
+                        'params' => $params
+                    ], $putResponse->getContent()]
                 );
                 $this->doPatchRequest($uri, $params);
                 break;
@@ -178,7 +185,7 @@ class HttpConsumer implements
         }
     }
 
-    private function doPatchRequest(Http $uri, array $params)
+    private function doPatchRequest(Uri $uri, array $params)
     {
         if ($this->isValidInCache($uri, $params)) {
             $this->logger->info(0, ['CONSUMER_CACHE', $uri->toString(), $params]);
@@ -208,7 +215,7 @@ class HttpConsumer implements
         }
     }
 
-    private function storeInCache(Http $uri, $param)
+    private function storeInCache(Uri $uri, $param)
     {
         $this->cache->setItem(
             self::createStorageKey($uri),
@@ -216,7 +223,7 @@ class HttpConsumer implements
         );
     }
 
-    private function isValidInCache(Http $uri, $param)
+    private function isValidInCache(Uri $uri, $param)
     {
         $storageKey = self::createStorageKey($uri);
         $cacheValue = $this->cache->getItem($storageKey);
@@ -231,7 +238,7 @@ class HttpConsumer implements
      * @param array $param
      * @return Request
      */
-    private function getRequest($verb, Http $uri, array $param)
+    private function getRequest($verb, Uri $uri, array $param)
     {
         return (new Request())
             ->setMethod('post')
@@ -287,10 +294,10 @@ class HttpConsumer implements
     /**
      * Create a key to store value under in cache.
      *
-     * @param Http $uri
+     * @param Uri $uri
      * @return string
      */
-    public static function createStorageKey(Http $uri)
+    public static function createStorageKey(Uri $uri)
     {
         return md5($uri->toString());
     }

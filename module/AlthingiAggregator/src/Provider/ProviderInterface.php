@@ -8,5 +8,5 @@ interface ProviderInterface
      * @param callable $cb
      * @return \DOMDocument
      */
-    public function get($url, callable $cb = null);
+    public function get(string $url, callable $cb = null);
 }

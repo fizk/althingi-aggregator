@@ -9,6 +9,7 @@ use Zend\Cache\Storage\StorageInterface;
 use Zend\Http\Client;
 use Zend\Http\Headers;
 use Zend\Http\Request;
+use DOMDocument;
 
 class ServerProvider implements
     ProviderInterface,
@@ -31,7 +32,7 @@ class ServerProvider implements
      * @return \DOMDocument
      * @throws \Exception
      */
-    public function get($url, callable $cb = null)
+    public function get(string $url, callable $cb = null): DOMDocument
     {
         $tries = 3;
         $content = '';
@@ -45,12 +46,17 @@ class ServerProvider implements
 
                 $tries = 0;
             } catch (\Exception $e) {
-                $this->logger->info(0, ['Can\'t connect to provider, ' . ($tries - 1) . ' tries left']);
+                $this->logger->info(0, ['HTTP', $url, [
+                    'message' => 'Can\'t connect to provider, ' . ($tries - 1) . ' tries left'
+                ]]);
                 sleep(2);
                 $tries--;
 
                 if ($tries === 0) {
-                    $this->logger->error(0, ['Service is unavailable', $e->getMessage()]);
+                    $this->logger->error(0, ['HTTP', $url, [
+                        'message' => 'Service is unavailable',
+                        'exception' => $e->getMessage()
+                    ]]);
                     throw $e;
                 }
             }
@@ -68,33 +74,28 @@ class ServerProvider implements
                 }
                 return html_entity_decode($entry);
             }, $content);
-            $dom = @new \DOMDocument();
+            $dom = @new DOMDocument();
             if (@$dom->loadXML($content)) {
                 $this->cache->setItem($key, $content);
                 return $dom;
             } else {
-                throw new \Exception(print_r(error_get_last(), true));
+                throw new \Exception(json_encode(array_merge(error_get_last(), ['url' => $url])));
             }
         }
     }
 
-    /**
-     * @param Client $client
-     * @return $this
-     */
-    public function setClient(Client $client)
+    private function cacheRequest(string $url): string
     {
-        $this->client = $client;
-        return $this;
-    }
-
-    private function cacheRequest($url)
-    {
-        $this->logger->info(0, ['PROVIDER_CACHE', $url]);
+        $this->logger->info(0, ['PROVIDER_CACHE', $url, [], []]);
         return $this->cache->getItem(md5($url));
     }
 
-    private function httpRequest($url)
+    /**
+     * @param $url
+     * @return string
+     * @throws \Exception
+     */
+    private function httpRequest(string $url): string
     {
         $request = new Request();
         $request->setMethod('get')
@@ -114,12 +115,15 @@ class ServerProvider implements
         $status = $response->getStatusCode();
 
         if ($status === 200) { //success retrieving document
-            $this->logger->info(0, ['HTTP', $url]);
+            $this->logger->info(0, ['HTTP', $url, $response->getHeaders()->toArray()]);
             return $response->getBody();
         } elseif ($status === 403) { // access denied, try again
             throw new \Exception($response->getReasonPhrase() . ' | ' . $request->getUriString(), $status);
         } else { //other errors
-            $this->logger->error($status, ['HTTP_ERROR', $response->getReasonPhrase(), $request->getUriString()]);
+            $this->logger->error($status, ['HTTP', $request->getUriString(), [
+                'message' => $response->getReasonPhrase()
+            ], ]);
+            return $response->getBody();
         }
     }
 
@@ -140,6 +144,16 @@ class ServerProvider implements
     public function setCache(StorageInterface $cache)
     {
         $this->cache = $cache;
+        return $this;
+    }
+
+    /**
+     * @param Client $client
+     * @return $this
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
         return $this;
     }
 }

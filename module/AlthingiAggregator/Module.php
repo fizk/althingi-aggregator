@@ -35,15 +35,18 @@ class Module
 
                 $exception = $event->getParam('exception');
                 if ($exception instanceof \Throwable) {
-                    $logger->error(0, [
-                        $exception->getMessage(),
-                        "code: {$exception->getCode()} file: {$exception->getFile()} line: {$exception->getLine()}"
-                    ]);
+                    $logger->error(0, ['EXCEPTION', "/", [
+                        'message' => $exception->getMessage(),
+                        'file' => $exception->getFile(),
+                        'line' => $exception->getLine(),
+                        'code' => $exception->getCode(),
+                    ]]);
+                    return;
                 }
 
                  $event->stopPropagation(true);
                  $message = $event->getError();
-                 $logger->error(0, [$message]);
+                 $logger->error(0, ['EXCEPTION', "/", ['message' => $message]]);
             },
             1000
         );
@@ -71,7 +74,7 @@ class Module
                 'line' => $error['line']
             ];
 
-            $logger->error(0, [$error['message'], $extras]);
+            $logger->error(0, ["EXCEPTION", "/", ['message' => $error['message']], $extras]);
             die(1);
         });
     }

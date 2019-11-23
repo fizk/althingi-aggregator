@@ -2,7 +2,7 @@
 namespace AlthingiAggregatorTest\Consumer\Stub;
 
 use AlthingiAggregator\Extractor\ExtractionInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class ExtractorExceptionStub implements ExtractionInterface
 {
@@ -10,10 +10,10 @@ class ExtractorExceptionStub implements ExtractionInterface
     /**
      * @param \DOMElement $object
      * @return array
-     * @throws ModelException
+     * @throws \AlthingiAggregator\Extractor\Exception
      */
     public function extract(\DOMElement $object)
     {
-        throw new ModelException('Missing [{}] value');
+        throw new Extractor\Exception('Missing [{}] value');
     }
 }

@@ -1,6 +1,9 @@
 <?php
 namespace AlthingiAggregatorTest\Consumer;
 
+use Monolog\Handler\NullHandler;
+use Monolog\Logger;
+use Monolog\Handler;
 use PHPUnit\Framework\TestCase;
 use Mockery;
 use Zend\Http\Client\Adapter\Test as ClientTestAdapter;
@@ -168,45 +171,6 @@ class HttpConsumerTest extends TestCase
         $cache = Mockery::mock('Zend\Cache\Storage\StorageInterface')
             ->shouldReceive('getItem')
             ->andReturn(HttpConsumer::createStorageValue($data))
-            ->once()
-            ->getMock();
-
-        $consumer = (new HttpConsumer())
-            ->setClient($client)
-            ->setLogger($logger)
-            ->setCache($cache)
-            ->setUri((new Http('http://localhost:8080')));
-
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPost($data));
-    }
-
-    /**
-     * @tag 005
-     */
-    public function testNoIdentityNotInCachePostConflictNoLocationHeader()
-    {
-        $data = ['key1' => 1, 'key2' => 2];
-
-        $cache = Mockery::mock('Zend\Cache\Storage\StorageInterface')
-            ->shouldReceive('getItem')
-            ->andReturn('no-matching-value')
-            ->once()
-            ->getMock();
-
-        $adapter = new ClientTestAdapter();
-        $adapter->setResponse(
-            'HTTP/1.1 409 Conflict'   . "\r\n" .
-            'Content-Type: text/html' . "\r\n\r\n"
-        );
-        $client = (new ClientTest())
-            ->setAdapter($adapter);
-
-        $logger = Mockery::mock('Psr\Log\LoggerInterface')
-            ->shouldReceive('error')
-            ->andReturnUsing(function ($_, $params) {
-                $this->assertEquals("Can't PATCH, no Location-Header", $params[2]);
-                return null;
-            })
             ->once()
             ->getMock();
 
