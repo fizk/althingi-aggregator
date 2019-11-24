@@ -210,14 +210,17 @@ class HttpConsumerTest extends TestCase
             ->setAdapter($adapter);
 
         $logger = Mockery::mock('Psr\Log\LoggerInterface')
-            ->shouldReceive('error')
+            ->shouldReceive('warning')
             ->andReturnUsing(function ($code, $params) {
                 $this->assertTrue($code === 409 || $code === 500);
                 $this->assertTrue($params[0] === 'POST' || $params[0] === 'PATCH');
                 return null;
             })
-            ->twice()
-            ->getMock();
+            ->once()
+            ->getMock()
+        ->shouldReceive('error')
+        ->once()
+        ->getMock();
 
         $consumer = (new HttpConsumer())
             ->setClient($client)
@@ -259,7 +262,7 @@ class HttpConsumerTest extends TestCase
             ->setAdapter($adapter);
 
         $logger = Mockery::mock('Psr\Log\LoggerInterface')
-            ->shouldReceive('error')
+            ->shouldReceive('warning')
             ->andReturnUsing(function ($message, $params) {
                 $this->assertEquals(409, $message);
                 $this->assertEquals('POST', $params[0]);
@@ -312,14 +315,17 @@ class HttpConsumerTest extends TestCase
             ->setAdapter($adapter);
 
         $logger = Mockery::mock('Psr\Log\LoggerInterface')
-            ->shouldReceive('error')
+            ->shouldReceive('warning')
             ->andReturnUsing(function ($code, $params) {
                 $this->assertTrue($code === 409 || $code === 404);
                 $this->assertTrue($params[0] === 'POST' || $params[0] === 'PATCH');
                 return null;
             })
-            ->twice()
-            ->getMock();
+            ->once()
+            ->getMock()
+        ->shouldReceive('error')
+        ->once()
+        ->getMock();
 
         $consumer = (new HttpConsumer())
             ->setClient($client)

@@ -59,8 +59,9 @@ class HttpConsumer implements
                     return $this->doUniqueRequest($storageKey, $params);
                 }
             } catch (\Exception $e) {
-                $this->logger->info(0, ['CONSUMER', $storageKey, [
-                    'message' => 'Can\'t connect to consumer, ' . ($tries - 1) . ' tries left'
+                $this->logger->warning(0, ['CONSUMER', $storageKey, [
+                    'message' => 'Can\'t connect to consumer, ' . ($tries - 1) . ' tries left',
+                    'exception' => $e->getMessage()
                 ]]);
                 sleep(2);
                 $tries--;
@@ -112,15 +113,20 @@ class HttpConsumer implements
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
                     $postResponse->getStatusCode(),
-                    ['POST', $uri->toString(), $params, $postResponse->getContent()]
+                    ['POST', $uri->toString(), [
+                        'params' => $params,
+                        'request' => $postRequest->getHeaders()->toArray()
+                    ], $postResponse->getContent()]
                 );
                 break;
             case 409:
                 if ($postResponse->getHeaders()->get('Location')) {
-                    $this->logger->error(
+                    $this->logger->warning(
                         $postResponse->getStatusCode(),
                         ['POST', $uri->toString(), [
-                            'message' => 'Going to try PATCH', 'params' => $params
+                            'message' => 'Going to try PATCH',
+                            'params' => $params,
+                            'request' => $postRequest->getHeaders()->toArray(),
                         ], $postResponse->getContent()]
                     );
                     $this->doPatchRequest(
@@ -131,7 +137,9 @@ class HttpConsumer implements
                     $this->logger->error(
                         0,
                         ['POST', $uri->toString(), [
-                            'message' => 'Can\'t PATCH, no Location-Header', 'params' => $params
+                            'message' => 'Can\'t PATCH, no Location-Header',
+                            'params' => $params,
+                            'request' => $postRequest->getHeaders()->toArray()
                         ], $postResponse->getContent()]
                     );
                 }
@@ -139,7 +147,10 @@ class HttpConsumer implements
             default:
                 $this->logger->error(
                     $postResponse->getStatusCode(),
-                    ['POST', $uri->toString(), $params, $postResponse->getContent()]
+                    ['POST', $uri->toString(), [
+                        'params' => $params,
+                        'request' => $postRequest->getHeaders()->toArray()
+                    ], $postResponse->getContent()]
                 );
                 break;
         }
@@ -163,7 +174,10 @@ class HttpConsumer implements
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
                     $putResponse->getStatusCode(),
-                    ['PUT', $uri->toString(), $params, $putResponse->getContent()]
+                    ['PUT', $uri->toString(), [
+                        'params' => $params,
+                        'request' => $putRequest->getHeaders()->toArray()
+                    ], $putResponse->getContent()]
                 );
                 break;
             case 409:
@@ -171,7 +185,8 @@ class HttpConsumer implements
                     $putResponse->getStatusCode(),
                     ['PUT', $uri->toString(), [
                         'message' => 'Going to try PATCH',
-                        'params' => $params
+                        'params' => $params,
+                        'request' => $putRequest->getHeaders()->toArray()
                     ], $putResponse->getContent()]
                 );
                 $this->doPatchRequest($uri, $params);
@@ -179,7 +194,10 @@ class HttpConsumer implements
             default:
                 $this->logger->error(
                     $putResponse->getStatusCode(),
-                    ['PUT', $uri->toString(), $params, $putResponse->getContent()]
+                    ['PUT', $uri->toString(), [
+                        'params' => $params,
+                        'request' => $putRequest->getHeaders()->toArray()
+                    ], $putResponse->getContent()]
                 );
                 break;
         }
@@ -203,13 +221,19 @@ class HttpConsumer implements
                 $this->storeInCache($uri, $params);
                 $this->logger->info(
                     $patchResponse->getStatusCode(),
-                    ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
+                    ['PATCH', $uri->toString(), [
+                        'params' => $params,
+                        'request' => $patchRequest->getHeaders()->toArray()
+                    ], $patchResponse->getContent()]
                 );
                 break;
             default:
                 $this->logger->error(
                     $patchResponse->getStatusCode(),
-                    ['PATCH', $uri->toString(), $params, $patchResponse->getContent()]
+                    ['PATCH', $uri->toString(), [
+                        'params' => $params,
+                        'request' => $patchRequest->getHeaders()->toArray()
+                    ], $patchResponse->getContent()]
                 );
                 break;
         }
