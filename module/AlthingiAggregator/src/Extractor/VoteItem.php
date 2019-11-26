@@ -2,7 +2,7 @@
 namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class VoteItem implements ExtractionInterface
 {
@@ -16,11 +16,11 @@ class VoteItem implements ExtractionInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('id')) {
-            throw new ModelException('Missing [{id}] value', $object);
+            throw new Extractor\Exception('Missing [{id}] value', $object);
         }
 
         if (! $object->getElementsByTagName('atkvæði')->item(0)) {
-            throw new ModelException('Missing [{atkvæði}] value', $object);
+            throw new Extractor\Exception('Missing [{atkvæði}] value', $object);
         }
 
         return [

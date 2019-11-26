@@ -1,11 +1,10 @@
-FROM php:7.2-cli
+FROM php:7.3-cli-buster
 
-ENV LOG_PATH none
 ARG WITH_XDEBUG
-ENV ENV_WITH_XDEBUG=$WITH_XDEBUG
+ARG WITH_DEV
 
 RUN apt-get update \
- && apt-get install -y zip unzip \
+ && apt-get install -y zip unzip libzip-dev \
  && apt-get install -y git zlib1g-dev vim \
  && docker-php-ext-install zip \
  && curl -sS https://getcomposer.org/installer \
@@ -15,7 +14,7 @@ RUN pecl install -o -f redis \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis
 
-RUN if [ $ENV_WITH_XDEBUG = "true" ] ; then \
+RUN if [ $WITH_XDEBUG = "true" ] ; then \
         pecl install xdebug; \
         docker-php-ext-enable xdebug; \
         echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
@@ -31,12 +30,14 @@ COPY ./composer.lock .
 COPY ./phpcs.xml .
 COPY ./phpunit.xml.dist .
 
-# COPY ./auto/ .    ## This is what docker-compose does
-# COPY ./config/ .
-# COPY ./module/ .
-# COPY ./public/ .
-
 RUN mkdir -p /usr/src/data/cache
 
-RUN /usr/local/bin/composer install --no-interaction  \
-    && /usr/local/bin/composer dump-autoload -o
+RUN if [ $WITH_DEV = "true" ] ; then \
+        /usr/local/bin/composer install --prefer-source --no-interaction --no-suggest \
+            && /usr/local/bin/composer dump-autoload -o; \
+    fi ;
+
+RUN if [ $WITH_DEV != "true" ] ; then \
+        /usr/local/bin/composer install --prefer-source --no-interaction --no-dev --no-suggest \
+            && /usr/local/bin/composer dump-autoload -o; \
+    fi ;

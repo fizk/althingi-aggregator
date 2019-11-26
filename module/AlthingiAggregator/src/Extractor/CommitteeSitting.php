@@ -1,15 +1,12 @@
 <?php
 namespace AlthingiAggregator\Extractor;
 
-use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
-
 class CommitteeSitting implements ExtractionInterface
 {
     /**
      * @param \DOMElement $object
      * @return array
-     * @throws ModelException
+     * @throws \AlthingiAggregator\Extractor\Exception
      */
     public function extract(\DOMElement $object)
     {

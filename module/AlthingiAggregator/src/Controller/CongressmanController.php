@@ -1,13 +1,10 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\CommitteeSitting;
-use AlthingiAggregator\Extractor\MinisterSitting;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Extractor\Session;
-use AlthingiAggregator\Extractor\Congressman;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class CongressmanController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -34,7 +31,7 @@ class CongressmanController extends AbstractActionController implements Consumer
         $this->saveDomNodeList(
             $congressmenElements,
             'thingmenn',
-            new Congressman()
+            new Extractor\Congressman()
         );
 
         if ($assemblyNumber) {
@@ -52,14 +49,14 @@ class CongressmanController extends AbstractActionController implements Consumer
                     $congressmanSessionUrl,
                     "thingmenn/{$congressmanId}/thingseta",
                     '//þingmaður/þingsetur/þingseta',
-                    new Session()
+                    new Extractor\Session()
                 );
 
                 $this->queryAndSave(
                     $congressmanCommitteeUrl,
                     "thingmenn/{$congressmanId}/nefndaseta",
                     '//þingmaður/nefndasetur/nefndaseta',
-                    new CommitteeSitting()
+                    new Extractor\CommitteeSitting()
                 );
             }
         }
@@ -86,7 +83,7 @@ class CongressmanController extends AbstractActionController implements Consumer
         $this->saveDomNodeList(
             $congressmenElements,
             'thingmenn',
-            new Congressman()
+            new Extractor\Congressman()
         );
 
         if ($assemblyNumber) {
@@ -104,14 +101,14 @@ class CongressmanController extends AbstractActionController implements Consumer
                     $congressmanSessionUrl,
                     "thingmenn/{$congressmanId}/thingseta",
                     '//þingmaður/þingsetur/þingseta',
-                    new Session()
+                    new Extractor\Session()
                 );
 
                 $this->queryAndSave(
                     $congressmanCommitteeUrl,
                     "thingmenn/{$congressmanId}/radherraseta",
                     '//einstaklingur/ráðherrasetur/ráðherraseta',
-                    new MinisterSitting()
+                    new Extractor\MinisterSitting()
                 );
             }
         }

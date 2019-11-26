@@ -2,9 +2,9 @@
 namespace AlthingiAggregator\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Extractor\Assembly;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Extractor;
 
 class AssemblyController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -16,7 +16,7 @@ class AssemblyController extends AbstractActionController implements ConsumerAwa
             'http://www.althingi.is/altext/xml/loggjafarthing/yfirstandandi',
             'loggjafarthing',
             '//löggjafarþing/þing',
-            new Assembly()
+            new Extractor\Assembly()
         );
     }
 
@@ -26,7 +26,7 @@ class AssemblyController extends AbstractActionController implements ConsumerAwa
             'http://www.althingi.is/altext/xml/loggjafarthing',
             'loggjafarthing',
             '//löggjafarþing/þing',
-            new Assembly()
+            new Extractor\Assembly()
         );
     }
 }

@@ -1,20 +1,13 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\IssueLink;
+use Zend\Mvc\Controller\AbstractActionController;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
+use DOMDocument;
 use DOMElement;
 use DOMXPath;
-use DOMDocument;
-use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
-use AlthingiAggregator\Extractor\Document;
-use AlthingiAggregator\Extractor\IssueCategory;
-use AlthingiAggregator\Extractor\Issue;
-use AlthingiAggregator\Extractor\Proponent;
-use AlthingiAggregator\Extractor\Speech;
-use AlthingiAggregator\Extractor\Vote;
-use AlthingiAggregator\Extractor\VoteItem;
 
 class IssueController extends AbstractActionController implements
     ConsumerAwareInterface,
@@ -118,7 +111,7 @@ class IssueController extends AbstractActionController implements
         $this->saveDomElement(
             $issue,
             "loggjafarthing/{$assemblyNumber}/thingmal/a",
-            new Issue()
+            new Extractor\Issue()
         );
     }
 
@@ -128,7 +121,7 @@ class IssueController extends AbstractActionController implements
         $this->saveDomNodeList(
             $categories,
             "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/efnisflokkar",
-            new IssueCategory()
+            new Extractor\IssueCategory()
         );
     }
 
@@ -139,7 +132,7 @@ class IssueController extends AbstractActionController implements
         $this->saveDomNodeList(
             $documentsNodeList,
             "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/thingskjal",
-            new Document()
+            new Extractor\Document()
         );
     }
 
@@ -152,7 +145,7 @@ class IssueController extends AbstractActionController implements
             $this->saveDomElement(
                 $voteItemDocumentDom->documentElement,
                 "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/atkvaedagreidslur",
-                new Vote()
+                new Extractor\Vote()
             );
 
             $voteNumber = (int) $voteItemDocumentDom->documentElement->getAttribute('atkvæðagreiðslunúmer');
@@ -162,7 +155,7 @@ class IssueController extends AbstractActionController implements
                     $vote,
                     "loggjafarthing/{$assemblyNumber}/".
                     "thingmal/a/{$issueNumber}/atkvaedagreidslur/{$voteNumber}/atkvaedi",
-                    new VoteItem()
+                    new Extractor\VoteItem()
                 );
             }
         }
@@ -182,7 +175,7 @@ class IssueController extends AbstractActionController implements
                 $this->saveDomElement(
                     $congressman,
                     "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/thingskjal/{$documentId}/flutningsmenn",
-                    new Proponent()
+                    new Extractor\Proponent()
                 );
             }
         }
@@ -197,7 +190,7 @@ class IssueController extends AbstractActionController implements
             $this->saveDomElement(
                 $speechDocument->documentElement,
                 "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/raedur",
-                new Speech()
+                new Extractor\Speech()
             );
         }
     }
@@ -211,7 +204,7 @@ class IssueController extends AbstractActionController implements
             $this->saveDomElement(
                 $issue,
                 "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}",
-                new IssueLink()
+                new Extractor\IssueLink()
             );
         }
 
@@ -222,7 +215,7 @@ class IssueController extends AbstractActionController implements
             $this->saveDomElement(
                 $issue,
                 "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}",
-                new IssueLink()
+                new Extractor\IssueLink()
             );
         }
     }
@@ -233,7 +226,7 @@ class IssueController extends AbstractActionController implements
         $this->saveDomElement(
             $issue,
             "loggjafarthing/{$assemblyNumber}/thingmal/b",
-            new Issue()
+            new Extractor\Issue()
         );
     }
 
@@ -246,7 +239,7 @@ class IssueController extends AbstractActionController implements
             $this->saveDomElement(
                 $speechDocument->documentElement,
                 "loggjafarthing/{$assemblyNumber}/thingmal/b/{$issueNumber}/raedur",
-                new Speech()
+                new Extractor\Speech()
             );
         }
     }

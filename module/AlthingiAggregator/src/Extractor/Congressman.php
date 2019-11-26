@@ -3,7 +3,7 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class Congressman implements ExtractionInterface, IdentityInterface
 {
@@ -18,11 +18,11 @@ class Congressman implements ExtractionInterface, IdentityInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('id')) {
-            throw new ModelException('Missing [id] value', $object);
+            throw new Extractor\Exception('Missing [id] value', $object);
         }
 
         if (! $object->getElementsByTagName('nafn')->item(0)) {
-            throw new ModelException('Missing [{nafn}] value', $object);
+            throw new Extractor\Exception('Missing [{nafn}] value', $object);
         }
 
         $this->setIdentity($object->getAttribute('id'));

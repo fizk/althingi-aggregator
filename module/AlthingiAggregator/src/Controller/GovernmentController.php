@@ -1,11 +1,11 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\Government;
-use AlthingiAggregator\Lib\GovernmentDocumentCallback;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Callback\GovernmentDocumentCallback;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class GovernmentController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -19,6 +19,6 @@ class GovernmentController extends AbstractActionController implements ConsumerA
             new GovernmentDocumentCallback()
         );
 
-        $this->saveDomNodeList($list, 'raduneyti', new Government());
+        $this->saveDomNodeList($list, 'raduneyti', new Extractor\Government());
     }
 }

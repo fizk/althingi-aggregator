@@ -1,9 +1,10 @@
 <?php
 namespace AlthingiAggregatorTest\Controller;
 
-use AlthingiAggregatorTest\Lib\Consumer\TestConsumer;
-use AlthingiAggregatorTest\Lib\Provider\TestProvider;
-use AlthingiAggregator\Lib\Provider\ProviderInterface;
+use AlthingiAggregatorTest\Consumer\TestConsumer;
+use AlthingiAggregatorTest\Provider\TestProvider;
+use AlthingiAggregator\Consumer;
+use AlthingiAggregator\Provider;
 use Zend\Test\PHPUnit\Controller\AbstractConsoleControllerTestCase;
 use Zend\Stdlib\ArrayUtils;
 
@@ -31,8 +32,8 @@ class AssemblyControllerTest extends AbstractConsoleControllerTestCase
 
         $serviceManager = $this->getApplicationServiceLocator();
         $serviceManager->setAllowOverride(true);
-        $serviceManager->setService('Provider', $this->provider);
-        $serviceManager->setService('Consumer', $this->consumer);
+        $serviceManager->setService(Provider\ProviderInterface::class, $this->provider);
+        $serviceManager->setService(Consumer\ConsumerInterface::class, $this->consumer);
     }
 
     public function testAssemblyByNumberData()

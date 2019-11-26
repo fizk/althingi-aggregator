@@ -3,7 +3,6 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
 
 class Inflation implements ExtractionInterface, IdentityInterface
 {
@@ -12,8 +11,9 @@ class Inflation implements ExtractionInterface, IdentityInterface
     /**
      * Extract values from an object
      *
-     * @param  DOMElement $object
+     * @param DOMElement $object
      * @return array|null
+     * @throws \Exception
      */
     public function extract(DOMElement $object)
     {

@@ -1,13 +1,12 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\Exception;
 use DOMXPath;
 use DOMNodeList;
 use DOMElement;
 use AlthingiAggregator\Extractor\ExtractionInterface;
-use AlthingiAggregator\Lib\Consumer\ConsumerInterface;
-use AlthingiAggregator\Lib\Provider\ProviderInterface;
+use AlthingiAggregator\Consumer\ConsumerInterface;
+use AlthingiAggregator\Provider\ProviderInterface;
 
 trait ConsoleHelper
 {

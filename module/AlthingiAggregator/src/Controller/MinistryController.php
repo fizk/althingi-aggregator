@@ -1,10 +1,10 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\Ministry;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class MinistryController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -16,7 +16,7 @@ class MinistryController extends AbstractActionController implements ConsumerAwa
             'https://www.althingi.is/altext/xml/radherraembaetti',
             'radherraembaetti',
             '//ráðherrar/ráðherraembætti',
-            new Ministry()
+            new Extractor\Ministry()
         );
     }
 }

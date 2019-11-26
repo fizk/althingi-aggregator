@@ -3,7 +3,7 @@ namespace AlthingiAggregator\Extractor;
 
 use DOMElement;
 use AlthingiAggregator\Lib\IdentityInterface;
-use AlthingiAggregator\Extractor\Exception as ModelException;
+use AlthingiAggregator\Extractor;
 
 class Vote implements ExtractionInterface, IdentityInterface
 {
@@ -19,23 +19,23 @@ class Vote implements ExtractionInterface, IdentityInterface
     public function extract(DOMElement $object)
     {
         if (! $object->hasAttribute('málsnúmer')) {
-            throw new ModelException('Missing [{málsnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{málsnúmer}] value', $object);
         }
 
         if (! $object->hasAttribute('þingnúmer')) {
-            throw new ModelException('Missing [{þingnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
         }
 
         if (! $object->hasAttribute('atkvæðagreiðslunúmer')) {
-            throw new ModelException('Missing [{atkvæðagreiðslunúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{atkvæðagreiðslunúmer}] value', $object);
         }
 
         if (! $object->getElementsByTagName('tími')) {
-            throw new ModelException('Missing [{tími}] value', $object);
+            throw new Extractor\Exception('Missing [{tími}] value', $object);
         }
 
         if (! $object->getElementsByTagName('tegund')) {
-            throw new ModelException('Missing [{tegund}] value', $object);
+            throw new Extractor\Exception('Missing [{tegund}] value', $object);
         }
 
         $xpath = new \DOMXPath($object->ownerDocument);

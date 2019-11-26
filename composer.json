@@ -21,7 +21,6 @@
         "zendframework/zend-mvc": "^3.0.1",
         "zfcampus/zf-development-mode": "^3.0",
         "monolog/monolog": "^1.23",
-        "bramus/monolog-colored-line-formatter": "^2.0",
         "zendframework/zend-mvc-console": "^1.2",
         "zendframework/zend-eventmanager": "^3.2",
         "zendframework/zend-cache": "^2.8",

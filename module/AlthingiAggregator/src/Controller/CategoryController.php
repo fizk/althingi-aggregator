@@ -1,11 +1,10 @@
 <?php
 namespace AlthingiAggregator\Controller;
 
-use AlthingiAggregator\Extractor\Category;
-use AlthingiAggregator\Extractor\SuperCategory;
 use Zend\Mvc\Controller\AbstractActionController;
-use AlthingiAggregator\Lib\Consumer\ConsumerAwareInterface;
-use AlthingiAggregator\Lib\Provider\ProviderAwareInterface;
+use AlthingiAggregator\Extractor;
+use AlthingiAggregator\Consumer\ConsumerAwareInterface;
+use AlthingiAggregator\Provider\ProviderAwareInterface;
 
 class CategoryController extends AbstractActionController implements ConsumerAwareInterface, ProviderAwareInterface
 {
@@ -18,7 +17,11 @@ class CategoryController extends AbstractActionController implements ConsumerAwa
             '//efnisflokkar/yfirflokkur'
         );
         foreach ($superCategoriesList as $superCategory) {
-            $this->saveDomElement($superCategory, 'thingmal/efnisflokkar', new SuperCategory());
+            $this->saveDomElement(
+                $superCategory,
+                'thingmal/efnisflokkar',
+                new Extractor\SuperCategory()
+            );
 
             $superCategoryId = (int) $superCategory->getAttribute('id');
 
@@ -27,7 +30,7 @@ class CategoryController extends AbstractActionController implements ConsumerAwa
                 $this->saveDomElement(
                     $category,
                     "thingmal/efnisflokkar/{$superCategoryId}/undirflokkar",
-                    new Category()
+                    new Extractor\Category()
                 );
             }
         }
