@@ -227,7 +227,7 @@ return [
                 ],
                 'president' => [
                     'options' => [
-                        'route'    => 'load:president',
+                        'route'    => 'load:president [--assembly=|-a]',
                         'defaults' => [
                             'controller' => Controller\PresidentController::class,
                             'action'     => 'find-president'

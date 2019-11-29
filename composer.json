@@ -23,7 +23,9 @@
         "monolog/monolog": "^1.23",
         "zendframework/zend-mvc-console": "^1.2",
         "zendframework/zend-eventmanager": "^3.2",
-        "zendframework/zend-cache": "^2.8",
+        "zendframework/zend-cache": "^2.8"
+    },
+    "require-dev": {
         "zendframework/zend-test": "^3.2",
         "mockery/mockery": "^1.1",
         "phpunit/phpunit": "^7",
