@@ -6,10 +6,12 @@ use AlthingiAggregator\Lib\IdentityInterface;
 use AlthingiAggregator\Extractor\ExtractionInterface;
 use AlthingiAggregator\Consumer\ConsumerInterface;
 
-class TestConsumer implements ConsumerInterface
+class TestConsumer implements ConsumerInterface, \Countable
 {
 
     private $objects = [];
+
+    private $count = 0;
 
     /**
      * Save $extract to storage/consumer.
@@ -26,11 +28,19 @@ class TestConsumer implements ConsumerInterface
             ? sprintf('%s/%s', $storageKey, $extract->getIdentity())
             : $storageKey ;
 
+        ++$this->count;
         $this->objects[$key] = $result;
+
+        return;
     }
 
     public function getObjects()
     {
         return $this->objects;
+    }
+
+    public function count()
+    {
+        return $this->count;
     }
 }
