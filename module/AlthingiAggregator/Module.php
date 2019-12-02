@@ -40,6 +40,7 @@ class Module
                         'file' => $exception->getFile(),
                         'line' => $exception->getLine(),
                         'code' => $exception->getCode(),
+                        'stack' => $exception->getTraceAsString(),
                     ]]);
                     return;
                 }
@@ -64,12 +65,8 @@ class Module
                 ob_end_clean();
             }
 
-            // generate unique reference for this error
-            $chars = md5(uniqid('', true));
-            $errorReference = substr($chars, 2, 2) . substr($chars, 12, 2) . substr($chars, 26, 2);
-
             $extras = [
-                'reference' => $errorReference,
+                'reference' => sha1(uniqid(rand(), true)),
                 'file' => $error['file'],
                 'line' => $error['line']
             ];

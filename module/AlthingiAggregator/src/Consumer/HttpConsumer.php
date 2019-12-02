@@ -268,6 +268,8 @@ class HttpConsumer implements
             ->setMethod('post')
             ->setHeaders((new Headers())->addHeaders([
                 'X-HTTP-Method-Override' => $verb,
+                'X-Transaction-Id' => sha1(uniqid(rand(), true)),
+                'Connection' => 'Keep-Alive',
                 'Keep-Alive' => 'timeout=5, max=1000',
             ]))
             ->setUri($uri)
