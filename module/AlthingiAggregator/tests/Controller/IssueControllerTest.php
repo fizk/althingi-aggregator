@@ -34,5 +34,12 @@ class IssueControllerTest extends AbstractConsoleControllerTestCase
     public function testNotShowingUp()
     {
         $this->assertTrue(true);
+
+//        $this->dispatch('load:single-issue --assembly=142  --issue=1  --category=A');
+//
+//        $consumerStoredData = $this->consumer->getObjects();
+//
+//        $this->assertCount(1, $consumerStoredData);
+//        $this->assertArrayHasKey('loggjafarthing/1', $consumerStoredData);
     }
 }

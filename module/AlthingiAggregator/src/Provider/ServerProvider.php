@@ -69,11 +69,12 @@ class ServerProvider implements
         } else {
             $content = preg_replace_callback('/\&.*?;/im', function ($item) {
                 $entry = (count($item) > 0) ? $item[0] : '';
-                if (in_array($entry, ['&lt;', '&gt;', '&apos;', '&amp;'])) {
-                    return '';
+                if (in_array($entry, ['&quot;', '&amp;', '&apos;', '&lt;', '&gt;'])) {
+                    return $entry;
                 }
                 return html_entity_decode($entry);
             }, $content);
+
             $dom = @new DOMDocument();
             if (@$dom->loadXML($content)) {
                 $this->cache->setItem($key, $content);

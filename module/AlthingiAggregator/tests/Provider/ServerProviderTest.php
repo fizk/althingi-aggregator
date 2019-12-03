@@ -34,6 +34,8 @@ class ServerProviderTest extends TestCase
                              &amp;, &quot;, &lt;, &gt;, &apos;
                              &quot;
                              
+                <xml>http://www.althingi.is/altext/xml/thingmalalisti/thingmal/?lthing=150&amp;malnr=1</xml>
+                             
                             <tag>&apos;</tag>
                             <texti> 2. október 13, kl.  9:30 árdegis</texti>
                             <dagur>2013-10-02</dagur>

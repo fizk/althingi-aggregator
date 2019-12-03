@@ -74,6 +74,15 @@ class IssueController extends AbstractActionController implements
         }
     }
 
+    /**
+     * @param $assemblyNumber
+     * @param $issueNumber
+     * @param DOMXPath $xPath
+     * @throws \Exception
+     * @todo The `samantekt` can be empty
+     *  https://www.althingi.is/altext/xml/samantektir/samantekt/?lthing=141&malnr=1
+     *  <samantekt><!--  engin samantekt  --></samantekt>
+     */
     private function processIssue($assemblyNumber, $issueNumber, DOMXPath $xPath)
     {
         $issue = $xPath->query('//þingmál/mál')->item(0);
