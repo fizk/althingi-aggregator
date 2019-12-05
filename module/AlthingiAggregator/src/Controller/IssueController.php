@@ -79,9 +79,6 @@ class IssueController extends AbstractActionController implements
      * @param $issueNumber
      * @param DOMXPath $xPath
      * @throws \Exception
-     * @todo The `samantekt` can be empty
-     *  https://www.althingi.is/altext/xml/samantektir/samantekt/?lthing=141&malnr=1
-     *  <samantekt><!--  engin samantekt  --></samantekt>
      */
     private function processIssue($assemblyNumber, $issueNumber, DOMXPath $xPath)
     {
@@ -178,13 +175,22 @@ class IssueController extends AbstractActionController implements
             $documentsDom = $this->queryForDocument($documentNodeElement->nodeValue);
             $documentsXPath = new DOMXPath($documentsDom);
             $documentId = $documentsXPath->query('//þingskjal/þingskjal')->item(0)->getAttribute('skjalsnúmer');
-            $congressmenNodeList = $documentsXPath->query('//þingskjal/þingskjal/flutningsmenn/flutningsmaður');
+            $congressmenNodeList = $documentsXPath->query('//þingskjal/þingskjal/flutningsmenn//flutningsmaður');
 
             foreach ($congressmenNodeList as $congressman) {
                 $this->saveDomElement(
                     $congressman,
                     "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/thingskjal/{$documentId}/flutningsmenn",
                     new Extractor\Proponent()
+                );
+            }
+
+            $committeesNodeList = $documentsXPath->query('//þingskjal/þingskjal/flutningsmenn//nefnd');
+            foreach ($committeesNodeList as $committee) {
+                $this->saveDomElement(
+                    $committee,
+                    "loggjafarthing/{$assemblyNumber}/thingmal/a/{$issueNumber}/thingskjal/{$documentId}/nefndir",
+                    new Extractor\DocumentCommittee()
                 );
             }
         }
