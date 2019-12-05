@@ -74,5 +74,4 @@ class DocumentCommitteeTest extends TestCase
         $documentData = (new DocumentCommittee())
             ->extract($dom->firstChild);
     }
-
 }
