@@ -1,39 +1,52 @@
 <?php
 
-use Zend\Mvc\Application;
-use Zend\Stdlib\ArrayUtils;
-
-/**
- * This makes our life easier when dealing with paths. Everything is relative
- * to the application root now.
- */
 chdir(dirname(__DIR__));
+set_error_handler("exception_error_handler");
+require_once './vendor/autoload.php';
 
-// Decline static file requests back to the PHP built-in webserver
-if (php_sapi_name() === 'cli-server') {
-    $path = realpath(__DIR__ . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-    if (__FILE__ !== $path && is_file($path)) {
-        return false;
+use App\Event\ErrorEvent;
+use App\Event\ExceptionEvent;
+use Laminas\Diactoros\ServerRequest;
+use App\Lib\CommandLine;
+use Laminas\Diactoros\Uri;
+use App\Lib\Router\RouteCollection;
+use Laminas\ServiceManager\ServiceManager;
+use Psr\EventDispatcher\EventDispatcherInterface;
+
+try {
+    $arguments = CommandLine::parseArgs($argv);
+    $command = array_shift($arguments);
+
+    $serviceManager = new ServiceManager(require_once './config/service.php');
+    $request = (new ServerRequest())->withUri(new Uri("/{$command}"));
+    foreach($arguments as $key => $value) {
+        $request = $request->withAttribute($key, $value);
     }
-    unset($path);
+
+    $routerCollection = new RouteCollection();
+    $routerCollection->setRouteConfig(require_once './config/routes.php');
+    $response = $routerCollection->match($request);
+
+    try {
+        $response = $serviceManager->get($response->getHandler())->handle($request);
+    } catch (App\Extractor\Exception $exception) {
+        $serviceManager->get(EventDispatcherInterface::class)
+            ->dispatch(new ExceptionEvent($request, $exception));
+    } catch(Throwable $exception) {
+        $serviceManager->get(EventDispatcherInterface::class)
+            ->dispatch(new ErrorEvent($request, $exception));
+    }
+    exit(0);
+} catch (Throwable $exception) { //@todo
+    echo $exception->getMessage();
+    exit(1);
 }
 
-// Composer autoloading
-include __DIR__ . '/../vendor/autoload.php';
 
-if (! class_exists(Application::class)) {
-    throw new RuntimeException(
-        "Unable to load application.\n"
-        . "- Type `composer install` if you are developing locally.\n"
-        . "- Type `vagrant ssh -c 'composer install'` if you are using Vagrant.\n"
-        . "- Type `docker-compose run zf composer install` if you are using Docker.\n"
-    );
+function exception_error_handler($severity, $message, $file, $line)
+{
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+    throw new ErrorException($message, 0, $severity, $file, $line);
 }
-
-// Retrieve configuration
-$appConfig = require __DIR__ . '/../config/application.config.php';
-if (file_exists(__DIR__ . '/../config/development.config.php')) {
-    $appConfig = ArrayUtils::merge($appConfig, require __DIR__ . '/../config/development.config.php');
-}
-// Run the application!
-Application::init($appConfig)->run();

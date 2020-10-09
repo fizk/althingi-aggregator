@@ -123,14 +123,4 @@ public/vendor
 
 components
 
-data/cache/**/*.php
-data/cache/consumer/*
-!data/cache/consumer/.gitkeep
-
-data/cache/provider/*
-!data/cache/provider/.gitkeep
-
-data/log/
-!data/log/.gitkeep
-
-assets/docs/tests
+tests/doc
