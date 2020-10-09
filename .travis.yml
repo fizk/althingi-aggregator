@@ -1,10 +1,23 @@
 language: php
 
-php:
-- '7.2'
 services:
-- docker
+  - docker
+
+env:
+  - IMAGE_NAME=einarvalur/althingi-aggregator
 
 script:
-- docker-compose build
-- docker-compose run test
+    - docker-compose up --build test
+
+before_deploy:
+  - docker build --build-arg ENV=production -t "$IMAGE_NAME" .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - git_sha="$(git rev-parse --short HEAD)"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${git_sha}"
+
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${git_sha}"
+  on:
+    branch: master

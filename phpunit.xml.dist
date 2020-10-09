@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true" bootstrap="./module/AlthingiAggregator/tests/bootstrap.php">
+
+<phpunit bootstrap = "vendor/autoload.php"
+    backupGlobals               = "false"
+    backupStaticAttributes      = "false"
+    colors                      = "true"
+    convertErrorsToExceptions   = "true"
+    convertNoticesToExceptions  = "true"
+    convertWarningsToExceptions = "true"
+    processIsolation            = "false"
+    stopOnFailure               = "false">
     <testsuites>
-        <testsuite name="ZendSkeletonApplication Test Suite">
-            <directory>./module/AlthingiAggregator/tests/.</directory>
+        <testsuite name="Project Test Suite">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
-
-    <php>
-        <env name="LOG_PATH" value="" />
-        <env name="CONSUMER_CACHE_TYPE" value="" />
-        <var name="APPLICATION_ENVIRONMENT" value="production" />
-    </php>
-
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./module/AlthingiAggregator/src</directory>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
-
-    <!--<logging>-->
-        <!--<log type="coverage-html" target="./assets/docs/tests/report" lowUpperBound="35" highLowerBound="70"/>-->
-    <!--</logging>-->
-
+    <coverage includeUncoveredFiles="true" processUncoveredFiles="true" pathCoverage="true" ignoreDeprecatedCodeUnits="true" disableCodeCoverageIgnore="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
 </phpunit>

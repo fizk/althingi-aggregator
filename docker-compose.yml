@@ -6,15 +6,10 @@ services:
     container_name: althingi_aggregator_run_container
     build:
       args:
-        - WITH_DEV=true
-        - WITH_XDEBUG=true
+        - ENV=development
       context: .
       dockerfile: Dockerfile
     environment:
-      - APPLICATION_ENVIRONMENT=development
-
-      - LOG_PATH=${ENV_LOG_PATH:-php://stdout}
-
       - CONSUMER_CACHE_TYPE=${ENV_CONSUMER_CACHE_TYPE:-none}
       - CONSUMER_CACHE_HOST=${ENV_CONSUMER_CACHE_HOST:-localhost}
       - CONSUMER_CACHE_PORT=${ENV_CONSUMER_CACHE_PORT:-6379}
@@ -29,28 +24,31 @@ services:
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
       - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-8080}
     volumes:
-      - ./auto/:/usr/src/auto
+      - ./bin/:/usr/src/bin
       - ./config/:/usr/src/config
-      - ./module/:/usr/src/module
+      - ./src/:/usr/src/src
       - ./public/:/usr/src/public
-    working_dir: /usr/src/auto
+      - ./vendor/:/usr/src/vendor
+      - ./composer.json/:/usr/src/composer.json
+      - ./composer.lock/:/usr/src/composer.lock
 
   test:
     container_name: althingi_aggregator_test_container
     build:
       args:
-        - WITH_DEV=true
-        - WITH_XDEBUG=false
+        - ENV=development
       context: .
       dockerfile: Dockerfile
     environment:
-      - APPLICATION_ENVIRONMENT=development
       - PROVIDER_CACHE_TYPE=none
       - CONSUMER_CACHE_TYPE=none
-      - LOG_PATH=none
+    working_dir: /usr/src
     volumes:
-      - ./auto/:/usr/src/auto
       - ./config/:/usr/src/config
-      - ./module/:/usr/src/module
+      - ./src/:/usr/src/src
       - ./public/:/usr/src/public
-    command: bash -c "composer development-disable && /usr/src/vendor/bin/phpunit && /usr/src/vendor/bin/phpcs"
+      - ./tests/:/usr/src/tests
+      - ./phpcs.xml/:/usr/src/phpcs.xml
+      - ./phpunit.xml.dist/:/usr/src/phpunit.xml
+    command: bash -c "./vendor/bin/phpunit && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
+    # command: bash -c "./vendor/bin/phpunit --coverage-html ./tests/doc && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"

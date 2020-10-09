@@ -1,20 +1,24 @@
-FROM php:7.3-cli-buster
+FROM php:7.4.11-cli-buster
 
-ARG WITH_XDEBUG
-ARG WITH_DEV
+ARG ENV
 
-RUN apt-get update \
- && apt-get install -y zip unzip libzip-dev \
- && apt-get install -y git zlib1g-dev vim \
- && docker-php-ext-install zip \
- && curl -sS https://getcomposer.org/installer \
-  | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apt-get update; \
+    apt-get install -y \
+        zip \
+        unzip \
+        libzip-dev \
+        zlib1g-dev \
+        git \
+        vim; \
+    pecl install -o -f redis; \
+    docker-php-ext-enable redis; \
+    docker-php-ext-install zip; \
+    rm -rf /tmp/pear; \
+    curl -sS https://getcomposer.org/installer \
+    | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN pecl install -o -f redis \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis
 
-RUN if [ $WITH_XDEBUG = "true" ] ; then \
+RUN if [ "$ENV" != "production" ] ; then \
         pecl install xdebug; \
         docker-php-ext-enable xdebug; \
         echo "error_reporting = E_ALL" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
@@ -25,19 +29,24 @@ RUN if [ $WITH_XDEBUG = "true" ] ; then \
 
 WORKDIR /usr/src
 
+# USER www-data
+
 COPY ./composer.json .
 COPY ./composer.lock .
-COPY ./phpcs.xml .
-COPY ./phpunit.xml.dist .
 
-RUN mkdir -p /usr/src/data/cache
-
-RUN if [ $WITH_DEV = "true" ] ; then \
-        /usr/local/bin/composer install --prefer-source --no-interaction --no-suggest \
-            && /usr/local/bin/composer dump-autoload -o; \
+RUN if [ "$ENV" != "production" ] ; then \
+    composer install --prefer-source --no-interaction --no-suggest \
+    && composer dump-autoload; \
     fi ;
 
-RUN if [ $WITH_DEV != "true" ] ; then \
-        /usr/local/bin/composer install --prefer-source --no-interaction --no-dev --no-suggest \
-            && /usr/local/bin/composer dump-autoload -o; \
+RUN if [ "$ENV" = "production" ] ; then \
+    composer install --prefer-source --no-interaction --no-dev --no-suggest -o \
+    && composer dump-autoload -o; \
     fi ;
+
+COPY ./bin ./bin
+COPY ./config ./config
+COPY ./src ./src
+COPY ./public ./public
+
+WORKDIR /usr/src/bin
