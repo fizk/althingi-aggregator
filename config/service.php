@@ -7,6 +7,7 @@ use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
 use Laminas\Diactoros\Uri;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\LineFormatter;
 use App\Provider;
 use App\Consumer;
 use App\Event\{
@@ -17,7 +18,6 @@ use App\Event\{
     ProviderErrorEvent,
     ProviderSuccessEvent
 };
-use Monolog\Formatter\LineFormatter;
 
 return [
     'factories' => [
