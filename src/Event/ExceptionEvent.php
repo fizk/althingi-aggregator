@@ -19,13 +19,16 @@ class ExceptionEvent
     public function __toString(): string
     {
         return implode(' ', [
-            'Exception',
+            'SYSTEM',
             $this->request->getMethod(),
             $this->request->getUri()->__toString(),
             0,
             0,
             json_encode(array_merge(
-                [$this->error->getMessage()],
+                [
+                    $this->error->getMessage(),
+                    "{$this->error->getFile()}:{$this->error->getLine()}"
+                ],
                 $this->error->getTrace()
             )),
         ]);

@@ -81,73 +81,76 @@ This system requires:
 ## Configure.
 This service can be configured by providing the following environment variables.
 
-| ENV                 | values                      | defaults    | description  |
-| ------------------- |:----------------------------| ----------- | -------------|
-| CONSUMER_CACHE_HOST        | <host name>          | localhost   |              |
-| CONSUMER_CACHE_PORT        | <port number>        | 6379        |              |
+| ENV                        | values               | defaults    | description  |
+| -------------------------- |:---------------------| ----------- | -------------|
+| CONSUMER_CACHE_HOST        | &lt;host name&gt;    | localhost   |              |
+| CONSUMER_CACHE_PORT        | &lt;port number&gt;  | 6379        |              |
 | CONSUMER_CACHE_TYPE        | memory / none        | none        |              |
-| PROVIDER_CACHE_HOST        | <host name>          | localhost   |              |
-| PROVIDER_CACHE_PORT        | <port number>        | 6379        |              |
+| PROVIDER_CACHE_HOST        | &lt;host name&gt;    | localhost   |              |
+| PROVIDER_CACHE_PORT        | &lt;port number&gt;  | 6379        |              |
 | PROVIDER_CACHE_TYPE        | memory / none        | none        |              |
 | AGGREGATOR_CONSUMER_SCHEMA | http / https         | http        |              |
-| AGGREGATOR_CONSUMER_HOST   | <string>             | localhost   |              |
-| AGGREGATOR_CONSUMER_PORT   | <string>             | 8080        |              |
+| AGGREGATOR_CONSUMER_HOST   | &lt;string&gt;       | localhost   |              |
+| AGGREGATOR_CONSUMER_PORT   | &lt;string&gt;       | 8080        |              |
 
 
 ## Tasks
 This service runs tasks from the command-line. The syntax goes:
-```shell script
-$ cd ./public && php index.php [command]
+```s
+$ php index.php [command]
 ```
 
-| command                   | arguments                                         | description |
-| ------------------------- | ------------------------------------------------- | ----------- |
+The Dockerfile lands you in `/usr/src/bin` because there is where the scripts are (see below),
+so you will need to `cd ../public` before you are able to run the commands
+
+| command                   | arguments                             | description  |
+| ------------------------- | --------------------------------------| ------------ |
 | load:assembly             |                                                   |  |
 | load:party                |                                                   |  |
 | load:constituency         |                                                   |  |
 | load:assembly:current     |                                                   |  |
-| load:congressman          | --assembly= / -a                                  |  |
-| load:minister             | --assembly= / -a                                  |  |
+| load:congressman          | --assembly={int}                                  |  |
+| load:minister             | --assembly={int}                                  |  |
 | load:ministry             |                                                   |  |
-| load:plenary              | --assembly= / -a                                  |  |
-| load:plenary-agenda       | --assembly= / -a                                  |  |
-| load:issue                | --assembly= / -a                                  |  |
-| load:single-issue         | --assembly= / -a  --issue= / -i  --category= / -c |  |
+| load:plenary              | --assembly={int}                                  |  |
+| load:plenary-agenda       | --assembly={int}                                  |  |
+| load:issue                | --assembly={int}                                  |  |
+| load:single-issue         | --assembly={int}  --issue={int}  --category={A|B} |  |
 | load:committee            |                                                   |  |
-| load:committee-assembly   | --assembly= / -a                                  |  |
+| load:committee-assembly   | --assembly={int}                                  |  |
 | load:president            |                                                   |  |
 | load:category             |                                                   |  |
-| load:inflation            | --date= / -d                                      |  |
+| load:inflation            | --date={string}                                   |  |
 | load:government           |                                                   |  |
-| load:tmp-speech           | --assembly= / -a                                  |  |
+| load:tmp-speech           | --assembly={int}                                  |  |
 
 ## Scripts
-Because the commands often time need to be run in a specific order, there are bash scripts that can make tour live simpler.
+Because the commands often time needs to be run in a specific order, there are bash scripts that can make your live simpler.
 These script are located in the `./bin` directory.
 
 * **globals.sh**
-* **assembly.sh <number>**
-* **issue.sh <number> <number> <string>**
+* **assembly.sh &lt;number&gt;**
+* **issue.sh &lt;number&gt; &lt;number&gt; &lt;string&gt;**
 * **presidents.sh**
 
 **globals.sh**: Gets assemblies, parties, constituencies, committees and categories. All of these things
 need to exist on the API's side before any other script is run. So make sure this one run first.
 
-**assembly.sh <number>**: Gets everything related to on assembly: issues, speeches, congressmen... etc.
+**assembly.sh &lt;number&gt;**: Gets everything related to on an assembly: issues, speeches, congressmen... etc.
 pass in as an argument the number of the assembly you want to process.
 
-**issue.sh <number> <number> <string>**: Gets everything related to an issue.
+**issue.sh &lt;number&gt; &lt;number&gt; &lt;string&gt;**: Gets everything related to an issue.
 
 **presidents.sh**: This one gets all congressmen as well as all presidents of the parliament.
 
 
 ## Docker
 This repo comes with a Dockerfile that creates a PHP image that can run the service either for development or production.
-This Dockerfile required optionally two build arguments
+This Dockerfile required optionally a build argument
 
 | argument     | values                   | description |
 | ------------ | ------------------------ | ----------- |
-| ENV          | production / development | Builds the image with/without xdebug support and/or dev dependencies
+| ENV          | production / development | Builds the image with/without xdebug support and/or **composer** dev dependencies
 
 ## Docker Compose
 This repo comes with a docker-compose.yml file that is used for development. It has two services.
@@ -158,19 +161,16 @@ The docker-compose file will set the _working_dir_ to `./bin` so you can run the
 $ docker-compose run run ./globals.sh
 ```
 
-
-**test** Will create an image that is used for CI (Travis), it has dev-dependencies but not Xdebug to make it more prod-like.
+**test** Will create an image that is used for CI (Travis)
 
 You can pass environment variables in the docker-compose **run** service
 
 * ENV_CONSUMER_CACHE_TYPE
 * ENV_CONSUMER_CACHE_HOST
 * ENV_CONSUMER_CACHE_PORT
-* ENV_CONSUMER_CACHE
 * ENV_PROVIDER_CACHE_TYPE
 * ENV_PROVIDER_CACHE_HOST
 * ENV_PROVIDER_CACHE_PORT
-* ENV_PROVIDER_CACHE
 * ENV_AGGREGATOR_CONSUMER_SCHEMA
 * ENV_AGGREGATOR_CONSUMER_HOST
 * ENV_AGGREGATOR_CONSUMER_PORT

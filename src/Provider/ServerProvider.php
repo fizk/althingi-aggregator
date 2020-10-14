@@ -76,21 +76,24 @@ class ServerProvider implements
         $request = (new Request())
             ->withMethod('GET')
             ->withUri(new Uri($url))
-            ->withHeader('User-Agent', 'unknown agent')
+            ->withHeader('User-Agent', 'Mozilla/5.0 '.
+                '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '.
+                '(KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36')
             ->withAddedHeader('Keep-Alive', 'timeout=5, max=1000')
-            ->withAddedHeader('Connection', 'Keep-Alive');
+            ->withAddedHeader('Connection', 'keep-alive')
+            ->withAddedHeader('Host', 'www.althingi.is')
+            ->withAddedHeader('Accept', 'text/html,application/xhtml+xml,application/xml')
+            ;
 
         try {
             $response = $this->client->sendRequest($request);
         } catch (ClientExceptionInterface $e) {
-            sleep(10);
+            sleep(50);
             $response = $this->client->sendRequest($request);
         }
 
         if ($response->getStatusCode() > 399) {
-            $exception = new ErrorException(
-                "Provider can't access {$request->getUri()->__toString()}, {$request->getUri()->__toString()}"
-            );
+            $exception = new ErrorException($response->getBody()->__toString());
             $this->getEventDispatcher()->dispatch(new ProviderErrorEvent($request, $response, $exception));
             throw $exception;
         }

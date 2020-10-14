@@ -6,6 +6,8 @@ require_once './vendor/autoload.php';
 
 use App\Event\ErrorEvent;
 use App\Event\ExceptionEvent;
+use App\Event\SystemSuccessEvent;
+use App\Event\ThrowEvent;
 use Laminas\Diactoros\ServerRequest;
 use App\Lib\CommandLine;
 use Laminas\Diactoros\Uri;
@@ -25,10 +27,11 @@ try {
 
     $routerCollection = new RouteCollection();
     $routerCollection->setRouteConfig(require_once './config/routes.php');
-    $response = $routerCollection->match($request);
-
+    $route = $routerCollection->match($request);
     try {
-        $response = $serviceManager->get($response->getHandler())->handle($request);
+        $response = $serviceManager->get($route->getHandler())->handle($request);
+        $serviceManager->get(EventDispatcherInterface::class)
+            ->dispatch(new SystemSuccessEvent($request, $response));
     } catch (App\Extractor\Exception $exception) {
         $serviceManager->get(EventDispatcherInterface::class)
             ->dispatch(new ExceptionEvent($request, $exception));
@@ -37,8 +40,10 @@ try {
             ->dispatch(new ErrorEvent($request, $exception));
     }
     exit(0);
-} catch (Throwable $exception) { //@todo
-    echo $exception->getMessage();
+} catch (Throwable $exception) {
+    $event = new ThrowEvent($exception);
+    $date = date('Y-m-d H:i:s');
+    echo "[{$date}] CRITICAL {$event->__toString()}\n";
     exit(1);
 }
 

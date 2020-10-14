@@ -16,7 +16,8 @@ use App\Event\{
     ErrorEvent,
     ExceptionEvent,
     ProviderErrorEvent,
-    ProviderSuccessEvent
+    ProviderSuccessEvent,
+    SystemSuccessEvent
 };
 
 return [
@@ -162,6 +163,9 @@ return [
             });
             $provider->listen(ExceptionEvent::class, function (ExceptionEvent $event) use ($logger) {
                 $logger->warn((string) $event);
+            });
+            $provider->listen(SystemSuccessEvent::class, function (SystemSuccessEvent $event) use ($logger) {
+                $logger->debug((string) $event);
             });
 
             return new EventDispatcher($provider);

@@ -18,7 +18,7 @@ class ProviderSuccessEvent
     public function __toString(): string
     {
         return implode(' ', [
-            'Provider',
+            'PROVIDER',
             $this->request->getMethod(),
             $this->request->getUri()->__toString(),
             $this->response->getStatusCode(),

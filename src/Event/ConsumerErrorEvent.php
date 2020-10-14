@@ -21,12 +21,13 @@ class ConsumerErrorEvent
     public function __toString(): string
     {
         return implode(' ', [
-            'Consumer',
+            'CONSUMER',
             $this->request->getHeader('X-HTTP-Method-Override')[0],
             $this->request->getUri()->__toString(),
             $this->response->getStatusCode(),
             $this->response->getBody()->getSize(),
-            $this->error->getMessage()
+            "{$this->error->getFile()}:{$this->error->getLine()} " .
+            $this->error->getMessage(),
         ]);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Event;
 
 use Psr\Http\Message\{ResponseInterface, RequestInterface};
 
-class ConsumerSuccessEvent
+class SystemSuccessEvent
 {
     private RequestInterface $request;
     private ResponseInterface $response;
@@ -18,11 +18,12 @@ class ConsumerSuccessEvent
     public function __toString(): string
     {
         return implode(' ', [
-            'CONSUMER',
-            $this->request->getHeader('X-HTTP-Method-Override')[0],
+            'SYSTEM',
+            $this->request->getMethod(),
             $this->request->getUri()->__toString(),
             $this->response->getStatusCode(),
             $this->response->getBody()->getSize(),
+            $this->response->getBody()->__toString()
         ]);
     }
 }

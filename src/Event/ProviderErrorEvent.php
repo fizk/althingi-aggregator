@@ -21,15 +21,13 @@ class ProviderErrorEvent
     public function __toString(): string
     {
         return implode(' ', [
-            'Provider',
+            'PROVIDER',
             $this->request->getMethod(),
             $this->request->getUri()->__toString(),
             $this->response->getStatusCode(),
             $this->response->getBody()->getSize(),
-            json_encode(array_merge(
-                [$this->error->getMessage()],
-                $this->error->getTrace()
-            )),
+            "{$this->error->getFile()}:{$this->error->getLine()} " .
+            $this->error->getMessage(),
         ]);
     }
 }
