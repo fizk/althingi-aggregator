@@ -4,7 +4,7 @@ namespace App\Provider;
 use App\Event\{ProviderErrorEvent, ProviderSuccessEvent};
 use Psr\Http\Client\{ClientInterface, ClientExceptionInterface};
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Laminas\Diactoros\{Request, Uri};
+use Laminas\Diactoros\{Request, Response, Uri};
 use Laminas\Cache\Storage\StorageInterface;
 use App\Lib\{CacheableAwareInterface, ClientAwareInterface, EventDispatcherAware};
 use DOMDocument;
@@ -32,9 +32,8 @@ class ServerProvider implements
 
         do {
             try {
-                $content = $this->cache->hasItem($key)
-                    ? $this->cache->getItem(md5($url))
-                    : $this->httpRequest($url);
+                $content = $this->cacheRequest($key, $url)
+                    ?: $this->httpRequest($url);
                 $tries = 0;
             } catch (ErrorException $error) {
                 sleep(2);
@@ -99,6 +98,19 @@ class ServerProvider implements
         $this->getEventDispatcher()
             ->dispatch(new ProviderSuccessEvent($request, $response));
         return $response->getBody()->__toString();
+    }
+
+    private function cacheRequest(string $key, string $url): ?string
+    {
+        if ($this->cache->hasItem($key)) {
+            $this->getEventDispatcher()->dispatch(new ProviderSuccessEvent(
+                new Request($url, 'GET'),
+                new Response('php://memory', 304)
+            ));
+            return $this->cache->getItem($key);
+        }
+
+        return null;
     }
 
     public function setCache(StorageInterface $cache)

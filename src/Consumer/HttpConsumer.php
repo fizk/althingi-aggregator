@@ -1,22 +1,21 @@
 <?php
 namespace App\Consumer;
 
-use App\Event\ConsumerErrorEvent;
-use App\Event\ConsumerSuccessEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Client\ClientInterface;
-use App\Lib\IdentityInterface;
 use App\Extractor\ExtractionInterface;
-use App\Lib\CacheableAwareInterface;
-use App\Lib\ClientAwareInterface;
-use App\Lib\EventDispatcherAware;
-use App\Lib\UriAwareInterface;
 use Laminas\Cache\Storage\StorageInterface;
-use Laminas\Diactoros\Request;
-use Laminas\Diactoros\Uri;
+use Laminas\Diactoros\{Request, Uri, Response, StreamFactory};
+use App\Event\{ConsumerSuccessEvent, ConsumerErrorEvent};
+use App\Lib\{
+    IdentityInterface,
+    CacheableAwareInterface,
+    ClientAwareInterface,
+    EventDispatcherAware,
+    UriAwareInterface
+};
 use DOMElement;
 use Exception;
-use Laminas\Diactoros\StreamFactory;
-use Psr\EventDispatcher\EventDispatcherInterface;
 
 class HttpConsumer implements
     ConsumerInterface,
@@ -86,11 +85,15 @@ class HttpConsumer implements
 
     private function doPostRequest(Uri $uri, array $params): void
     {
+        $postRequest = $this->getRequest('POST', $uri, $params);
         if ($this->isValidInCache($uri, $params)) {
+            $this->getEventDispatcher()->dispatch(new ConsumerSuccessEvent(
+                $postRequest,
+                new Response('php://memory', 304)
+            ));
             return;
         }
 
-        $postRequest = $this->getRequest('POST', $uri, $params);
         $postResponse = $this->client->sendRequest($postRequest);
 
         switch ($postResponse->getStatusCode()) {
@@ -120,7 +123,7 @@ class HttpConsumer implements
                     ->dispatch(new ConsumerErrorEvent(
                         $postRequest,
                         $postResponse,
-                        new Exception("Unsupported status code from consumer {$postResponse->getStatusCode()}")
+                        new Exception($postResponse->getBody()->__toString())
                     ));
                 break;
         }
@@ -128,11 +131,15 @@ class HttpConsumer implements
 
     private function doPutRequest(Uri $uri, array $params): void
     {
+        $putRequest = $this->getRequest('PUT', $uri, $params);
         if ($this->isValidInCache($uri, $params)) {
+            $this->getEventDispatcher()->dispatch(new ConsumerSuccessEvent(
+                $putRequest,
+                new Response('php://memory', 304)
+            ));
             return;
         }
 
-        $putRequest = $this->getRequest('PUT', $uri, $params);
         $putResponse = $this->client->sendRequest($putRequest);
 
         switch ($putResponse->getStatusCode()) {
@@ -152,7 +159,7 @@ class HttpConsumer implements
                     ->dispatch(new ConsumerErrorEvent(
                         $putRequest,
                         $putResponse,
-                        new Exception("Unsupported status code from consumer {$putResponse->getStatusCode()}")
+                        new Exception($putResponse->getBody()->__toString())
                     ));
                 break;
         }
@@ -160,11 +167,15 @@ class HttpConsumer implements
 
     private function doPatchRequest(Uri $uri, array $params): void
     {
+        $patchRequest = $this->getRequest('PATCH', $uri, $params);
         if ($this->isValidInCache($uri, $params)) {
+            $this->getEventDispatcher()->dispatch(new ConsumerSuccessEvent(
+                $patchRequest,
+                new Response('php://memory', 304)
+            ));
             return;
         }
 
-        $patchRequest = $this->getRequest('PATCH', $uri, $params);
         $patchResponse = $this->client->sendRequest($patchRequest);
 
         switch ($patchResponse->getStatusCode()) {
@@ -181,7 +192,7 @@ class HttpConsumer implements
                     ->dispatch(new ConsumerErrorEvent(
                         $patchRequest,
                         $patchResponse,
-                        new Exception("Unsupported status code from consumer {$patchResponse->getStatusCode()}")
+                        new Exception($patchResponse->getBody()->__toString())
                     ));
                 break;
         }

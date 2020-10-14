@@ -24,7 +24,10 @@ class ErrorEvent
             $this->request->getUri()->__toString(),
             0,
             0,
-            $this->error->getMessage(),
+            json_encode(array_merge(
+                [$this->error->getMessage()],
+                $this->error->getTrace()
+            )),
         ]);
     }
 }

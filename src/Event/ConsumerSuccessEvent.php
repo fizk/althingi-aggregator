@@ -19,7 +19,7 @@ class ConsumerSuccessEvent
     {
         return implode(' ', [
             'Consumer',
-            $this->request->getMethod(),
+            $this->request->getHeader('X-HTTP-Method-Override')[0],
             $this->request->getUri()->__toString(),
             $this->response->getStatusCode(),
             $this->response->getBody()->getSize(),

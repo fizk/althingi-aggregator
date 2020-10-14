@@ -13,12 +13,10 @@ services:
       - CONSUMER_CACHE_TYPE=${ENV_CONSUMER_CACHE_TYPE:-none}
       - CONSUMER_CACHE_HOST=${ENV_CONSUMER_CACHE_HOST:-localhost}
       - CONSUMER_CACHE_PORT=${ENV_CONSUMER_CACHE_PORT:-6379}
-      - CONSUMER_CACHE=${ENV_CONSUMER_CACHE:-false}
 
       - PROVIDER_CACHE_TYPE=${ENV_PROVIDER_CACHE_TYPE:-none}
       - PROVIDER_CACHE_HOST=${ENV_PROVIDER_CACHE_HOST:-localhost}
       - PROVIDER_CACHE_PORT=${ENV_PROVIDER_CACHE_PORT:-6379}
-      - PROVIDER_CACHE=${ENV_PROVIDER_CACHE:-false}
 
       - AGGREGATOR_CONSUMER_SCHEMA=${ENV_AGGREGATOR_CONSUMER_SCHEMA:-http}
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
@@ -31,6 +29,9 @@ services:
       - ./vendor/:/usr/src/vendor
       - ./composer.json/:/usr/src/composer.json
       - ./composer.lock/:/usr/src/composer.lock
+    depends_on:
+      - cache-consumer
+      - cache-provider
 
   test:
     container_name: althingi_aggregator_test_container
@@ -52,3 +53,11 @@ services:
       - ./phpunit.xml.dist/:/usr/src/phpunit.xml
     command: bash -c "./vendor/bin/phpunit && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
     # command: bash -c "./vendor/bin/phpunit --coverage-html ./tests/doc && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
+
+  cache-consumer:
+    container_name: cache-concumer
+    image: redis:4.0.11
+
+  cache-provider:
+    container_name: cache-provider
+    image: redis:4.0.11

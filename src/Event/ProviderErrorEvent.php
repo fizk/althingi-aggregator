@@ -26,7 +26,10 @@ class ProviderErrorEvent
             $this->request->getUri()->__toString(),
             $this->response->getStatusCode(),
             $this->response->getBody()->getSize(),
-            $this->error->getMessage(),
+            json_encode(array_merge(
+                [$this->error->getMessage()],
+                $this->error->getTrace()
+            )),
         ]);
     }
 }

@@ -86,11 +86,9 @@ This service can be configured by providing the following environment variables.
 | CONSUMER_CACHE_HOST        | <host name>          | localhost   |              |
 | CONSUMER_CACHE_PORT        | <port number>        | 6379        |              |
 | CONSUMER_CACHE_TYPE        | memory / none        | none        |              |
-| CONSUMER_CACHE             | true/false           | false       | Should the aggregator check if it has served this data to the API before and if so, not make a call to the API |
 | PROVIDER_CACHE_HOST        | <host name>          | localhost   |              |
 | PROVIDER_CACHE_PORT        | <port number>        | 6379        |              |
 | PROVIDER_CACHE_TYPE        | memory / none        | none        |              |
-| PROVIDER_CACHE             | true/false           | false       | Should the aggregator check if it has asked althingi.is for this information before and if so, use its cache and not make a HTTP request |
 | AGGREGATOR_CONSUMER_SCHEMA | http / https         | http        |              |
 | AGGREGATOR_CONSUMER_HOST   | <string>             | localhost   |              |
 | AGGREGATOR_CONSUMER_PORT   | <string>             | 8080        |              |
