@@ -217,15 +217,16 @@ class HttpConsumer implements
 
     private function getRequest($verb, Uri $uri, array $param): Request
     {
-        $lines = [];
-        foreach ($param as $key => $value) {
-            $lines[] = "{$key}=" . urlencode($value);
-        }
-        $request = (new Request($uri, 'POST', (new StreamFactory())->createStream(implode("\r\n", $lines)), [
+        // $lines = [];
+        // foreach ($param as $key => $value) {
+        //     $lines[] = "{$key}=" . urlencode($value);
+        // }
+        $request = (new Request($uri, 'POST', (new StreamFactory())->createStream(http_build_query($param)), [
             'X-HTTP-Method-Override' => $verb,
             'X-Transaction-Id' => sha1(uniqid(rand(), true)),
             'Connection' => 'Keep-Alive',
             'Keep-Alive' => 'timeout=5, max=1000',
+            'Content-Type' => 'application/x-www-form-urlencoded'
         ]));
         $request->getBody()->rewind();
 
