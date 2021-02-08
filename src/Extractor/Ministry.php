@@ -8,39 +8,36 @@ use DOMElement;
 class Ministry implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('id')) {
-            throw new Extractor\Exception('Missing [{id}] value', $object);
+        if (! $this->object->hasAttribute('id')) {
+            throw new Extractor\Exception('Missing [{id}] value', $this->object);
         }
 
-        $this->setIdentity($object->getAttribute('id'));
+        $this->setIdentity($this->object->getAttribute('id'));
 
-        $name = $object->getElementsByTagName('heiti')->length === 1
-            ? trim($object->getElementsByTagName('heiti')->item(0)->nodeValue)
-            : null;
-        $abbrShort = $object->getElementsByTagName('stuttskammstöfun')->length === 1
-            ? trim($object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue)
-            : null;
-        $abbrLong = $object->getElementsByTagName('löngskammstöfun')->length === 1
-            ? trim($object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue)
-            : null;
-        $first = $object->getElementsByTagName('fyrstaþing')->length === 1
-            ? trim($object->getElementsByTagName('fyrstaþing')->item(0)->nodeValue)
-            : null;
-        $last = $object->getElementsByTagName('síðastaþing')->length === 1
-            ? trim($object->getElementsByTagName('síðastaþing')->item(0)->nodeValue)
-            : null;
+        $name = $this->object->getElementsByTagName('heiti')?->item(0)?->nodeValue;
+        $abbrShort = $this->object->getElementsByTagName('stuttskammstöfun')?->item(0)?->nodeValue;
+        $abbrLong = $this->object->getElementsByTagName('löngskammstöfun')?->item(0)?->nodeValue;
+        $first = $this->object->getElementsByTagName('fyrstaþing')?->item(0)?->nodeValue;
+        $last = $this->object->getElementsByTagName('síðastaþing')?->item(0)?->nodeValue;
 
         return [
             'ministry_id' => (int) $this->getIdentity(),
-            'name' => $name,
-            'abbr_short' => $abbrShort,
-            'abbr_long' => $abbrLong,
+            'name' => $name ? trim($name) : null,
+            'abbr_short' => $abbrShort ? trim($abbrShort) : null,
+            'abbr_long' => $abbrLong ? trim($abbrLong) : null,
             'first' => empty($first) ? null : (int) $first,
             'last' => empty($last) ? null : (int) $last,
         ];

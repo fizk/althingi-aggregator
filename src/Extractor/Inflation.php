@@ -3,23 +3,31 @@ namespace App\Extractor;
 
 use App\Lib\IdentityInterface;
 use DOMElement;
+use DateTime;
 
 class Inflation implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        $date = new \DateTime($object->getElementsByTagName('Date')->item(0)->nodeValue);
+        $date = new DateTime($this->object->getElementsByTagName('Date')->item(0)->nodeValue);
 
         $this->setIdentity((int) $date->format('Ymd'));
 
         return [
             'date' => $date->format('Y-m-d'),
-            'value' => (float) $object->getElementsByTagName('Value')->item(0)->nodeValue,
+            'value' => (float) $this->object->getElementsByTagName('Value')->item(0)->nodeValue,
         ];
     }
 

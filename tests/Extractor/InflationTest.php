@@ -15,7 +15,7 @@ class InflationTest extends TestCase
         $element->appendChild($dom->createElement('Value', '1.02'));
 
         $extractor = new Inflation();
-        $result = $extractor->extract($element);
+        $result = $extractor->populate($element)->extract();
 
         $this->assertEquals('2001-01-01', $result['date']);
         $this->assertEquals(1.02, $result['value']);

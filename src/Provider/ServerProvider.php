@@ -116,7 +116,7 @@ class ServerProvider implements
         return null;
     }
 
-    public function setCache(StorageInterface $cache)
+    public function setCache(StorageInterface $cache): self
     {
         $this->cache = $cache;
         return $this;

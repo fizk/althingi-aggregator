@@ -33,7 +33,7 @@ class IssueTest extends TestCase
 
         $element = $this->buildNodeList($this->getValidAIssueDocument(), '//þingmál/mál');
 
-        $resultedData = $extractor->extract($element->item(0));
+        $resultedData = $extractor->populate($element->item(0))->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -63,7 +63,7 @@ class IssueTest extends TestCase
 
         $element = $this->buildNodeList($this->getValidBIssueDocument(), '//bmál/mál');
 
-        $resultedData = $extractor->extract($element->item(0));
+        $resultedData = $extractor->populate($element->item(0))->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }

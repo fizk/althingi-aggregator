@@ -3,6 +3,7 @@ namespace App\Consumer\Stub;
 
 use App\Extractor\ExtractionInterface;
 use App\Lib\IdentityInterface;
+use DOMElement;
 
 class ExtractorValidPut implements ExtractionInterface, IdentityInterface
 {
@@ -15,7 +16,12 @@ class ExtractorValidPut implements ExtractionInterface, IdentityInterface
         $this->data = $data;
     }
 
-    public function extract(\DOMElement $object): array
+    public function populate(DOMElement $object): self
+    {
+        return $this;
+    }
+
+    public function extract(): array
     {
         return $this->data;
     }

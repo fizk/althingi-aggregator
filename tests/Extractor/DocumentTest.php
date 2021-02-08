@@ -20,8 +20,8 @@ class DocumentTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocumentWithCommittee());
 
-        $documentData = (new Document())
-            ->extract($documentNodeList->item(0));
+        $documentData = (new Document())->populate($documentNodeList->item(0))
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -38,8 +38,8 @@ class DocumentTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocumentWithCommittee());
 
-        $documentData = (new Document())
-            ->extract($documentNodeList->item(2));
+        $documentData = (new Document())->populate($documentNodeList->item(2))
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -49,7 +49,7 @@ class DocumentTest extends TestCase
         $this->expectException(\App\Extractor\Exception::class);
 
         $documentNodeList = $this->buildNodeList($this->getDocumentWithCommittee());
-        (new Document())->extract($documentNodeList->item(1));
+        (new Document())->populate($documentNodeList->item(1))->extract();
     }
 
     private function buildNodeList($source)

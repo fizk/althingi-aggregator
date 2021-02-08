@@ -27,7 +27,7 @@ class SpeechTest extends TestCase
         ];
 
         $elements = $this->buildNodeList($this->getValidNewDocument());
-        $resultedData = (new Speech())->extract($elements->item(0));
+        $resultedData = (new Speech())->populate($elements->item(0))->extract();
 
         $this->assertEquals($expectingData, $resultedData);
     }
@@ -51,7 +51,7 @@ class SpeechTest extends TestCase
         ];
 
         $elements = $this->buildNodeList($this->getValidOldDocument());
-        $resultedData = (new Speech())->extract($elements->item(0));
+        $resultedData = (new Speech())->populate($elements->item(0))->extract();
 
         $this->assertEquals($expectingData, $resultedData);
     }
@@ -77,7 +77,7 @@ class SpeechTest extends TestCase
         ];
 
         $elements = $this->buildNodeList($this->getTemporaryDocument());
-        $resultedData = (new Speech())->extract($elements->item(0));
+        $resultedData = (new Speech())->populate($elements->item(0))->extract();
 
         $this->assertEquals($expectingData, $resultedData);
     }
@@ -90,7 +90,7 @@ class SpeechTest extends TestCase
         $root = $dom->createElement('whatever');
 
         $model = new Speech();
-        $model->extract($root);
+        $model->populate($root)->extract($root);
     }
 
     private function buildNodeList($source)

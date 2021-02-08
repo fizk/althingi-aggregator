@@ -22,7 +22,7 @@ class CommitteeSittingTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('nefndaseta')->item(0);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -41,7 +41,7 @@ class CommitteeSittingTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('nefndaseta')->item(1);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -60,7 +60,7 @@ class CommitteeSittingTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('nefndaseta')->item(1);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }

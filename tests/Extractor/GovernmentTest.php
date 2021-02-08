@@ -18,7 +18,7 @@ class GovernmentTest extends TestCase
         $element = $dom->getElementsByTagName('item')->item(0);
 
         $extractor = new Government();
-        $result = $extractor->extract($element);
+        $result = $extractor->populate($element)->extract();
 
         $this->assertEquals('2001-01-01', $result['from']);
         $this->assertEquals('2001-01-01', $result['to']);

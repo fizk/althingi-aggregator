@@ -23,7 +23,7 @@ class MinistryTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraembætti')->item(0);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -42,7 +42,7 @@ class MinistryTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraembætti')->item(1);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -61,7 +61,7 @@ class MinistryTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraembætti')->item(2);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }

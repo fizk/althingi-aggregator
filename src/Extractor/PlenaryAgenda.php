@@ -8,28 +8,33 @@ use DOMElement;
 class PlenaryAgenda implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      * @todo This extractor goes out of the document to get the $plenaryId
      *      $object->ownerDocument->getElementsByTagName('þingfundur')->item(0)->getAttribute('númer');
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('númer')) {
-            throw new Extractor\Exception('Missing [{númer}] value', $object);
+        if (! $this->object->hasAttribute('númer')) {
+            throw new Extractor\Exception('Missing [{númer}] value', $this->object);
         }
 
-        $this->setIdentity($object->getAttribute('númer'));
+        $this->setIdentity($this->object->getAttribute('númer'));
 
-        $plenaryId = $object->ownerDocument->getElementsByTagName('þingfundur')->item(0)->getAttribute('númer');
+        $plenaryId = $this->object->ownerDocument->getElementsByTagName('þingfundur')->item(0)->getAttribute('númer');
 
-        $issue = $object->getElementsByTagName('mál')->length
-            ? $object->getElementsByTagName('mál')->item(0)
-            : null;
+        $issue = $this->object->getElementsByTagName('mál')?->item(0);
 
         if (! $issue) {
-            throw new Extractor\Exception('Missing [{mál}] element', $object);
+            throw new Extractor\Exception('Missing [{mál}] element', $this->object);
         }
 
         $issueId = $issue->getAttribute('málsnúmer');
@@ -37,48 +42,22 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
         $assemblyId = $issue->getAttribute('þingnúmer');
 
         if (empty($issueId) || empty($issueCategory) || empty($assemblyId)) {
-            throw new Extractor\Exception('Missing [{málsnúmer}, {málsflokkur}, {þingnúmer}] value', $object);
+            throw new Extractor\Exception('Missing [{málsnúmer}, {málsflokkur}, {þingnúmer}] value', $this->object);
         }
 
-        $iterationType = $object->getElementsByTagName('umræða')->length
-            ? $object->getElementsByTagName('umræða')->item(0)->getAttribute('tegund')
-            : null;
-        $iterationContinue = $object->getElementsByTagName('umræða')->length
-            ? $object->getElementsByTagName('umræða')->item(0)->getAttribute('framhald')
-            : null;
-        $iterationComment = $object->getElementsByTagName('umræða')->length
-            ? $object->getElementsByTagName('umræða')->item(0)->nodeValue
-            : null;
-        $comment = $object->getElementsByTagName('athugasemd')->length
-            ? $object->getElementsByTagName('athugasemd')->item(0)->nodeValue
-            : null;
-        $commentType = $object->getElementsByTagName('athugasemd')->length
-            ? $object->getElementsByTagName('athugasemd')->item(0)->getAttribute('tegund')
-            : null;
-        $posedId = $object->getElementsByTagName('fyrirspyrjandi')->length
-            ? $object->getElementsByTagName('fyrirspyrjandi')->item(0)->getAttribute('id')
-            : null;
-        $posed = $object->getElementsByTagName('fyrirspyrjandi')->length
-            ? $object->getElementsByTagName('fyrirspyrjandi')->item(0)->nodeValue
-            : null;
-        $answererId = $object->getElementsByTagName('til_svara')->length
-            ? $object->getElementsByTagName('til_svara')->item(0)->getAttribute('id')
-            : null;
-        $answerer = $object->getElementsByTagName('til_svara')->length
-            ? $object->getElementsByTagName('til_svara')->item(0)->nodeValue
-            : null;
-        $instigatorId = $object->getElementsByTagName('málshefjandi')->length
-            ? $object->getElementsByTagName('málshefjandi')->item(0)->getAttribute('id')
-            : null;
-        $instigator = $object->getElementsByTagName('málshefjandi')->length
-            ? $object->getElementsByTagName('málshefjandi')->item(0)->nodeValue
-            : null;
-        $counterAnswerId = $object->getElementsByTagName('til_andsvara')->length
-            ? $object->getElementsByTagName('til_andsvara')->item(0)->getAttribute('id')
-            : null;
-        $counterAnswer = $object->getElementsByTagName('til_andsvara')->length
-            ? $object->getElementsByTagName('til_andsvara')->item(0)->nodeValue
-            : null;
+        $iterationType = $this->object->getElementsByTagName('umræða')?->item(0)?->getAttribute('tegund');
+        $iterationContinue = $this->object->getElementsByTagName('umræða')?->item(0)?->getAttribute('framhald');
+        $iterationComment = $this->object->getElementsByTagName('umræða')?->item(0)?->nodeValue;
+        $comment = $this->object->getElementsByTagName('athugasemd')?->item(0)?->nodeValue;
+        $commentType = $this->object->getElementsByTagName('athugasemd')?->item(0)?->getAttribute('tegund');
+        $posedId = $this->object->getElementsByTagName('fyrirspyrjandi')?->item(0)?->getAttribute('id');
+        $posed = $this->object->getElementsByTagName('fyrirspyrjandi')?->item(0)?->nodeValue;
+        $answererId = $this->object->getElementsByTagName('til_svara')?->item(0)?->getAttribute('id');
+        $answerer = $this->object->getElementsByTagName('til_svara')?->item(0)?->nodeValue;
+        $instigatorId = $this->object->getElementsByTagName('málshefjandi')?->item(0)?->getAttribute('id');
+        $instigator = $this->object->getElementsByTagName('málshefjandi')?->item(0)?->nodeValue;
+        $counterAnswerId = $this->object->getElementsByTagName('til_andsvara')?->item(0)?->getAttribute('id');
+        $counterAnswer = $this->object->getElementsByTagName('til_andsvara')?->item(0)?->nodeValue;
 
         return [
             'plenary_id' => (int) $plenaryId,

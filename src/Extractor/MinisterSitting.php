@@ -6,35 +6,33 @@ use DOMElement;
 
 class MinisterSitting implements ExtractionInterface
 {
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
+
     /**
      * @throws Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        $assembly = $object->getElementsByTagName('þing')->length === 1
-            ? (int) $object->getElementsByTagName('þing')->item(0)->nodeValue
-            : null;
+        $assembly = $this->object->getElementsByTagName('þing')?->item(0)?->nodeValue;
+
         if (! $assembly) {
-            throw new Extractor\Exception('Missing [{þing}] value', $object);
+            throw new Extractor\Exception('Missing [{þing}] value', $this->object);
         }
 
-        $ministry = $object->getElementsByTagName('embætti')->length === 1
-            ? (int) $object->getElementsByTagName('embætti')->item(0)->getAttribute('id')
-            : null;
         if (! $assembly) {
-            throw new Extractor\Exception('Missing [{embætti}] value', $object);
+            throw new Extractor\Exception('Missing [{embætti}] value', $this->object);
         }
 
-        $party = $object->getElementsByTagName('þingflokkur')->length === 1
-            ? (int) $object->getElementsByTagName('þingflokkur')->item(0)->getAttribute('id')
-            : null;
-
-        $from = $object->getElementsByTagName('inn')->length === 1
-            ? $object->getElementsByTagName('inn')->item(0)->nodeValue
-            : null;
-        $to = $object->getElementsByTagName('út')->length === 1
-            ? $object->getElementsByTagName('út')->item(0)->nodeValue
-            : null ;
+        $ministry = $this->object->getElementsByTagName('embætti')?->item(0)?->getAttribute('id');
+        $party = $this->object->getElementsByTagName('þingflokkur')?->item(0)?->getAttribute('id');
+        $from = $this->object->getElementsByTagName('inn')?->item(0)?->nodeValue;
+        $to = $this->object->getElementsByTagName('út')?->item(0)?->nodeValue;
 
         if ($from) {
             $result = [];
@@ -49,9 +47,9 @@ class MinisterSitting implements ExtractionInterface
         }
 
         return [
-            'assembly_id' => $assembly,
-            'ministry_id' => $ministry,
-            'party_id' => $party,
+            'assembly_id' => $assembly ? (int) $assembly : null,
+            'ministry_id' => $ministry ? (int) $ministry : null,
+            'party_id' => $party ? (int) $party : null,
             'from' => $from,
             'to' => $to,
         ];

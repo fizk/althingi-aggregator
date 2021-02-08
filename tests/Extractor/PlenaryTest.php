@@ -19,8 +19,8 @@ class PlenaryTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new Plenary())
-            ->extract($documentNodeList->item(0));
+        $documentData = (new Plenary())->populate($documentNodeList->item(0))
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -30,7 +30,7 @@ class PlenaryTest extends TestCase
         $this->expectException(\App\Extractor\Exception::class);
 
         $documentNodeList = $this->buildNodeList($this->getDocument());
-        (new Document())->extract($documentNodeList->item(1));
+        (new Document())->populate($documentNodeList->item(1))->extract();
     }
 
     private function buildNodeList($source)

@@ -8,10 +8,15 @@ class NullExtractor implements ExtractionInterface, IdentityInterface
 {
     private string $id;
 
+    public function populate(DOMElement $object): self
+    {
+        return $this;
+    }
+
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
         return [];
     }

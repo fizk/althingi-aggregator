@@ -12,7 +12,7 @@ class VoteTest extends TestCase
         $dom->loadXML(file_get_contents(__DIR__ . '/data/01-atkvaedagreidsla.xml'));
 
         $voteModel = new Vote();
-        $result = $voteModel->extract($dom->documentElement);
+        $result = $voteModel->populate($dom->documentElement)->extract();
 
         $this->assertIsArray($result);
         $this->assertEquals(52313, $voteModel->getIdentity());
@@ -24,7 +24,7 @@ class VoteTest extends TestCase
         $dom->loadXML(file_get_contents(__DIR__ . '/data/02-atkvaedagreidsla.xml'));
 
         $voteModel = new Vote();
-        $result = $voteModel->extract($dom->documentElement);
+        $result = $voteModel->populate($dom->documentElement)->extract();
 
         $this->assertIsArray($result);
         $this->assertEquals(51981, $voteModel->getIdentity());
@@ -36,7 +36,7 @@ class VoteTest extends TestCase
         $dom->loadXML($this->getDocumentWithCommittee());
 
         $voteModel = new Vote();
-        $result = $voteModel->extract($dom->documentElement);
+        $result = $voteModel->populate($dom->documentElement)->extract();
 
         $this->assertEquals('efnahags- og skattanefnd', $result['committee_to']);
     }

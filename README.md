@@ -71,7 +71,7 @@ It is the goal of the architecture of this system to be configurable and expenda
 ## Requirements
 This system requires:
 
-* php: "^7.4",
+* php: "^8.0",
 * ext-dom
 * ext-mbstring
 * ext-json

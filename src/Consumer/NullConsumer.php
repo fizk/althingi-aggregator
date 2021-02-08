@@ -2,20 +2,19 @@
 namespace App\Consumer;
 
 use Psr\Log\{LoggerInterface, LoggerAwareInterface};
-use App\Lib\{ConfigAwareInterface, IdentityInterface};
+use App\Lib\IdentityInterface;
 use App\Extractor\ExtractionInterface;
 use DOMElement;
 
-class NullConsumer implements ConsumerInterface, ConfigAwareInterface, LoggerAwareInterface
+class NullConsumer implements ConsumerInterface, LoggerAwareInterface
 {
-    private array $config;
     private LoggerInterface $logger;
 
-    public function save(DOMElement $element, string $api, ExtractionInterface $extract): ?array
+    public function save(string $api, ExtractionInterface $extract): ?array
     {
         $data = null;
         try {
-            $data = $extract->extract($element);
+            $data = $extract->extract();
             if ($extract instanceof IdentityInterface) {
                 $api = sprintf('%s/%s', $api, $extract->getIdentity());
             }
@@ -25,12 +24,6 @@ class NullConsumer implements ConsumerInterface, ConfigAwareInterface, LoggerAwa
         }
 
         return $data;
-    }
-
-    public function setConfig(array $config): self
-    {
-        $this->config = $config;
-        return $this;
     }
 
     public function setLogger(LoggerInterface $logger): self

@@ -8,41 +8,47 @@ use DOMElement;
 class Document implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('málsnúmer')) {
-            throw new Extractor\Exception('Missing [{málsnúmer}] value', $object);
+        if (! $this->object->hasAttribute('málsnúmer')) {
+            throw new Extractor\Exception('Missing [{málsnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('skjalsnúmer')) {
-            throw new Extractor\Exception('Missing [{skjalsnúmer}] value', $object);
+        if (! $this->object->hasAttribute('skjalsnúmer')) {
+            throw new Extractor\Exception('Missing [{skjalsnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('þingnúmer')) {
-            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
+        if (! $this->object->hasAttribute('þingnúmer')) {
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $this->object);
         }
 
-        $date = $object->getElementsByTagName('útbýting')->length
-            ? date('Y-m-d H:i', strtotime($object->getElementsByTagName('útbýting')->item(0)->nodeValue))
+        $date = $this->object->getElementsByTagName('útbýting')->length
+            ? date('Y-m-d H:i', strtotime($this->object->getElementsByTagName('útbýting')->item(0)->nodeValue))
             : null;
-        $url = $object->getElementsByTagName('html')->length
-            ? trim($object->getElementsByTagName('html')->item(0)->nodeValue)
+        $url = $this->object->getElementsByTagName('html')->length
+            ? trim($this->object->getElementsByTagName('html')->item(0)->nodeValue)
             : null;
-        $type = $object->getElementsByTagName('skjalategund')->item(0)
-            ? trim($object->getElementsByTagName('skjalategund')->item(0)->nodeValue)
+        $type = $this->object->getElementsByTagName('skjalategund')->item(0)
+            ? trim($this->object->getElementsByTagName('skjalategund')->item(0)->nodeValue)
             : null;
 
-
-        $this->setIdentity((int) $object->getAttribute('skjalsnúmer'));
+        $this->setIdentity((int) $this->object->getAttribute('skjalsnúmer'));
 
         return [
-            'issue_id' => (int) $object->getAttribute('málsnúmer'),
-            'assembly_id' => (int) $object->getAttribute('þingnúmer'),
-            'document_id' => (int) $object->getAttribute('skjalsnúmer'),
+            'issue_id' => (int) $this->object->getAttribute('málsnúmer'),
+            'assembly_id' => (int) $this->object->getAttribute('þingnúmer'),
+            'document_id' => (int) $this->object->getAttribute('skjalsnúmer'),
             'type' => $type,
             'date' => $date,
             'url' => $url

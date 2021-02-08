@@ -16,7 +16,7 @@ class VoteItemTest extends TestCase
             'vote' => 'greiðir ekki atkvæði'
         ];
 
-        $model = (new VoteItem())->extract($congressmenNodeList->item(0));
+        $model = (new VoteItem())->populate($congressmenNodeList->item(0))->extract();
 
         $this->assertEquals($expectedResults, $model);
     }
@@ -27,8 +27,8 @@ class VoteItemTest extends TestCase
 
         $congressmenNodeList = $this->buildNodeList($this->getValidDocument());
 
-        (new VoteItem())
-            ->extract($congressmenNodeList->item(1));
+        (new VoteItem())->populate($congressmenNodeList->item(1))
+            ->extract();
     }
 
     public function testMissingResults()
@@ -37,8 +37,8 @@ class VoteItemTest extends TestCase
 
         $congressmenNodeList = $this->buildNodeList($this->getValidDocument());
 
-        (new VoteItem())
-            ->extract($congressmenNodeList->item(2));
+        (new VoteItem())->populate($congressmenNodeList->item(2))
+            ->extract();
     }
 
     private function buildNodeList($source)

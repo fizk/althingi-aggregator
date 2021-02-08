@@ -22,7 +22,7 @@ class CommitteeTest extends TestCase
 
         $element = $this->buildNodeList($this->getDocumentWithCommittee());
 
-        $resultedData = $extractor->extract($element->item(1));
+        $resultedData = $extractor->populate($element->item(1))->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -41,7 +41,7 @@ class CommitteeTest extends TestCase
 
         $element = $this->buildNodeList($this->getDocumentWithCommittee());
 
-        $resultedData = $extractor->extract($element->item(0));
+        $resultedData = $extractor->populate($element->item(0))->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -52,7 +52,7 @@ class CommitteeTest extends TestCase
 
         $extractor = new Committee();
         $element = $this->buildNodeList($this->getDocumentWithCommittee());
-        $extractor->extract($element->item(2));
+        $extractor->populate($element->item(2))->extract();
     }
 
     private function buildNodeList($source)

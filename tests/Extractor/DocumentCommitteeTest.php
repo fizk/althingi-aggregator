@@ -26,8 +26,8 @@ class DocumentCommitteeTest extends TestCase
                 </nefnd>
         ");
 
-        $documentData = (new DocumentCommittee())
-            ->extract($dom->firstChild);
+        $documentData = (new DocumentCommittee())->populate($dom->firstChild)
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -48,8 +48,8 @@ class DocumentCommitteeTest extends TestCase
                 </nefnd>
         ");
 
-        $documentData = (new DocumentCommittee())
-            ->extract($dom->firstChild);
+        $documentData = (new DocumentCommittee())->populate($dom->firstChild)
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -70,7 +70,7 @@ class DocumentCommitteeTest extends TestCase
                 </nefnd>
         ");
 
-        $documentData = (new DocumentCommittee())
-            ->extract($dom->firstChild);
+        $documentData = (new DocumentCommittee())->populate($dom->firstChild)
+            ->extract();
     }
 }

@@ -8,28 +8,35 @@ use DOMElement;
 class Assembly implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('númer')) {
-            throw new Extractor\Exception('Missing [{númer}] value', $object);
+        if (! $this->object->hasAttribute('númer')) {
+            throw new Extractor\Exception('Missing [{númer}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('þingsetning')->item(0)) {
-            throw new Extractor\Exception('Missing [{þingsetning}] value', $object);
+        if (! $this->object->getElementsByTagName('þingsetning')->item(0)) {
+            throw new Extractor\Exception('Missing [{þingsetning}] value', $this->object);
         }
 
-        $this->setIdentity($object->getAttribute('númer'));
+        $this->setIdentity($this->object->getAttribute('númer'));
 
         $from = date(
             'Y-m-d',
-            strtotime($object->getElementsByTagName('þingsetning')->item(0)->nodeValue)
+            strtotime($this->object->getElementsByTagName('þingsetning')->item(0)->nodeValue)
         );
-        $to = ($object->getElementsByTagName('þinglok')->item(0))
-            ? date('Y-m-d', strtotime($object->getElementsByTagName('þinglok')->item(0)->nodeValue))
+        $to = ($this->object->getElementsByTagName('þinglok')->item(0))
+            ? date('Y-m-d', strtotime($this->object->getElementsByTagName('þinglok')->item(0)->nodeValue))
             : null ;
 
         return [

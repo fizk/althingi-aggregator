@@ -8,6 +8,13 @@ use DOMElement;
 class CommitteeAgenda implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @todo extract <Gestir />
@@ -22,25 +29,20 @@ class CommitteeAgenda implements ExtractionInterface, IdentityInterface
      *
      *
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('númer')) {
-            throw new Extractor\Exception('Missing [{númer}] value', $object);
+        if (! $this->object->hasAttribute('númer')) {
+            throw new Extractor\Exception('Missing [{númer}] value', $this->object);
         }
 
-        $this->setIdentity((int) $object->getAttribute('númer'));
+        $this->setIdentity((int) $this->object->getAttribute('númer'));
 
-        $issueId = ($object->getElementsByTagName('mál')->item(0))
-            ? (int) $object->getElementsByTagName('mál')->item(0)->getAttribute('málsnúmer')
-            : null ;
-
-        $title = ($object->getElementsByTagName('heiti')->item(0))
-            ? trim($object->getElementsByTagName('heiti')->item(0)->nodeValue)
-            : null ;
+        $issueId = $this->object->getElementsByTagName('mál')?->item(0)?->getAttribute('málsnúmer');
+        $title = $this->object->getElementsByTagName('heiti')?->item(0)?->nodeValue;
 
         return [
-            'issue_id' => $issueId,
-            'title' => $title
+            'issue_id' => $issueId ? (int) $issueId : null,
+            'title' => $title ? trim($title) : null
         ];
     }
 

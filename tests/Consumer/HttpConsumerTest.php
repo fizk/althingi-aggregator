@@ -42,7 +42,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $response = $consumer->save(new \DOMElement('element'), 'this/key', new ExtractorValidPost());
+        $response = $consumer->save(
+            'this/key',
+            (new ExtractorValidPost())->populate(new \DOMElement('element'))
+        );
 
         $this->assertIsArray($response);
     }
@@ -69,7 +72,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $response = $consumer->save(new \DOMElement('element'), 'this/key', new ExtractorValidPost());
+        $response = $consumer->save(
+            'this/key',
+            (new ExtractorValidPost())->populate(new \DOMElement('element'))
+        );
 
         $this->assertIsArray($response);
     }
@@ -100,7 +106,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $response = $consumer->save(new \DOMElement('element'), 'this/key', new ExtractorValidPost());
+        $response = $consumer->save(
+            'this/key',
+            (new ExtractorValidPost())->populate(new \DOMElement('element'))
+        );
 
         $this->assertIsArray($response);
     }
@@ -129,7 +138,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPost($data));
+        $consumer->save(
+            '',
+            (new ExtractorValidPost($data))->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -165,7 +177,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPost($data));
+        $consumer->save(
+            '',
+            (new ExtractorValidPost($data))->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -206,7 +221,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPost($data));
+        $consumer->save(
+            '',
+            (new ExtractorValidPost($data))->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -241,7 +259,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPost($data));
+        $consumer->save(
+            '',
+            (new ExtractorValidPost($data))->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -269,7 +290,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPut($data));
+        $consumer->save(
+            '',
+            (new ExtractorValidPut($data))->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -295,7 +319,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPost($data));
+        $consumer->save(
+            '',
+            (new ExtractorValidPost($data))->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -321,7 +348,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPut());
+        $consumer->save(
+            '',
+            (new ExtractorValidPut())->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -347,7 +377,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPut());
+        $consumer->save(
+            '',
+            (new ExtractorValidPut())->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 
@@ -377,7 +410,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $response = $consumer->save(new \DOMElement('element'), 'this/key', new ExtractorValidPut());
+        $response = $consumer->save(
+            'this/key',
+            (new ExtractorValidPut())->populate(new \DOMElement('element'))
+        );
 
         $this->assertIsArray($response);
     }
@@ -417,7 +453,10 @@ class HttpConsumerTest extends TestCase
             ->setCache($cache)
             ->setUri((new Uri('http://localhost:8080')));
 
-        $consumer->save(new \DOMElement('element'), '', new ExtractorValidPut($data));
+        $consumer->save(
+            '',
+            (new ExtractorValidPut($data))->populate(new \DOMElement('element'))
+        );
         $this->assertTrue(true); //@todo
     }
 }

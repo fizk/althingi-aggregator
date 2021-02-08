@@ -14,7 +14,7 @@ class SessionTest extends TestCase
         $root = $dom->createElement('whatever');
 
         $model = new Session();
-        $model->extract($root);
+        $model->populate($root)->extract();
     }
 
     public function testDifferentDateFormat()
@@ -22,7 +22,7 @@ class SessionTest extends TestCase
         $element = $this->getValidElement();
 
         $model = new Session();
-        $result = $model->extract($element);
+        $result = $model->populate($element)->extract();
 
         $this->assertEquals('1983-04-23', $result['from']);
         $this->assertEquals('1984-10-09', $result['to']);
@@ -39,7 +39,7 @@ class SessionTest extends TestCase
         foreach ($thingsetaElements as $element) {
             $sessionModel = new Session();
             try {
-                $sessionData = $sessionModel->extract($element);
+                $sessionData = $sessionModel->populate($element)->extract();
                 $this->assertIsArray($sessionData);
             } catch (\Exception $e) {
                 $this->fail($e->getMessage());
@@ -74,7 +74,7 @@ class SessionTest extends TestCase
         $element = $domDocument->getElementsByTagName('þingseta')->item(0);
 
         $sessionModel = new Session();
-        $sessionData = $sessionModel->extract($element);
+        $sessionData = $sessionModel->populate($element)->extract();
         $this->assertNull($sessionData['to']);
         $i = 0;
     }

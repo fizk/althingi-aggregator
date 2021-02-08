@@ -8,90 +8,83 @@ use DOMElement;
 class Vote implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('málsnúmer')) {
-            throw new Extractor\Exception('Missing [{málsnúmer}] value', $object);
+        if (! $this->object->hasAttribute('málsnúmer')) {
+            throw new Extractor\Exception('Missing [{málsnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('þingnúmer')) {
-            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
+        if (! $this->object->hasAttribute('þingnúmer')) {
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('atkvæðagreiðslunúmer')) {
-            throw new Extractor\Exception('Missing [{atkvæðagreiðslunúmer}] value', $object);
+        if (! $this->object->hasAttribute('atkvæðagreiðslunúmer')) {
+            throw new Extractor\Exception('Missing [{atkvæðagreiðslunúmer}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('tími')) {
-            throw new Extractor\Exception('Missing [{tími}] value', $object);
+        if (! $this->object->getElementsByTagName('tími')) {
+            throw new Extractor\Exception('Missing [{tími}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('tegund')) {
-            throw new Extractor\Exception('Missing [{tegund}] value', $object);
+        if (! $this->object->getElementsByTagName('tegund')) {
+            throw new Extractor\Exception('Missing [{tegund}] value', $this->object);
         }
 
-        $xpath = new \DOMXPath($object->ownerDocument);
+        $xpath = new \DOMXPath($this->object->ownerDocument);
 
         //DOCUMENT
         $documentNodeList = $xpath->query('//atkvæðagreiðsla/þingskjal');
-        $document = $documentNodeList->length > 0 && $documentNodeList->item(0)->hasAttribute('skjalsnúmer')
-            ? $documentNodeList->item(0)->getAttribute('skjalsnúmer')
-            : null;
+        $document = $documentNodeList?->item(0)?->getAttribute('skjalsnúmer');
 
         //OUTCOME
         $outcomeNodeList = $xpath->query('//atkvæðagreiðsla/niðurstaða/niðurstaða');
-        $outcome = $outcomeNodeList->length > 0
-            ? trim($outcomeNodeList->item(0)->nodeValue)
-            : null;
+        $outcome = $outcomeNodeList?->item(0)?->nodeValue;
 
         //METHOD
         $methodNodeList = $xpath->query('//atkvæðagreiðsla/niðurstaða/aðferð');
-        $method = $methodNodeList->length > 0
-            ? trim($methodNodeList->item(0)->nodeValue)
-            : null;
+        $method = $methodNodeList?->item(0)?->nodeValue;
 
         //YES
         $yesNodeList = $xpath->query('//atkvæðagreiðsla/niðurstaða/já/fjöldi');
-        $yes = $yesNodeList->length > 0
-            ? $yesNodeList->item(0)->nodeValue
-            : 0;
+        $yes = $yesNodeList?->item(0)?->nodeValue;
 
         //NO
         $noNodeList = $xpath->query('//atkvæðagreiðsla/niðurstaða/nei/fjöldi');
-        $no = $noNodeList->length > 0
-            ? $noNodeList->item(0)->nodeValue
-            : 0;
+        $no = $noNodeList?->item(0)?->nodeValue;
 
         //INACTION
         $inactionNodeList = $xpath->query('//atkvæðagreiðsla/niðurstaða/greiðirekkiatkvæði/fjöldi');
-        $inaction = $inactionNodeList->length > 0
-            ? $inactionNodeList->item(0)->nodeValue
-            : 0;
+        $inaction = $inactionNodeList?->item(0)?->nodeValue;
 
         //COMMITTEE
-        $committee = $object->getElementsByTagName('til')->length
-            ? trim($object->getElementsByTagName('til')->item(0)->nodeValue)
-            : null;
+        $committee = $this->object->getElementsByTagName('til')?->item(0)?->nodeValue;
 
-        $this->setIdentity((int) $object->getAttribute('atkvæðagreiðslunúmer'));
+        $this->setIdentity((int) $this->object->getAttribute('atkvæðagreiðslunúmer'));
 
         return [
-            'issue_id' => (int) $object->getAttribute('málsnúmer'),
-            'assembly_id' => (int) $object->getAttribute('þingnúmer'),
-            'vote_id' => (int) $object->getAttribute('atkvæðagreiðslunúmer'),
+            'issue_id' => (int) $this->object->getAttribute('málsnúmer'),
+            'assembly_id' => (int) $this->object->getAttribute('þingnúmer'),
+            'vote_id' => (int) $this->object->getAttribute('atkvæðagreiðslunúmer'),
             'document_id' => (int) $document,
-            'type' => trim($object->getElementsByTagName('tegund')->item(0)->nodeValue),
-            'date' => date('Y-m-d H:i:s', strtotime($object->getElementsByTagName('tími')->item(0)->nodeValue)),
-            'outcome' => $outcome,
-            'method' => $method,
-            'yes' => (int) $yes,
-            'no' => (int) $no,
-            'inaction' => $inaction,
-            'committee_to' => $committee
+            'type' => trim($this->object->getElementsByTagName('tegund')->item(0)->nodeValue),
+            'date' => date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('tími')->item(0)->nodeValue)),
+            'outcome' => $outcome ? trim($outcome) : null,
+            'method' => $method ? trim($method) : null,
+            'yes' => $yes ? (int) $yes : 0,
+            'no' => $no ? (int) $no : 0,
+            'inaction' => $inaction ? (int) $inaction : 0,
+            'committee_to' => $committee ? trim($committee) : null
         ];
     }
 

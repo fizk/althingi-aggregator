@@ -21,7 +21,7 @@ class MinisterSittingTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(0);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -39,7 +39,7 @@ class MinisterSittingTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(1);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -57,7 +57,7 @@ class MinisterSittingTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(2);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -75,7 +75,7 @@ class MinisterSittingTest extends TestCase
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(3);
 
-        $resultedData = $extractor->extract($element);
+        $resultedData = $extractor->populate($element)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }

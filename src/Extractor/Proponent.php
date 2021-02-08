@@ -8,6 +8,13 @@ use DOMElement;
 class Proponent implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * Extract values from an object
@@ -16,26 +23,24 @@ class Proponent implements ExtractionInterface, IdentityInterface
      * @return array
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('id')) {
-            throw new Extractor\Exception('Missing [{id}] value', $object);
+        if (! $this->object->hasAttribute('id')) {
+            throw new Extractor\Exception('Missing [{id}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('röð')) {
-            throw new Extractor\Exception('Missing [{röð}] value', $object);
+        if (! $this->object->hasAttribute('röð')) {
+            throw new Extractor\Exception('Missing [{röð}] value', $this->object);
         }
 
-        $this->setIdentity($object->getAttribute('id'));
+        $this->setIdentity($this->object->getAttribute('id'));
 
-        $minister = $object->getElementsByTagName('ráðherra')->length
-            ? trim($object->getElementsByTagName('ráðherra')->item(0)->nodeValue)
-            : null;
+        $minister = $this->object->getElementsByTagName('ráðherra')?->item(0)?->nodeValue;
 
         return [
-            'congressman_id' => (int) $object->getAttribute('id'),
-            'order' => (int) $object->getAttribute('röð'),
-            'minister' => $minister
+            'congressman_id' => (int) $this->object->getAttribute('id'),
+            'order' => (int) $this->object->getAttribute('röð'),
+            'minister' => $minister ? trim($minister) : null
         ];
     }
 

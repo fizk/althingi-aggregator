@@ -8,20 +8,25 @@ use DOMElement;
 class SuperCategory implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('id')) {
-            throw new Extractor\Exception('Missing [{id}] value', $object);
+        if (! $this->object->hasAttribute('id')) {
+            throw new Extractor\Exception('Missing [{id}] value', $this->object);
         }
 
-        $this->setIdentity($object->getAttribute('id'));
-        $title = ($object->getElementsByTagName('heiti')->item(0))
-            ? $object->getElementsByTagName('heiti')->item(0)->nodeValue
-            : null;
+        $this->setIdentity($this->object->getAttribute('id'));
+        $title = $this->object->getElementsByTagName('heiti')?->item(0)?->nodeValue;
 
         return [
             'id' => (int) $this->getIdentity(),

@@ -8,19 +8,26 @@ use DateTime;
 class Government implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        $id = (new DateTime($object->getAttribute('from')))->format('Ymd');
+        $id = (new DateTime($this->object->getAttribute('from')))->format('Ymd');
         $this->setIdentity($id);
 
         return [
-            'from' => $object->hasAttribute('from') ? $object->getAttribute('from') : null,
-            'to' => $object->hasAttribute('to') ? $object->getAttribute('to') : null,
-            'title' => trim($object->nodeValue)
+            'from' => $this->object->hasAttribute('from') ? $this->object->getAttribute('from') : null,
+            'to' => $this->object->hasAttribute('to') ? $this->object->getAttribute('to') : null,
+            'title' => trim($this->object->nodeValue)
         ];
     }
 

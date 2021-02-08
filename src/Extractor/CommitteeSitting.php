@@ -5,25 +5,25 @@ use DOMElement;
 
 class CommitteeSitting implements ExtractionInterface
 {
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
+
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        $role = $object->getElementsByTagName('staða')->length === 1
-            ? $object->getElementsByTagName('staða')->item(0)->nodeValue
-            : null;
-        $order = $object->getElementsByTagName('röð')->length === 1
-            ? $object->getElementsByTagName('röð')->item(0)->nodeValue
-            : 0;
-        $from = $object->getElementsByTagName('inn')->length === 1
-            ? $object->getElementsByTagName('inn')->item(0)->nodeValue
-            : null;
-        $to = $object->getElementsByTagName('út')->length === 1
-            ? $object->getElementsByTagName('út')->item(0)->nodeValue
-            : null ;
-        $committee = $object->getElementsByTagName('nefnd')->item(0)->getAttribute('id');
-        $assembly = $object->getElementsByTagName('þing')->item(0)->nodeValue;
+        $role = $this->object->getElementsByTagName('staða')?->item(0)?->nodeValue;
+        $order = $this->object->getElementsByTagName('röð')?->item(0)?->nodeValue;
+        $from = $this->object->getElementsByTagName('inn')?->item(0)?->nodeValue;
+        $to = $this->object->getElementsByTagName('út')?->item(0)?->nodeValue;
+        $committee = $this->object->getElementsByTagName('nefnd')?->item(0)?->getAttribute('id');
+        $assembly = $this->object->getElementsByTagName('þing')?->item(0)?->nodeValue;
 
         if ($from) {
             $result = [];
@@ -41,7 +41,7 @@ class CommitteeSitting implements ExtractionInterface
             'assembly_id' => $assembly,
             'committee_id' => $committee,
             'role' => $role,
-            'order' => $order,
+            'order' => $order ? $order : 0,
             'from' => $from,
             'to' => $to,
         ];

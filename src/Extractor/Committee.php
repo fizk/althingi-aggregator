@@ -8,43 +8,44 @@ use DOMElement;
 class Committee implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('id')) {
-            throw new Extractor\Exception('Missing [{id}] value', $object);
+        if (! $this->object->hasAttribute('id')) {
+            throw new Extractor\Exception('Missing [{id}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('heiti')->length) {
-            throw new Extractor\Exception('Missing [{heiti}] value', $object);
+        if (! $this->object->getElementsByTagName('heiti')->length) {
+            throw new Extractor\Exception('Missing [{heiti}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('fyrstaþing')->length) {
-            throw new Extractor\Exception('Missing [{fyrstaþing}] value', $object);
+        if (! $this->object->getElementsByTagName('fyrstaþing')->length) {
+            throw new Extractor\Exception('Missing [{fyrstaþing}] value', $this->object);
         }
 
-        $this->setIdentity((int) $object->getAttribute('id'));
+        $this->setIdentity((int) $this->object->getAttribute('id'));
 
-        $name = trim($object->getElementsByTagName('heiti')->item(0)->nodeValue);
-        $firstAssemblyId = (int) $object->getElementsByTagName('fyrstaþing')->item(0)->nodeValue;
-        $lastAssemblyId = $object->getElementsByTagName('síðastaþing')->length
-            ? (int) $object->getElementsByTagName('síðastaþing')->item(0)->nodeValue
-            : null;
-        $abbrShort = $object->getElementsByTagName('stuttskammstöfun')->length
-            ? $object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue
-            : null;
-        $abbrLong = $object->getElementsByTagName('löngskammstöfun')->length
-            ? $object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue
-            : null;
+        $name = trim($this->object->getElementsByTagName('heiti')->item(0)->nodeValue);
+        $firstAssemblyId = $this->object->getElementsByTagName('fyrstaþing')->item(0)->nodeValue;
+        $lastAssemblyId = $this->object->getElementsByTagName('síðastaþing')?->item(0)?->nodeValue;
+        $abbrShort = $this->object->getElementsByTagName('stuttskammstöfun')?->item(0)?->nodeValue;
+        $abbrLong = $this->object->getElementsByTagName('löngskammstöfun')?->item(0)?->nodeValue;
 
         return [
             'committee_id' => $this->getIdentity(),
             'name' => $name,
-            'first_assembly_id' => $firstAssemblyId,
-            'last_assembly_id' => $lastAssemblyId,
+            'first_assembly_id' => $firstAssemblyId ? (int) $firstAssemblyId : null,
+            'last_assembly_id' => $lastAssemblyId ? (int) $lastAssemblyId : null,
             'abbr_short' => $abbrShort,
             'abbr_long' => $abbrLong,
         ];

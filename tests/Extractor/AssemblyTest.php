@@ -22,7 +22,7 @@ class AssemblyTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Assembly();
-        $result = $model->extract($root);
+        $result = $model->populate($root)->extract();
 
         $this->assertEquals(1, $result['no']);
         $this->assertEquals('2002-02-10', $result['from']);
@@ -46,7 +46,7 @@ class AssemblyTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Assembly();
-        $model->extract($root);
+        $model->populate($root)->extract();
     }
 
     public function testMissingFromDate()
@@ -64,7 +64,7 @@ class AssemblyTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Assembly();
-        $model->extract($root);
+        $model->populate($root)->extract();
     }
 
     public function testToCanBeNull()
@@ -79,7 +79,7 @@ class AssemblyTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Assembly();
-        $result = $model->extract($root);
+        $result = $model->populate($root)->extract();
 
         $this->assertEquals(1, $result['no']);
         $this->assertEquals('2002-02-10', $result['from']);
@@ -102,7 +102,7 @@ class AssemblyTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Assembly();
-        $result = $model->extract($root);
+        $result = $model->populate($root)->extract();
 
         $this->assertEquals(1, $result['no']);
         $this->assertEquals('2002-02-10', $result['from']);

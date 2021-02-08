@@ -8,37 +8,36 @@ use DOMElement;
 class Constituency implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('id')) {
-            throw new Extractor\Exception('Missing [{id}] value', $object);
+        if (! $this->object->hasAttribute('id')) {
+            throw new Extractor\Exception('Missing [{id}] value', $this->object);
         }
 
-        $this->setIdentity((int) $object->getAttribute('id'));
+        $this->setIdentity((int) $this->object->getAttribute('id'));
 
-        $name = ($object->getElementsByTagName('heiti')->length)
-            ? trim($object->getElementsByTagName('heiti')->item(0)->nodeValue)
-            : null;
-        $description = ($object->getElementsByTagName('lýsing')->length)
-            ? trim($object->getElementsByTagName('lýsing')->item(0)->nodeValue)
-            : null;
-        $abbr_short = ($object->getElementsByTagName('stuttskammstöfun')->length)
-            ? trim($object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue)
-            : null;
-        $abbr_long = ($object->getElementsByTagName('löngskammstöfun')->length)
-            ? trim($object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue)
-            : null ;
+        $name = $this->object->getElementsByTagName('heiti')?->item(0)?->nodeValue;
+        $description = $this->object->getElementsByTagName('lýsing')?->item(0)?->nodeValue;
+        $abbr_short = $this->object->getElementsByTagName('stuttskammstöfun')?->item(0)?->nodeValue;
+        $abbr_long = $this->object->getElementsByTagName('löngskammstöfun')?->item(0)?->nodeValue;
 
         return [
             'id' => $this->getIdentity(),
-            'name' => $name,
-            'description' => $description,
-            'abbr_short' => $abbr_short,
-            'abbr_long' => $abbr_long
+            'name' => $name ? trim($name) : null,
+            'description' => $description ? trim($description) : null,
+            'abbr_short' => $abbr_short ? trim($abbr_short) : null,
+            'abbr_long' => $abbr_long ? trim($abbr_long) : null,
         ];
     }
 

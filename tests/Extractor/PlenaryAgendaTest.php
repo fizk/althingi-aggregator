@@ -32,8 +32,8 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())
-            ->extract($documentNodeList->item(0));
+        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(0))
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -62,8 +62,8 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())
-            ->extract($documentNodeList->item(1));
+        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(1))
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -92,8 +92,8 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())
-            ->extract($documentNodeList->item(2));
+        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(2))
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }
@@ -122,8 +122,8 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())
-            ->extract($documentNodeList->item(3));
+        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(3))
+            ->extract();
 
         $this->assertEquals($expectedData, $documentData);
     }

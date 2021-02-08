@@ -8,54 +8,57 @@ use DOMElement;
 class Speech implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('fundarnúmer')) {
-            throw new Extractor\Exception('Missing [{fundarnúmer}] value', $object);
+        if (! $this->object->hasAttribute('fundarnúmer')) {
+            throw new Extractor\Exception('Missing [{fundarnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('þingnúmer')) {
-            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
+        if (! $this->object->hasAttribute('þingnúmer')) {
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('þingmaður')) {
-            throw new Extractor\Exception('Missing [{þingmaður}] value', $object);
+        if (! $this->object->hasAttribute('þingmaður')) {
+            throw new Extractor\Exception('Missing [{þingmaður}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('þingmál')) {
-            throw new Extractor\Exception('Missing [{þingmál}] value', $object);
+        if (! $this->object->hasAttribute('þingmál')) {
+            throw new Extractor\Exception('Missing [{þingmál}] value', $this->object);
         }
 
-        $this->setIdentity($this->createIdentity($object));
+        $this->setIdentity($this->createIdentity($this->object));
 
-        if ($object->getElementsByTagName('ræðahófst')->item(0)) {
-            $from = $this->resolveDate($object->getElementsByTagName('ræðahófst')->item(0));
-            $to = $this->resolveDate($object->getElementsByTagName('ræðulauk')->item(0));
-        } elseif ($object->getElementsByTagName('ræðudagur')->item(0)) {
-            $from = $this->resolveDate($object->getElementsByTagName('ræðudagur')->item(0));
-            $to = $this->resolveDate($object->getElementsByTagName('ræðudagur')->item(0));
+        if ($this->object->getElementsByTagName('ræðahófst')->item(0)) {
+            $from = $this->resolveDate($this->object->getElementsByTagName('ræðahófst')->item(0));
+            $to = $this->resolveDate($this->object->getElementsByTagName('ræðulauk')->item(0));
+        } elseif ($this->object->getElementsByTagName('ræðudagur')->item(0)) {
+            $from = $this->resolveDate($this->object->getElementsByTagName('ræðudagur')->item(0));
+            $to = $this->resolveDate($this->object->getElementsByTagName('ræðudagur')->item(0));
         }
 
-        $plenaryId = (int) $object->getAttribute('fundarnúmer');
-        $assemblyId = (int) $object->getAttribute('þingnúmer');
-        $issueId = (int) $object->getAttribute('þingmál');
-        $congressmanType = $this->resolveCongressmanType($object);
-        $congressmanId = (int) $object->getAttribute('þingmaður');
-        $iteration = $this->resolveIteration($object->getElementsByTagName('umræða')->item(0));
-        $type = ($object->getElementsByTagName('tegundræðu')->item(0))
-            ? $object->getElementsByTagName('tegundræðu')->item(0)->nodeValue
-            : null;
-        $text = ($object->getElementsByTagName('ræðutexti')->item(0))
-            ? $object->getElementsByTagName('ræðutexti')
-                ->item(0)->ownerDocument->saveXML($object->getElementsByTagName('ræðutexti')->item(0))
-            : null;
+        $plenaryId = (int) $this->object->getAttribute('fundarnúmer');
+        $assemblyId = (int) $this->object->getAttribute('þingnúmer');
+        $issueId = (int) $this->object->getAttribute('þingmál');
+        $congressmanType = $this->resolveCongressmanType($this->object);
+        $congressmanId = (int) $this->object->getAttribute('þingmaður');
+        $iteration = $this->resolveIteration($this->object->getElementsByTagName('umræða')->item(0));
+        $type = $this->object->getElementsByTagName('tegundræðu')?->item(0)?->nodeValue;
+        $text = $this->object->getElementsByTagName('ræðutexti')
+                ?->item(0)?->ownerDocument?->saveXML($this->object->getElementsByTagName('ræðutexti')->item(0));
 
-        $issue = $object->getElementsByTagName('mál');
-        $issueType = $issue->length && $issue->item(0)->hasAttribute('málsflokkur')
+        $issue = $this->object->getElementsByTagName('mál');
+        $issueType = $issue?->item(0)?->hasAttribute('málsflokkur')
             ? $issue->item(0)->getAttribute('málsflokkur')
             : 'A';
 
@@ -72,7 +75,7 @@ class Speech implements ExtractionInterface, IdentityInterface
             'type' => $type,
             'text' => $text,
             'category' => $issueType,
-            'validated' => $object->hasAttribute('temporary') ? 'false' : 'true'
+            'validated' => $this->object->hasAttribute('temporary') ? 'false' : 'true'
         ];
     }
 

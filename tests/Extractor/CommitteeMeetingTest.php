@@ -30,7 +30,7 @@ class CommitteeMeetingTest extends TestCase
             'description' => null
         ];
 
-        $returnedResults = (new CommitteeMeeting())->extract($dom->documentElement);
+        $returnedResults = (new CommitteeMeeting())->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedResult, $returnedResults);
     }
@@ -61,7 +61,7 @@ class CommitteeMeetingTest extends TestCase
             'description' => 'Hundur'
         ];
 
-        $returnedResults = (new CommitteeMeeting())->extract($dom->documentElement);
+        $returnedResults = (new CommitteeMeeting())->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedResult, $returnedResults);
     }

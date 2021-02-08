@@ -38,17 +38,16 @@ class HttpConsumer implements
      * @return mixed
      * @throws
      */
-    public function save(DOMElement $element, string $storageKey, ExtractionInterface $extract)
+    public function save(string $storageKey, ExtractionInterface $extract)
     {
-        $params = $extract->extract($element);
         $tries = 3;
 
         do {
             try {
                 if ($extract instanceof IdentityInterface) {
-                    return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
+                    return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $extract->extract());
                 } else {
-                    return $this->doUniqueRequest($storageKey, $params);
+                    return $this->doUniqueRequest($storageKey, $extract->extract());
                 }
             } catch (\Exception $e) {
                 sleep(2);

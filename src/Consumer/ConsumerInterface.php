@@ -2,9 +2,8 @@
 namespace App\Consumer;
 
 use App\Extractor\ExtractionInterface;
-use DOMElement;
 
 interface ConsumerInterface
 {
-    public function save(DOMElement $element, string $storageKey, ExtractionInterface $extract);
+    public function save(string $storageKey, ExtractionInterface $extract);
 }

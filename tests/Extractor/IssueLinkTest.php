@@ -22,7 +22,7 @@ class IssueLinkTest extends TestCase
         $dom = new DOMDocument();
         $dom->loadXML($source);
 
-        $resultedData = $extractor->extract($dom->documentElement);
+        $resultedData = $extractor->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -42,7 +42,7 @@ class IssueLinkTest extends TestCase
         $dom = new DOMDocument();
         $dom->loadXML($source);
 
-        $resultedData = $extractor->extract($dom->documentElement);
+        $resultedData = $extractor->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -64,7 +64,7 @@ class IssueLinkTest extends TestCase
         $dom = new DOMDocument();
         $dom->loadXML($source);
 
-        $resultedData = $extractor->extract($dom->documentElement);
+        $resultedData = $extractor->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -86,7 +86,7 @@ class IssueLinkTest extends TestCase
         $dom = new DOMDocument();
         $dom->loadXML($source);
 
-        $resultedData = $extractor->extract($dom->documentElement);
+        $resultedData = $extractor->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }

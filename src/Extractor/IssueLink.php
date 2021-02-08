@@ -7,25 +7,33 @@ use DOMElement;
 
 class IssueLink implements ExtractionInterface, IdentityInterface
 {
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
+
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('málsnúmer')) {
-            throw new Extractor\Exception('Missing [{málsnúmer}] value', $object);
+        if (! $this->object->hasAttribute('málsnúmer')) {
+            throw new Extractor\Exception('Missing [{málsnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('þingnúmer')) {
-            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
+        if (! $this->object->hasAttribute('þingnúmer')) {
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $this->object);
         }
 
         return [
-            'assembly_id' => (int) $object->getAttribute('þingnúmer'),
-            'issue_id' => (int) $object->getAttribute('málsnúmer'),
+            'assembly_id' => (int) $this->object->getAttribute('þingnúmer'),
+            'issue_id' => (int) $this->object->getAttribute('málsnúmer'),
             'category' => 'A',
-            'type' => $object->hasAttribute('type')
-                ? $object->getAttribute('type')
+            'type' => $this->object->hasAttribute('type')
+                ? $this->object->getAttribute('type')
                 : null
         ];
     }

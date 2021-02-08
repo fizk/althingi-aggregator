@@ -75,7 +75,7 @@ class GovernmentDocumentCallback
         return $dom;
     }
 
-    private function monthToNumber($name)
+    private function monthToNumber($name): string
     {
         $map = [
             'janúar'    => '01',
@@ -95,7 +95,7 @@ class GovernmentDocumentCallback
         return $map[$name];
     }
 
-    private function zeroSetDay($day)
+    private function zeroSetDay($day): string
     {
         if (is_string($day)) {
             if ($day[0] === '0') {

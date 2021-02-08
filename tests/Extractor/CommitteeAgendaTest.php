@@ -25,7 +25,7 @@ class CommitteeAgendaTest extends TestCase
             'title' => 'fjárlög 2016'
         ];
 
-        $returnedResults = (new CommitteeAgenda())->extract($dom->documentElement);
+        $returnedResults = (new CommitteeAgenda())->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedResult, $returnedResults);
     }
@@ -48,7 +48,7 @@ class CommitteeAgendaTest extends TestCase
             'title' => 'fjárlög 2016'
         ];
 
-        $returnedResults = (new CommitteeAgenda())->extract($dom->documentElement);
+        $returnedResults = (new CommitteeAgenda())->populate($dom->documentElement)->extract();
 
         $this->assertEquals($expectedResult, $returnedResults);
     }

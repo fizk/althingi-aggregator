@@ -8,33 +8,40 @@ use DOMElement;
 class Plenary implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('númer')) {
-            throw new Extractor\Exception('Missing [{númer}] value', $object);
+        if (! $this->object->hasAttribute('númer')) {
+            throw new Extractor\Exception('Missing [{númer}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('fundarheiti')->item(0)) {
-            throw new Extractor\Exception('Missing [{fundarheiti}] value', $object);
+        if (! $this->object->getElementsByTagName('fundarheiti')->item(0)) {
+            throw new Extractor\Exception('Missing [{fundarheiti}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('fundursettur')->item(0)) {
-            throw new Extractor\Exception('Missing [{fundursettur}] value', $object);
+        if (! $this->object->getElementsByTagName('fundursettur')->item(0)) {
+            throw new Extractor\Exception('Missing [{fundursettur}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('fuslit')->item(0)) {
-            throw new Extractor\Exception('Missing [{fuslit}] value', $object);
+        if (! $this->object->getElementsByTagName('fuslit')->item(0)) {
+            throw new Extractor\Exception('Missing [{fuslit}] value', $this->object);
         }
 
-        $this->setIdentity($object->getAttribute('númer'));
+        $this->setIdentity($this->object->getAttribute('númer'));
 
-        $name = $object->getElementsByTagName('fundarheiti')->item(0)->nodeValue;
-        $from = date('Y-m-d H:i', strtotime($object->getElementsByTagName('fundursettur')->item(0)->nodeValue));
-        $to = date('Y-m-d H:i', strtotime($object->getElementsByTagName('fuslit')->item(0)->nodeValue));
+        $name = $this->object->getElementsByTagName('fundarheiti')->item(0)->nodeValue;
+        $from = date('Y-m-d H:i', strtotime($this->object->getElementsByTagName('fundursettur')->item(0)->nodeValue));
+        $to = date('Y-m-d H:i', strtotime($this->object->getElementsByTagName('fuslit')->item(0)->nodeValue));
 
         return [
             'plenary_id' => (int) $this->getIdentity(),

@@ -17,7 +17,7 @@ class ProponentTest extends TestCase
             'minister' => null
         ];
 
-        $model = (new Proponent())->extract($congressmenNodeList->item(0));
+        $model = (new Proponent())->populate($congressmenNodeList->item(0))->extract();
 
         $this->assertEquals($expectedResults, $model);
     }
@@ -28,8 +28,8 @@ class ProponentTest extends TestCase
 
         $congressmenNodeList = $this->buildNodeList($this->getInvalidDocument());
 
-        (new Proponent())
-            ->extract($congressmenNodeList->item(0));
+        (new Proponent())->populate($congressmenNodeList->item(0))
+            ->extract();
     }
 
     /**
@@ -42,8 +42,8 @@ class ProponentTest extends TestCase
 
         $congressmenNodeList = $this->buildNodeList($this->getInvalidDocument());
 
-        (new Proponent())
-            ->extract($congressmenNodeList->item(1));
+        (new Proponent())->populate($congressmenNodeList->item(1))
+            ->extract();
     }
 
 
@@ -58,15 +58,15 @@ class ProponentTest extends TestCase
 
         $congressmenNodeList = $this->buildNodeList($this->getInvalidDocument());
 
-        (new Proponent())
-            ->extract($congressmenNodeList->item(2));
+        (new Proponent())->populate($congressmenNodeList->item(2))
+            ->extract();
     }
 
     public function testGetDocumentWithMinister()
     {
         $congressmenNodeList = $this->buildNodeList($this->getDocumentWithMinister());
-        $proponentData = (new Proponent())
-            ->extract($congressmenNodeList->item(0));
+        $proponentData = (new Proponent())->populate($congressmenNodeList->item(0))
+            ->extract();
 
         $this->assertEquals('fjármálaráðherra', $proponentData['minister']);
     }

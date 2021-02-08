@@ -65,7 +65,7 @@ trait ConsoleHelper
      */
     private function saveDomElement(DOMElement $element, $storageKey, ExtractionInterface $extract)
     {
-        $this->consumer->save($element, $storageKey, $extract);
+        $this->consumer->save($storageKey, clone $extract->populate($element));
     }
 
     /**

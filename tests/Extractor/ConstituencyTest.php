@@ -24,7 +24,7 @@ class ConstituencyTest extends TestCase
 
         $element = $this->buildNodeList($this->getRawData());
 
-        $resultedData = $extractor->extract($element->item(0));
+        $resultedData = $extractor->populate($element->item(0))->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }
@@ -43,7 +43,7 @@ class ConstituencyTest extends TestCase
 
         $element = $this->buildNodeList($this->getRawData());
 
-        $resultedData = $extractor->extract($element->item(2));
+        $resultedData = $extractor->populate($element->item(2))->extract();
 
         $this->assertEquals($expectedData, $resultedData);
     }

@@ -8,31 +8,38 @@ use DOMElement;
 class CommitteeMeeting implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('númer')) {
-            throw new Extractor\Exception('Missing [{númer}] value', $object);
+        if (! $this->object->hasAttribute('númer')) {
+            throw new Extractor\Exception('Missing [{númer}] value', $this->object);
         }
 
-        $this->setIdentity((int) $object->getAttribute('númer'));
+        $this->setIdentity((int) $this->object->getAttribute('númer'));
 
-        $from = ($object->getElementsByTagName('fundursettur')->item(0) &&
-            ! empty($object->getElementsByTagName('fundursettur')->item(0)->nodeValue))
-            ? date('Y-m-d H:i:s', strtotime($object->getElementsByTagName('fundursettur')->item(0)->nodeValue))
+        $from = ($this->object->getElementsByTagName('fundursettur')->item(0) &&
+            ! empty($this->object->getElementsByTagName('fundursettur')->item(0)->nodeValue))
+            ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('fundursettur')->item(0)->nodeValue))
             : null ;
 
-        $to = ($object->getElementsByTagName('fuslit')->item(0) &&
-            ! empty($object->getElementsByTagName('fuslit')->item(0)->nodeValue))
-            ? date('Y-m-d H:i:s', strtotime($object->getElementsByTagName('fuslit')->item(0)->nodeValue))
+        $to = ($this->object->getElementsByTagName('fuslit')->item(0) &&
+            ! empty($this->object->getElementsByTagName('fuslit')->item(0)->nodeValue))
+            ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('fuslit')->item(0)->nodeValue))
             : null ;
 
-        $description = ($object->getElementsByTagName('fundargerð')->item(0) &&
-            $object->getElementsByTagName('fundargerð')->item(0)->getElementsByTagName('texti')->item(0))
-            ? trim($object->getElementsByTagName('fundargerð')
+        $description = ($this->object->getElementsByTagName('fundargerð')->item(0) &&
+            $this->object->getElementsByTagName('fundargerð')->item(0)->getElementsByTagName('texti')->item(0))
+            ? trim($this->object->getElementsByTagName('fundargerð')
                 ->item(0)->getElementsByTagName('texti')->item(0)->nodeValue)
             : null ;
 

@@ -23,7 +23,7 @@ class CongressmanTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Congressman();
-        $result = $model->extract($root);
+        $result = $model->populate($root)->extract();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals('Hundur', $result['name']);
@@ -49,7 +49,7 @@ class CongressmanTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Congressman();
-        $result = $model->extract($root);
+        $result = $model->populate($root)->extract();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals('Hundur', $result['name']);
@@ -73,7 +73,7 @@ class CongressmanTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Congressman();
-        $result = $model->extract($root);
+        $result = $model->populate($root)->extract();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals('Hundur', $result['name']);
@@ -96,7 +96,7 @@ class CongressmanTest extends TestCase
         $dom->appendChild($root);
 
         $model = new Congressman();
-        $result = $model->extract($root);
+        $result = $model->populate($root)->extract();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals('Hundur', $result['name']);

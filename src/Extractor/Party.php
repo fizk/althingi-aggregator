@@ -8,20 +8,27 @@ use DOMElement;
 class Party implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
-        if (! $object->hasAttribute('id')) {
-            throw new Extractor\Exception('Missing [{id}] value', $object);
+        if (! $this->object->hasAttribute('id')) {
+            throw new Extractor\Exception('Missing [{id}] value', $this->object);
         }
 
-        $this->setIdentity($object->getAttribute('id'));
-        $name = $object->getElementsByTagName('heiti')->item(0)->nodeValue;
-        $abbrShort = $object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue;
-        $abbrLong = $object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue . PHP_EOL;
+        $this->setIdentity($this->object->getAttribute('id'));
+        $name = $this->object->getElementsByTagName('heiti')->item(0)->nodeValue;
+        $abbrShort = $this->object->getElementsByTagName('stuttskammstöfun')->item(0)->nodeValue;
+        $abbrLong = $this->object->getElementsByTagName('löngskammstöfun')->item(0)->nodeValue . PHP_EOL;
 
         return [
             'id' => (int) $this->getIdentity(),

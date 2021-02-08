@@ -8,77 +8,79 @@ use DOMElement;
 class Issue implements ExtractionInterface, IdentityInterface
 {
     private string $id;
+    private DOMElement $object;
+
+    public function populate(DOMElement $object): self
+    {
+        $this->object = $object;
+        return $this;
+    }
 
     /**
      * @throws \App\Extractor\Exception
      */
-    public function extract(DOMElement $object): array
+    public function extract(): array
     {
 //        if (!$object->hasAttribute('málsflokkur')) {
 //            throw new Extractor\Exception('Missing [{málsflokkur}] value', $object);
 //        }
 
-        if (! $object->hasAttribute('málsnúmer')) {
-            throw new Extractor\Exception('Missing [{málsnúmer}] value', $object);
+        if (! $this->object->hasAttribute('málsnúmer')) {
+            throw new Extractor\Exception('Missing [{málsnúmer}] value', $this->object);
         }
 
-        if (! $object->hasAttribute('þingnúmer')) {
-            throw new Extractor\Exception('Missing [{þingnúmer}] value', $object);
+        if (! $this->object->hasAttribute('þingnúmer')) {
+            throw new Extractor\Exception('Missing [{þingnúmer}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('málsheiti')->item(0)) {
-            throw new Extractor\Exception('Missing [{málsheiti}] value', $object);
+        if (! $this->object->getElementsByTagName('málsheiti')->item(0)) {
+            throw new Extractor\Exception('Missing [{málsheiti}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('málstegund')->item(0)) {
-            throw new Extractor\Exception('Missing [{málstegund}] value', $object);
+        if (! $this->object->getElementsByTagName('málstegund')->item(0)) {
+            throw new Extractor\Exception('Missing [{málstegund}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('málstegund')->item(0)->hasAttribute('málstegund')) {
-            throw new Extractor\Exception('Missing [{málstegund}] value', $object);
+        if (! $this->object->getElementsByTagName('málstegund')->item(0)->hasAttribute('málstegund')) {
+            throw new Extractor\Exception('Missing [{málstegund}] value', $this->object);
         }
 
-        if (! $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti')->item(0)) {
-            throw new Extractor\Exception('Missing [{heiti}] value', $object);
+        if (! $this->object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti')->item(0)) {
+            throw new Extractor\Exception('Missing [{heiti}] value', $this->object);
         }
 
         //----
 
         $categoriesIds = [];
-        $categories = $object->getElementsByTagName('efnisflokkar');
+        $categories = $this->object->getElementsByTagName('efnisflokkar');
         foreach ($categories as $category) {
             $categoriesIds[] = $category->getAttribute('id');
         }
 
-        $this->setIdentity((int) $object->getAttribute('málsnúmer'));
+        $this->setIdentity((int) $this->object->getAttribute('málsnúmer'));
 
-        $assemblyId = (int) $object->getAttribute('þingnúmer');
-        $category = $object->hasAttribute('málsflokkur') ? $object->getAttribute('málsflokkur') : 'A';
-        $status = ($object->getElementsByTagName('staðamáls')->length)
-            ? trim($object->getElementsByTagName('staðamáls')->item(0)->nodeValue)
+        $assemblyId = (int) $this->object->getAttribute('þingnúmer');
+        $category = $this->object->hasAttribute('málsflokkur') ? $this->object->getAttribute('málsflokkur') : 'A';
+        $status = ($this->object->getElementsByTagName('staðamáls')->length)
+            ? trim($this->object->getElementsByTagName('staðamáls')->item(0)->nodeValue)
             : null;
         //@todo currently it seems that the málsheiti and undirheiti have accidentally been switch my the provider.
         $name = $category === 'A'
-            ? $object->getElementsByTagName('málsheiti')->item(0)->nodeValue
-            : $object->getElementsByTagName('undirheiti')->item(0)->nodeValue;
-        $subName = $object->getElementsByTagName('efnisgreining')->length
-            ? $object->getElementsByTagName('efnisgreining')->item(0)->nodeValue
+            ? $this->object->getElementsByTagName('málsheiti')->item(0)->nodeValue
+            : $this->object->getElementsByTagName('undirheiti')->item(0)->nodeValue;
+        $subName = $this->object->getElementsByTagName('efnisgreining')?->item(0)?->nodeValue;
+        $type = ($this->object->getElementsByTagName('málstegund')->length &&
+                $this->object->getElementsByTagName('málstegund')->item(0)->hasAttribute('málstegund'))
+            ? $this->object->getElementsByTagName('málstegund')->item(0)->getAttribute('málstegund')
             : null;
-        $type = ($object->getElementsByTagName('málstegund')->length &&
-                $object->getElementsByTagName('málstegund')->item(0)->hasAttribute('málstegund'))
-            ? $object->getElementsByTagName('málstegund')->item(0)->getAttribute('málstegund')
+        $typeName = $this->object->getElementsByTagName('málstegund')
+            ?->item(0)?->getElementsByTagName('heiti')?->item(0)?->nodeValue;
+        $typeSubName = $this->object->getElementsByTagName('málstegund')
+            ?->item(0)?->getElementsByTagName('heiti2')?->item(0)?->nodeValue;
+        $congressmanId = $this->object->hasAttribute('framsögumaður')
+            ? $this->object->getAttribute('framsögumaður')
             : null;
-        $typeName = $object->getElementsByTagName('málstegund')
-            ->item(0)->getElementsByTagName('heiti')->item(0)->nodeValue;
-        $typeSubName = $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti2')->length
-            ? $object->getElementsByTagName('málstegund')->item(0)->getElementsByTagName('heiti2')->item(0)->nodeValue
-            : null;
-        $congressmanId = $object->hasAttribute('framsögumaður')
-            ? $object->getAttribute('framsögumaður')
-            : null;
-        $question = $object->getElementsByTagName('fyrirspurntil')->length
-            ? $object->getElementsByTagName('fyrirspurntil')->item(0)->nodeValue
-            : null;
+        $question = $this->object->getElementsByTagName('fyrirspurntil')?->item(0)?->nodeValue;
 
 //        <tengdMál>
 //            <lagtFramÁðurSem>
@@ -104,24 +106,12 @@ class Issue implements ExtractionInterface, IdentityInterface
             'type_subname' => $typeSubName,
             'congressman_id' => $congressmanId,
             'question' => $question, //TODO change the name of this
-            'goal' => $object->getElementsByTagName('markmið')->length
-                ? $object->getElementsByTagName('markmið')->item(0)->nodeValue
-                : null,
-            'major_changes' => $object->getElementsByTagName('helstuBreytingar')->length
-                ? $object->getElementsByTagName('helstuBreytingar')->item(0)->nodeValue
-                : null,
-            'changes_in_law' => $object->getElementsByTagName('breytingaráLögum')->length
-                ? $object->getElementsByTagName('breytingaráLögum')->item(0)->nodeValue
-                : null,
-            'costs_and_revenues' => $object->getElementsByTagName('kostnaðurOgTekjur')->length
-                ? $object->getElementsByTagName('kostnaðurOgTekjur')->item(0)->nodeValue
-                : null,
-            'deliveries' => $object->getElementsByTagName('afgreiðsla')->length
-                ? $object->getElementsByTagName('afgreiðsla')->item(0)->nodeValue
-                : null,
-            'additional_information' => $object->getElementsByTagName('aðrarUpplýsingar')->length
-                ? $object->getElementsByTagName('aðrarUpplýsingar')->item(0)->nodeValue
-                : null,
+            'goal' => $this->object->getElementsByTagName('markmið')?->item(0)?->nodeValue,
+            'major_changes' => $this->object->getElementsByTagName('helstuBreytingar')?->item(0)?->nodeValue,
+            'changes_in_law' => $this->object->getElementsByTagName('breytingaráLögum')?->item(0)?->nodeValue,
+            'costs_and_revenues' => $this->object->getElementsByTagName('kostnaðurOgTekjur')?->item(0)?->nodeValue,
+            'deliveries' => $this->object->getElementsByTagName('afgreiðsla')?->item(0)?->nodeValue,
+            'additional_information' => $this->object->getElementsByTagName('aðrarUpplýsingar')?->item(0)?->nodeValue,
         ];
     }
 
