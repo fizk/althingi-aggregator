@@ -190,3 +190,15 @@ Next go over to   Settings | Languages and frameworks | PHP | Test Frameworks an
 set this for the _path to script_ /opt/project/vendor/autoload.php
 
 For default configuration file, set /opt/project/phpunit.xml.dist
+
+
+----
+
+*2021-02-08*
+The following repos are not PHP* ready, they have been temporarily forked and updated,
+They should be pointed to the official repos, once they are updated.
+
+* "phly/phly-event-dispatcher"
+* "laminas/laminas-cache"
+* "laminas/laminas-cache-storage-adapter-redis"
+* "laminas/laminas-cache-storage-adapter-blackhole"
