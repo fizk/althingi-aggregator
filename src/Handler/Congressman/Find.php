@@ -27,8 +27,8 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
     {
         $assemblyNumber = $request->getAttribute('assembly', null);
         $congressmenUrl = ($assemblyNumber)
-            ? "http://www.althingi.is/altext/xml/thingmenn/?lthing={$assemblyNumber}"
-            : "http://www.althingi.is/altext/xml/thingmenn";
+            ? "https://www.althingi.is/altext/xml/thingmenn/?lthing={$assemblyNumber}"
+            : "https://www.althingi.is/altext/xml/thingmenn/";
         $congressmenElements = $this->queryForNoteList($congressmenUrl, '//þingmannalisti/þingmaður');
 
         $this->saveDomNodeList(

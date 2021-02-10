@@ -52,7 +52,7 @@ trait IssueUtilities
         }
 
         $summaryDoc = $this->queryForDocument(
-            "http://www.althingi.is/altext/xml/samantektir/samantekt/?lthing={$assemblyNumber}&malnr={$issueNumber}"
+            "https://www.althingi.is/altext/xml/samantektir/samantekt/?lthing={$assemblyNumber}&malnr={$issueNumber}"
         );
         $summaryElements = [
             'markmið',

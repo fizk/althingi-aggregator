@@ -16,7 +16,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $superCategoriesList = $this->queryForNoteList(
-            'http://www.althingi.is/altext/xml/efnisflokkar/',
+            'https://www.althingi.is/altext/xml/efnisflokkar/',
             '//efnisflokkar/yfirflokkur'
         );
         foreach ($superCategoriesList as $superCategory) {

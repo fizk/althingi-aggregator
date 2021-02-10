@@ -18,7 +18,7 @@ class Agenda implements RequestHandlerInterface, ConsumerAwareInterface, Provide
         $assemblyNumber = $request->getAttribute('assembly');
 
         $list = $this->queryForNoteList(
-            "http://www.althingi.is/altext/xml/thingfundir/?lthing={$assemblyNumber}",
+            "https://www.althingi.is/altext/xml/thingfundir/?lthing={$assemblyNumber}",
             '//þingfundir/þingfundur'
         );
 

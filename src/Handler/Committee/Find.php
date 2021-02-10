@@ -16,7 +16,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $this->queryAndSave(
-            'http://www.althingi.is/altext/xml/nefndir',
+            'https://www.althingi.is/altext/xml/nefndir/',
             'nefndir',
             '//nefndir/nefnd',
             new Extractor\Committee()

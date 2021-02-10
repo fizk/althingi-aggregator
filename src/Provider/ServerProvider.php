@@ -76,13 +76,14 @@ class ServerProvider implements
         $request = (new Request())
             ->withMethod('GET')
             ->withUri(new Uri($url))
-            ->withHeader('User-Agent', 'Mozilla/5.0 '.
-                '(Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '.
-                '(KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36')
             ->withAddedHeader('Keep-Alive', 'timeout=5, max=1000')
+            ->withAddedHeader('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9')
+            ->withAddedHeader('Cache-Control', 'no-cache')
             ->withAddedHeader('Connection', 'keep-alive')
             ->withAddedHeader('Host', 'www.althingi.is')
-            ->withAddedHeader('Accept', 'text/html,application/xhtml+xml,application/xml')
+            ->withAddedHeader('Pragma', 'no-cache')
+            ->withAddedHeader('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
+                .'(KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36')
             ;
 
         try {

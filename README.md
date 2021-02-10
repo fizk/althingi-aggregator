@@ -165,14 +165,15 @@ $ docker-compose run run ./globals.sh
 
 You can pass environment variables in the docker-compose **run** service
 
-* ENV_CONSUMER_CACHE_TYPE
-* ENV_CONSUMER_CACHE_HOST
+* ENVIRONMENT | DEVELOPMENT / PRODUCTION (default: DEVELOPMENT)
+* ENV_CONSUMER_CACHE_TYPE | NONE / MEMORY (default: MEMORY)
+* ENV_CONSUMER_CACHE_HOST | (NOT including schema or port, ie http://)
 * ENV_CONSUMER_CACHE_PORT
-* ENV_PROVIDER_CACHE_TYPE
-* ENV_PROVIDER_CACHE_HOST
+* ENV_PROVIDER_CACHE_TYPE | NONE / MEMORY (default: MEMORY)
+* ENV_PROVIDER_CACHE_HOST | (NOT including schema or port, ie http://)
 * ENV_PROVIDER_CACHE_PORT
 * ENV_AGGREGATOR_CONSUMER_SCHEMA
-* ENV_AGGREGATOR_CONSUMER_HOST
+* ENV_AGGREGATOR_CONSUMER_HOST | (NOT including schema or port, ie http://)
 * ENV_AGGREGATOR_CONSUMER_PORT
 
 For PHPStorm

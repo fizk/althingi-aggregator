@@ -16,7 +16,7 @@ class Current implements RequestHandlerInterface, ConsumerAwareInterface, Provid
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $this->queryAndSave(
-            'http://www.althingi.is/altext/xml/loggjafarthing/yfirstandandi',
+            'https://www.althingi.is/altext/xml/loggjafarthing/yfirstandandi/',
             'loggjafarthing',
             '//löggjafarþing/þing',
             new Assembly()

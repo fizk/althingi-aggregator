@@ -28,7 +28,7 @@ class Minister implements RequestHandlerInterface, ConsumerAwareInterface, Provi
         $assemblyNumber = $request->getAttribute('assembly', null);
         $congressmenUrl = ($assemblyNumber)
             ? "https://www.althingi.is/altext/xml/radherrar/?lthing={$assemblyNumber}"
-            : "https://www.althingi.is/altext/xml/radherrar";
+            : "https://www.althingi.is/altext/xml/radherrar/";
         $congressmenElements = $this->queryForNoteList($congressmenUrl, '//ráðherralisti/ráðherra');
 
         $this->saveDomNodeList(

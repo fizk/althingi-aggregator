@@ -19,7 +19,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
 
         if ($assemblyNumber) {
             $nodeList = $this->queryForNoteList(
-                'http://huginn.althingi.is/altext/xml/forsetar/',
+                'https://www.althingi.is/altext/xml/forsetar/',
                 '//forsetalisti/forseti'
             );
             foreach ($nodeList as $president) {
@@ -30,7 +30,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
             }
         } else {
             $this->queryAndSave(
-                'http://huginn.althingi.is/altext/xml/forsetar/',
+                'https://www.althingi.is/altext/xml/forsetar/',
                 'forsetar',
                 '//forsetalisti/forseti',
                 new Extractor\President()

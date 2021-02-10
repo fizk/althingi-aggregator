@@ -18,7 +18,7 @@ class Assembly implements RequestHandlerInterface, ConsumerAwareInterface, Provi
         $assemblyNumber = $request->getAttribute('assembly');
 
         $meetings = $this->queryForNoteList(
-            "http://huginn.althingi.is/altext/xml/nefndarfundir/?lthing={$assemblyNumber}",
+            "https://www.althingi.is/altext/xml/nefndarfundir/?lthing={$assemblyNumber}",
             '//nefndarfundir/nefndarfundur'
         );
 

@@ -18,7 +18,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
         $assemblyNumber = $request->getAttribute('assembly');
 
         $issuesNodeList = $this->queryNoteList(
-            "http://www.althingi.is/altext/xml/thingmalalisti/?lthing={$assemblyNumber}",
+            "https://www.althingi.is/altext/xml/thingmalalisti/?lthing={$assemblyNumber}",
             '//málaskrá/mál'
         );
 

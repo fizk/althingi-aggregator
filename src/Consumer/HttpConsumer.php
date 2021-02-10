@@ -28,6 +28,12 @@ class HttpConsumer implements
     private ClientInterface $client;
     private StorageInterface $cache;
     private ?EventDispatcherInterface $eventDispatch = null;
+    private array $additionalHeaders = [];
+
+    public function __construct(array $additionalHeaders = [])
+    {
+        $this->additionalHeaders = $additionalHeaders;
+    }
 
     /**
      * Save $extract to storage/consumer.
@@ -41,13 +47,13 @@ class HttpConsumer implements
     public function save(string $storageKey, ExtractionInterface $extract)
     {
         $tries = 3;
-
+        $params = $extract->extract();
         do {
             try {
                 if ($extract instanceof IdentityInterface) {
-                    return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $extract->extract());
+                    return $this->doIdentityRequest($storageKey, $extract->getIdentity(), $params);
                 } else {
-                    return $this->doUniqueRequest($storageKey, $extract->extract());
+                    return $this->doUniqueRequest($storageKey, $params);
                 }
             } catch (\Exception $e) {
                 sleep(2);
@@ -216,17 +222,14 @@ class HttpConsumer implements
 
     private function getRequest($verb, Uri $uri, array $param): Request
     {
-        // $lines = [];
-        // foreach ($param as $key => $value) {
-        //     $lines[] = "{$key}=" . urlencode($value);
-        // }
-        $request = (new Request($uri, 'POST', (new StreamFactory())->createStream(http_build_query($param)), [
-            'X-HTTP-Method-Override' => $verb,
-            'X-Transaction-Id' => sha1(uniqid(rand(), true)),
-            'Connection' => 'Keep-Alive',
-            'Keep-Alive' => 'timeout=5, max=1000',
-            'Content-Type' => 'application/x-www-form-urlencoded'
-        ]));
+        $request = (new Request($uri, 'POST', (new StreamFactory())
+            ->createStream(http_build_query($param)), array_merge([
+                'X-HTTP-Method-Override' => $verb,
+                'X-Transaction-Id' => sha1(uniqid(rand(), true)),
+                'Connection' => 'Keep-Alive',
+                'Keep-Alive' => 'timeout=5, max=1000',
+                'Content-Type' => 'application/x-www-form-urlencoded',
+        ], $this->additionalHeaders)));
         $request->getBody()->rewind();
 
         return $request;

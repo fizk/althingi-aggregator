@@ -8,6 +8,8 @@ use Laminas\Diactoros\Uri;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Formatter\LineFormatter;
+use Buzz\Client\Curl;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use App\Provider;
 use App\Consumer;
 use App\Event\{
@@ -135,7 +137,8 @@ return [
         },
 
         Psr\Http\Client\ClientInterface::class => function (ContainerInterface $container, $requestedName) {
-            return (new \Shuttle\Shuttle());
+            return new Curl(new Psr17Factory());
+
         },
         Psr\Log\LoggerInterface::class => function (ContainerInterface $container, $requestedName) {
             return (new Logger('aggregator'))
@@ -185,7 +188,9 @@ return [
                 ->withPort(getenv('AGGREGATOR_CONSUMER_PORT') ?: '8080')
                 ->withScheme(getenv('AGGREGATOR_CONSUMER_SCHEMA') ?: 'http')
                 ;
-            return (new Consumer\HttpConsumer())
+            return (new Consumer\HttpConsumer(
+                    getenv('ENVIRONMENT') === 'DEVELOPMENT' ?  ['x-set-response-status-code' => '201'] : []
+                ))
                 ->setHttpClient($container->get(Psr\Http\Client\ClientInterface::class))
                 ->setCache($container->get('ConsumerCache'))
                 ->setUri($uri)

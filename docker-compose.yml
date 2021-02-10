@@ -10,6 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
+      - ENVIRONMENT=DEVELOPMENT
       - CONSUMER_CACHE_TYPE=${ENV_CONSUMER_CACHE_TYPE:-none}
       - CONSUMER_CACHE_HOST=${ENV_CONSUMER_CACHE_HOST:-localhost}
       - CONSUMER_CACHE_PORT=${ENV_CONSUMER_CACHE_PORT:-6379}
@@ -20,6 +21,7 @@ services:
 
       - AGGREGATOR_CONSUMER_SCHEMA=${ENV_AGGREGATOR_CONSUMER_SCHEMA:-http}
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
+    #   - AGGREGATOR_CONSUMER_HOST=echo-server
       - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-8080}
     volumes:
       - ./bin/:/usr/src/bin
@@ -32,6 +34,7 @@ services:
     depends_on:
       - cache-consumer
       - cache-provider
+      - echo-server
 
   test:
     container_name: althingi_aggregator_test_container
@@ -61,3 +64,11 @@ services:
   cache-provider:
     container_name: cache-provider
     image: redis:4.0.11
+
+  echo-server:
+    image:  mendhak/http-https-echo:17
+    container_name: echo-server
+    environment:
+      - HTTP_PORT=8080
+    ports:
+      - 8080:8080

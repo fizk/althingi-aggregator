@@ -18,7 +18,7 @@ class Single implements RequestHandlerInterface, ConsumerAwareInterface, Provide
         $assemblyNumber = $request->getAttribute('assembly');
         $issueNumber = $request->getAttribute('issue');
         $category = $request->getAttribute('category');
-        $url = 'http://www.althingi.is/altext/xml/thingmalalisti';
+        $url = 'https://www.althingi.is/altext/xml/thingmalalisti';
         $this->queryIssueInformation(
             $assemblyNumber,
             $issueNumber,

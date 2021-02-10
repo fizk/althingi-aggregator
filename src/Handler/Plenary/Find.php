@@ -18,7 +18,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
         $assemblyNumber = $request->getAttribute('assembly');
 
         $this->queryAndSave(
-            "http://www.althingi.is/altext/xml/thingfundir/?lthing={$assemblyNumber}",
+            "https://www.althingi.is/altext/xml/thingfundir/?lthing={$assemblyNumber}",
             "loggjafarthing/{$assemblyNumber}/thingfundir",
             '//þingfundir/þingfundur',
             new Extractor\Plenary()
