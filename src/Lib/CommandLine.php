@@ -3,16 +3,11 @@
 namespace App\Lib;
 
 /**
- * Command Line Interface (CLI) utility class.
- *
  * @author              Patrick Fisher <patrick@pwfisher.com>
  * @since               August 21, 2009
- * @package             Framework
- * @subpackage          Env
  */
 class CommandLine
 {
-
     public static $args;
 
     /**
@@ -98,10 +93,7 @@ class CommandLine
         return $out;
     }
 
-    /**
-     * GET BOOLEAN
-     */
-    public static function getBoolean($key, $default = false)
+    public static function getBoolean(string $key, mixed $default = false): mixed
     {
         if (!isset(self::$args[$key])) {
             return $default;

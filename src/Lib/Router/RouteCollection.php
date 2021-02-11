@@ -2,61 +2,30 @@
 
 namespace App\Lib\Router;
 
-use Closure;
 use InvalidArgumentException;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-/**
- * Holds instances of the Route class
- */
 class RouteCollection implements RouterInterface
 {
-    /**
-     * Array which contains instances of the Route class
-     *
-     * @var Route[]
-     */
-    protected $routes;
-    protected $names = [];
+    protected array $routes;
+    protected array $names = [];
 
-    /**
-     * Creates a new instance of the RouteCollection class
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->routes = [];
     }
 
-    /**
-     * Adds an instance of the Route class to the routes property
-     *
-     * @param Route $route
-     * @return void
-     */
     public function addRoute(Route $route): void
     {
         $this->names[$route->getName()] = $route->getPath();
         $this->routes []= $route;
     }
 
-    /** Gets the routes property
-     *
-     * @return Route[]
-     */
     public function getRoutes(): array
     {
         return $this->routes;
     }
 
-    /**
-     * Finds an instance of the Route class which matches the given request
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @return Route
-     * @throws \Exception if no matching Route instance is found
-     */
     public function match(Request $request): ?Route
     {
         foreach ($this->routes as $route) {
