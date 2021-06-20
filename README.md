@@ -1,5 +1,7 @@
 # AlthingiAggregator
 
+### althingi-aggregator
+
 althingi-aggregator is a command-line tool  for scraping https://www.althingi.is/altext/xml. It queries various endpoints and transforms the data before handing it off to another system for storing.
 
 
