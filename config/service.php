@@ -2,8 +2,8 @@
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Container\ContainerInterface;
-use Phly\EventDispatcher\EventDispatcher;
-use Phly\EventDispatcher\ListenerProvider\AttachableListenerProvider;
+use League\Event\EventDispatcher;
+use League\Event\PrioritizedListenerRegistry;
 use Laminas\Diactoros\Uri;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -148,26 +148,26 @@ return [
 
         EventDispatcherInterface::class => function (ContainerInterface $container, $requestedName) {
             $logger = $container->get(Psr\Log\LoggerInterface::class);
-            $provider = new AttachableListenerProvider();
-            $provider->listen(ProviderErrorEvent::class, function (ProviderErrorEvent $event) use ($logger) {
+            $provider = new PrioritizedListenerRegistry();
+            $provider->subscribeTo(ProviderErrorEvent::class, function (ProviderErrorEvent $event) use ($logger) {
                 $logger->error((string) $event);
             });
-            $provider->listen(ProviderSuccessEvent::class, function (ProviderSuccessEvent $event) use ($logger) {
+            $provider->subscribeTo(ProviderSuccessEvent::class, function (ProviderSuccessEvent $event) use ($logger) {
                 $logger->debug((string) $event);
             });
-            $provider->listen(ConsumerErrorEvent::class, function (ConsumerErrorEvent $event) use ($logger) {
+            $provider->subscribeTo(ConsumerErrorEvent::class, function (ConsumerErrorEvent $event) use ($logger) {
                 $logger->error((string) $event);
             });
-            $provider->listen(ConsumerSuccessEvent::class, function (ConsumerSuccessEvent $event) use ($logger) {
+            $provider->subscribeTo(ConsumerSuccessEvent::class, function (ConsumerSuccessEvent $event) use ($logger) {
                 $logger->debug((string) $event);
             });
-            $provider->listen(ErrorEvent::class, function (ErrorEvent $event) use ($logger) {
+            $provider->subscribeTo(ErrorEvent::class, function (ErrorEvent $event) use ($logger) {
                 $logger->error((string) $event);
             });
-            $provider->listen(ExceptionEvent::class, function (ExceptionEvent $event) use ($logger) {
+            $provider->subscribeTo(ExceptionEvent::class, function (ExceptionEvent $event) use ($logger) {
                 $logger->warn((string) $event);
             });
-            $provider->listen(SystemSuccessEvent::class, function (SystemSuccessEvent $event) use ($logger) {
+            $provider->subscribeTo(SystemSuccessEvent::class, function (SystemSuccessEvent $event) use ($logger) {
                 $logger->debug((string) $event);
             });
 

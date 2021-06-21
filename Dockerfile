@@ -1,4 +1,4 @@
-FROM php:8.0.2-cli-buster
+FROM php:8.0.7-cli-buster
 
 ARG ENV
 
