@@ -35,12 +35,12 @@ COPY ./composer.json .
 COPY ./composer.lock .
 
 RUN if [ "$ENV" != "production" ] ; then \
-    composer install --prefer-source --no-interaction --no-suggest \
+    composer install --prefer-source --no-interaction \
     && composer dump-autoload; \
     fi ;
 
 RUN if [ "$ENV" = "production" ] ; then \
-    composer install --prefer-source --no-interaction --no-dev --no-suggest -o \
+    composer install --prefer-source --no-interaction --no-dev -o \
     && composer dump-autoload -o; \
     fi ;
 
