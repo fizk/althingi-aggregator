@@ -15,19 +15,15 @@ class ThrowEvent
 
     public function __toString(): string
     {
-        return implode(' ', [
-            'SYSTEM',
-            'GET',
-            '/',
-            0,
-            0,
-            json_encode(array_merge(
-                [
-                    $this->error->getMessage(),
-                    "{$this->error->getFile()}:{$this->error->getLine()}",
-                ],
-                $this->error->getTrace()
-            )),
+        return json_encode([
+            'name' => 'system',
+            'request_method' => 'GET',
+            'request_uri' => '/',
+            'response_body' => '',
+            'response_status' => 0,
+            'error_file' => "{$this->error->getFile()}:{$this->error->getLine()}",
+            'error_message' => $this->error->getMessage(),
+            'error_trace' => $this->error->getTrace(),
         ]);
     }
 }

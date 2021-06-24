@@ -17,12 +17,15 @@ class ConsumerSuccessEvent
 
     public function __toString(): string
     {
-        return implode(' ', [
-            'CONSUMER',
-            $this->request->getHeader('X-HTTP-Method-Override')[0],
-            $this->request->getUri()->__toString(),
-            $this->response->getStatusCode(),
-            $this->response->getBody()->getSize(),
+        return json_encode([
+            'name' => 'consumer',
+            'request_method' =>$this->request->getHeader('X-HTTP-Method-Override')[0],
+            'request_uri' => $this->request->getUri()->__toString(),
+            'response_body' => '',
+            'response_status' => $this->response->getStatusCode(),
+            'error_file' => null,
+            'error_message' => null,
+            'error_trace' => null,
         ]);
     }
 }

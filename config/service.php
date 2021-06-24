@@ -143,7 +143,8 @@ return [
         Psr\Log\LoggerInterface::class => function (ContainerInterface $container, $requestedName) {
             return (new Logger('aggregator'))
                 ->pushHandler((new StreamHandler('php://stdout', Logger::DEBUG))
-                ->setFormatter(new LineFormatter("[%datetime%] %level_name% %message%\n")));
+                    ->setFormatter(new LineFormatter("[%datetime%] %level_name% %message%\n"))
+            );
         },
 
         EventDispatcherInterface::class => function (ContainerInterface $container, $requestedName) {

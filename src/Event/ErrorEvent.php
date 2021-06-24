@@ -18,19 +18,15 @@ class ErrorEvent
 
     public function __toString(): string
     {
-        return implode(' ', [
-            'SYSTEM',
-            $this->request->getMethod(),
-            $this->request->getUri()->__toString(),
-            0,
-            0,
-            json_encode(array_merge(
-                [
-                    $this->error->getMessage(),
-                    "{$this->error->getFile()}:{$this->error->getLine()}"
-                ],
-                $this->error->getTrace()
-            )),
+        return json_encode([
+            'name' => 'system',
+            'request_method' => $this->request->getHeader('X-HTTP-Method-Override')[0],
+            'request_uri' => $this->request->getUri()->__toString(),
+            'response_body' => '',
+            'response_status' => 0,
+            'error_file' => "{$this->error->getFile()}:{$this->error->getLine()}",
+            'error_message' => $this->error->getMessage(),
+            'error_trace' => $this->error->getTrace(),
         ]);
     }
 }

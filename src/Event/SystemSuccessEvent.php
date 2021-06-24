@@ -17,13 +17,15 @@ class SystemSuccessEvent
 
     public function __toString(): string
     {
-        return implode(' ', [
-            'SYSTEM',
-            $this->request->getMethod(),
-            $this->request->getUri()->__toString(),
-            $this->response->getStatusCode(),
-            $this->response->getBody()->getSize(),
-            $this->response->getBody()->__toString()
+        return json_encode([
+            'name' => 'system',
+            'request_method' => $this->request->getMethod(),
+            'request_uri' => $this->request->getUri()->__toString(),
+            'response_body' => $this->response->getBody()->__toString(),
+            'response_status' => $this->response->getStatusCode(),
+            'error_file' => null,
+            'error_message' => null,
+            'error_trace' => null,
         ]);
     }
 }
