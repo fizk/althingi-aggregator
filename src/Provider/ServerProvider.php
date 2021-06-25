@@ -81,6 +81,7 @@ class ServerProvider implements
             ->withAddedHeader('Cache-Control', 'no-cache')
             ->withAddedHeader('Connection', 'keep-alive')
             ->withAddedHeader('Host', 'www.althingi.is')
+            ->withAddedHeader('X-Transaction-Id', sha1(uniqid(rand(), true)))
             ->withAddedHeader('Pragma', 'no-cache')
             ->withAddedHeader('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 '
                 .'(KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36')

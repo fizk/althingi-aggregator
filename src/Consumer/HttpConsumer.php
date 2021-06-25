@@ -225,6 +225,7 @@ class HttpConsumer implements
         $request = (new Request($uri, 'POST', (new StreamFactory())
             ->createStream(http_build_query($param)), array_merge([
                 'X-HTTP-Method-Override' => $verb,
+                'User-Agent' => 'Aggregator/1.0',
                 'X-Transaction-Id' => sha1(uniqid(rand(), true)),
                 'Connection' => 'Keep-Alive',
                 'Keep-Alive' => 'timeout=5, max=1000',

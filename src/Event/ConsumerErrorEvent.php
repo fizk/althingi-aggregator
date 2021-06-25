@@ -21,11 +21,14 @@ class ConsumerErrorEvent
     public function __toString(): string
     {
         return json_encode([
-            'name' => 'consumer',
-            'request_method' => $this->request->getHeader('X-HTTP-Method-Override')[0],
+            'section_name' => 'consumer',
+            'request_method' => count($this->request->getHeader('X-HTTP-Method-Override')) > 0
+                ? $this->request->getHeader('X-HTTP-Method-Override')[0]
+                : $this->request->getMethod(),
+            'request_headers' => $this->request->getHeaders(),
             'request_uri' => $this->request->getUri()->__toString(),
-            'response_body' => $this->response->getBody()->__toString(),
             'response_status' => $this->response->getStatusCode(),
+            'response_headers' => $this->response->getHeaders(),
             'error_file' => "{$this->error->getFile()}:{$this->error->getLine()}",
             'error_message' => $this->error->getMessage(),
             'error_trace' => $this->error->getTrace(),

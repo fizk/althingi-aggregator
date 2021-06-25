@@ -16,11 +16,12 @@ class ThrowEvent
     public function __toString(): string
     {
         return json_encode([
-            'name' => 'system',
+            'section_name' => 'system',
             'request_method' => 'GET',
+            'request_headers' => [],
             'request_uri' => '/',
-            'response_body' => '',
             'response_status' => 0,
+            'response_headers' => [],
             'error_file' => "{$this->error->getFile()}:{$this->error->getLine()}",
             'error_message' => $this->error->getMessage(),
             'error_trace' => $this->error->getTrace(),
