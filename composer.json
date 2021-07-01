@@ -1,6 +1,6 @@
 {
     "name": "fizk/althingi-aggregator",
-    "description": "Aggregate XML files from althingi.is",
+    "description": "Aggregates XML files from althingi.is",
     "type": "project",
     "license": "BSD-3-Clause",
     "keywords": ["php", ""],
