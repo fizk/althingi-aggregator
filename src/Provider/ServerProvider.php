@@ -63,7 +63,7 @@ class ServerProvider implements
                 $this->cache->setItem($key, $content);
                 return $dom;
             } else {
-                throw new UnexpectedValueException(json_encode(array_merge(error_get_last(), ['url' => $url])));
+                throw new UnexpectedValueException(json_encode(array_merge(error_get_last() ?? [], ['url' => $url])));
             }
         }
     }
