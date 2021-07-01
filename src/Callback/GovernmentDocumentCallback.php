@@ -44,7 +44,7 @@ class GovernmentDocumentCallback
             $year = trim($regexResults[0][3]);
             $month = $this->monthToNumber(trim($regexResults[0][2]));
             $day = $this->zeroSetDay(trim($regexResults[0][1]));
-            $i->setAttribute('from',"{$year}-{$month}-{$day}");
+            $i->setAttribute('from', "{$year}-{$month}-{$day}");
 
             $rootElement->appendChild($i);
         }
