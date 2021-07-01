@@ -70,7 +70,7 @@ These script are located in the `./bin` directory.
 * **globals.sh**
 * **assembly.sh &lt;number&gt;**
 * **issue.sh &lt;number&gt; &lt;number&gt; &lt;string&gt;**
-* **presidents.sh**
+* **members.sh**
 
 **globals.sh**: Gets assemblies, parties, constituencies, committees and categories. All of these things
 need to exist on the API's side before any other script is run. So make sure this one run first.
@@ -80,7 +80,7 @@ pass in as an argument the number of the assembly you want to process.
 
 **issue.sh &lt;number&gt; &lt;number&gt; &lt;string&gt;**: Gets everything related to an issue.
 
-**presidents.sh**: This one gets all congressmen as well as all presidents of the parliament.
+**members.sh**: This one gets all congressmen as well as all presidents of the parliament.
 
 To run these script in production/development:
 
