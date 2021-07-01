@@ -13,7 +13,7 @@ class GovernmentDocumentCallback
         @$pageDom->loadHTML($utf8content);
 
         $xpath = new DOMXpath($pageDom);
-        $list = $xpath->query('//*[@id="main"]/div[5]/div[2]/ul')->item(0)->getElementsByTagName('li');
+        $list = $xpath->query('//*[@id="main"]/div[5]/div/ul')->item(0)->getElementsByTagName('li');
 
         $tmpDom = new DOMDocument();
         foreach ($list as $i) {
@@ -21,7 +21,7 @@ class GovernmentDocumentCallback
             $tmpDom->appendChild($ti);
         }
 
-        $list = $xpath->query('//*[@id="main"]/div[6]/div[2]/ul')->item(0)->getElementsByTagName('li');
+        $list = $xpath->query('//*[@id="main"]/div[6]/div/ul')->item(0)->getElementsByTagName('li');
         foreach ($list as $i) {
             $ti = $tmpDom->importNode($i, true);
             $tmpDom->appendChild($ti);
@@ -30,31 +30,22 @@ class GovernmentDocumentCallback
         $dom = new DOMDocument();
         $rootElement = $dom->createElement('root');
         $dom->appendChild($rootElement);
+
         foreach ($tmpDom->childNodes as $item) {
             $regexResults = [];
             preg_match_all(
-                '/([0-9]{0,2})\.? '.
-                '(janúar|febrúar|mars|apríl|maí|júní|júlí|ágúst|september|október|nóvember|desember)\.? '.
-                '*([0-9]{4})/',
-                $item->getElementsByTagName('div')->item(0)->nodeValue,
+                '/([0-9]{1,2})\. (.*)? ([0-9]{4})/',
+                str_replace("\n", '', $item->getElementsByTagName('div')->item(0)->nodeValue),
                 $regexResults,
                 PREG_SET_ORDER
             );
 
             $i = $dom->createElement('item', $item->getElementsByTagName('span')->item(0)->nodeValue);
-            $i->setAttribute(
-                'from',
-                "{$regexResults[0][3]}-{$this->monthToNumber($regexResults[0][2])}".
-                "-{$this->zeroSetDay($regexResults[0][1])}"
-            );
+            $year = trim($regexResults[0][3]);
+            $month = $this->monthToNumber(trim($regexResults[0][2]));
+            $day = $this->zeroSetDay(trim($regexResults[0][1]));
+            $i->setAttribute('from',"{$year}-{$month}-{$day}");
 
-            if (isset($regexResults[1])) {
-                $i->setAttribute(
-                    'to',
-                    "{$regexResults[1][3]}-{$this->monthToNumber($regexResults[1][2])}".
-                    "-{$this->zeroSetDay($regexResults[1][1])}"
-                );
-            }
             $rootElement->appendChild($i);
         }
 
