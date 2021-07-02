@@ -6,7 +6,7 @@ use Psr\Http\Client\ClientInterface;
 use App\Extractor\ExtractionInterface;
 use Laminas\Cache\Storage\StorageInterface;
 use Laminas\Diactoros\{Request, Uri, Response, StreamFactory};
-use App\Event\{ConsumerSuccessEvent, ConsumerErrorEvent};
+use App\Event\ConsumerResponseEvent;
 use App\Lib\{
     IdentityInterface,
     CacheableAwareInterface,
@@ -92,7 +92,7 @@ class HttpConsumer implements
     {
         $postRequest = $this->getRequest('POST', $uri, $params);
         if ($this->isValidInCache($uri, $params)) {
-            $this->getEventDispatcher()->dispatch(new ConsumerSuccessEvent(
+            $this->getEventDispatcher()->dispatch(new ConsumerResponseEvent(
                 $postRequest,
                 new Response('php://memory', 304)
             ));
@@ -108,7 +108,7 @@ class HttpConsumer implements
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->getEventDispatcher()
-                    ->dispatch(new ConsumerSuccessEvent($postRequest, $postResponse));
+                    ->dispatch(new ConsumerResponseEvent($postRequest, $postResponse));
                 break;
             case 409:
                 $locationArray = $postResponse->getHeader('Location');
@@ -116,7 +116,7 @@ class HttpConsumer implements
                     $this->doPatchRequest($uri->withPath($locationArray[0]), $params);
                 } else {
                     $this->getEventDispatcher()
-                        ->dispatch(new ConsumerErrorEvent(
+                        ->dispatch(new ConsumerResponseEvent(
                             $postRequest,
                             $postResponse,
                             new Exception('Can\'t PATCH, no Location-Header')
@@ -125,7 +125,7 @@ class HttpConsumer implements
                 break;
             default:
                 $this->getEventDispatcher()
-                    ->dispatch(new ConsumerErrorEvent(
+                    ->dispatch(new ConsumerResponseEvent(
                         $postRequest,
                         $postResponse,
                         new Exception($postResponse->getBody()->__toString())
@@ -138,7 +138,7 @@ class HttpConsumer implements
     {
         $putRequest = $this->getRequest('PUT', $uri, $params);
         if ($this->isValidInCache($uri, $params)) {
-            $this->getEventDispatcher()->dispatch(new ConsumerSuccessEvent(
+            $this->getEventDispatcher()->dispatch(new ConsumerResponseEvent(
                 $putRequest,
                 new Response('php://memory', 304)
             ));
@@ -154,14 +154,14 @@ class HttpConsumer implements
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->getEventDispatcher()
-                    ->dispatch(new ConsumerSuccessEvent($putRequest, $putResponse));
+                    ->dispatch(new ConsumerResponseEvent($putRequest, $putResponse));
                 break;
             case 409:
                 $this->doPatchRequest($uri, $params);
                 break;
             default:
                 $this->getEventDispatcher()
-                    ->dispatch(new ConsumerErrorEvent(
+                    ->dispatch(new ConsumerResponseEvent(
                         $putRequest,
                         $putResponse,
                         new Exception($putResponse->getBody()->__toString())
@@ -174,7 +174,7 @@ class HttpConsumer implements
     {
         $patchRequest = $this->getRequest('PATCH', $uri, $params);
         if ($this->isValidInCache($uri, $params)) {
-            $this->getEventDispatcher()->dispatch(new ConsumerSuccessEvent(
+            $this->getEventDispatcher()->dispatch(new ConsumerResponseEvent(
                 $patchRequest,
                 new Response('php://memory', 304)
             ));
@@ -190,11 +190,11 @@ class HttpConsumer implements
             case 205:
                 $this->storeInCache($uri, $params);
                 $this->getEventDispatcher()
-                    ->dispatch(new ConsumerSuccessEvent($patchRequest, $patchResponse));
+                    ->dispatch(new ConsumerResponseEvent($patchRequest, $patchResponse));
                 break;
             default:
                 $this->getEventDispatcher()
-                    ->dispatch(new ConsumerErrorEvent(
+                    ->dispatch(new ConsumerResponseEvent(
                         $patchRequest,
                         $patchResponse,
                         new Exception($patchResponse->getBody()->__toString())

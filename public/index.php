@@ -5,7 +5,6 @@ set_error_handler("exception_error_handler");
 require_once './vendor/autoload.php';
 
 use App\Event\ErrorEvent;
-use App\Event\ExceptionEvent;
 use App\Event\SystemSuccessEvent;
 use App\Event\ThrowEvent;
 use Laminas\Diactoros\ServerRequest;
@@ -34,7 +33,7 @@ try {
             ->dispatch(new SystemSuccessEvent($request, $response));
     } catch (App\Extractor\Exception $exception) {
         $serviceManager->get(EventDispatcherInterface::class)
-            ->dispatch(new ExceptionEvent($request, $exception));
+            ->dispatch(new ErrorEvent($request, $exception));
     } catch(Throwable $exception) {
         $serviceManager->get(EventDispatcherInterface::class)
             ->dispatch(new ErrorEvent($request, $exception));

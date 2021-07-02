@@ -3,19 +3,16 @@
 namespace App\Event;
 
 use Psr\Http\Message\{ResponseInterface, RequestInterface};
-use Throwable;
 
-class ProviderErrorEvent
+class ProviderResponseEvent
 {
     private RequestInterface $request;
     private ResponseInterface $response;
-    private Throwable $error;
 
-    public function __construct(RequestInterface $request, ResponseInterface $response, Throwable $error)
+    public function __construct(RequestInterface $request, ResponseInterface $response)
     {
         $this->request = $request;
         $this->response = $response;
-        $this->error = $error;
     }
 
     public function __toString(): string
@@ -29,9 +26,13 @@ class ProviderErrorEvent
             'request_uri' => $this->request->getUri()->__toString(),
             'response_status' => $this->response->getStatusCode(),
             'response_headers' => $this->response->getHeaders(),
-            'error_file' => "{$this->error->getFile()}:{$this->error->getLine()}",
-            'error_message' => $this->error->getMessage(),
-            'error_trace' => $this->error->getTrace(),
+            'error_file' => null,
+            'error_trace' => $this->response->getStatusCode() >= 300
+                ? ['trace' => $this->response->getBody()->__toString()]
+                : null,
+            'error_message' => $this->response->getStatusCode() >= 300
+                ? "{$this->request->getUri()->__toString()}:{$this->response->getStatusCode()}"
+                : null
         ]);
     }
 }

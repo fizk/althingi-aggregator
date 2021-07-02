@@ -13,12 +13,9 @@ use Nyholm\Psr7\Factory\Psr17Factory;
 use App\Provider;
 use App\Consumer;
 use App\Event\{
-    ConsumerErrorEvent,
-    ConsumerSuccessEvent,
+    ConsumerResponseEvent,
     ErrorEvent,
-    ExceptionEvent,
-    ProviderErrorEvent,
-    ProviderSuccessEvent,
+    ProviderResponseEvent,
     SystemSuccessEvent
 };
 
@@ -137,7 +134,7 @@ return [
         },
 
         Psr\Http\Client\ClientInterface::class => function (ContainerInterface $container, $requestedName) {
-            return new Curl(new Psr17Factory());
+            return new Curl(new Psr17Factory(), ['allow_redirects' => true]);
 
         },
         Psr\Log\LoggerInterface::class => function (ContainerInterface $container, $requestedName) {
@@ -150,23 +147,15 @@ return [
         EventDispatcherInterface::class => function (ContainerInterface $container, $requestedName) {
             $logger = $container->get(Psr\Log\LoggerInterface::class);
             $provider = new PrioritizedListenerRegistry();
-            $provider->subscribeTo(ProviderErrorEvent::class, function (ProviderErrorEvent $event) use ($logger) {
-                $logger->error((string) $event);
-            });
-            $provider->subscribeTo(ProviderSuccessEvent::class, function (ProviderSuccessEvent $event) use ($logger) {
+
+            $provider->subscribeTo(ProviderResponseEvent::class, function (ProviderResponseEvent $event) use ($logger) {
                 $logger->debug((string) $event);
             });
-            $provider->subscribeTo(ConsumerErrorEvent::class, function (ConsumerErrorEvent $event) use ($logger) {
-                $logger->error((string) $event);
-            });
-            $provider->subscribeTo(ConsumerSuccessEvent::class, function (ConsumerSuccessEvent $event) use ($logger) {
+            $provider->subscribeTo(ConsumerResponseEvent::class, function (ConsumerResponseEvent $event) use ($logger) {
                 $logger->debug((string) $event);
             });
             $provider->subscribeTo(ErrorEvent::class, function (ErrorEvent $event) use ($logger) {
                 $logger->error((string) $event);
-            });
-            $provider->subscribeTo(ExceptionEvent::class, function (ExceptionEvent $event) use ($logger) {
-                $logger->warn((string) $event);
             });
             $provider->subscribeTo(SystemSuccessEvent::class, function (SystemSuccessEvent $event) use ($logger) {
                 $logger->debug((string) $event);

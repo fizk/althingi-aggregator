@@ -1,7 +1,7 @@
 <?php
 namespace App\Provider;
 
-use App\Event\{ProviderErrorEvent, ProviderSuccessEvent};
+use App\Event\ProviderResponseEvent;
 use Psr\Http\Client\{ClientInterface, ClientExceptionInterface};
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Laminas\Diactoros\{Request, Response, Uri};
@@ -94,21 +94,21 @@ class ServerProvider implements
             $response = $this->client->sendRequest($request);
         }
 
-        if ($response->getStatusCode() > 399) {
-            $exception = new ErrorException($response->getBody()->__toString());
-            $this->getEventDispatcher()->dispatch(new ProviderErrorEvent($request, $response, $exception));
-            throw $exception;
+        if ($response->getStatusCode() >= 400) {
+            $this->getEventDispatcher()->dispatch(new ProviderResponseEvent($request, $response));
+            throw new ErrorException($response->getBody()->__toString());
         }
 
         $this->getEventDispatcher()
-            ->dispatch(new ProviderSuccessEvent($request, $response));
+            ->dispatch(new ProviderResponseEvent($request, $response));
+
         return $response->getBody()->__toString();
     }
 
     private function cacheRequest(string $key, string $url): ?string
     {
         if ($this->cache->hasItem($key)) {
-            $this->getEventDispatcher()->dispatch(new ProviderSuccessEvent(
+            $this->getEventDispatcher()->dispatch(new ProviderResponseEvent(
                 new Request($url, 'GET'),
                 new Response('php://memory', 304)
             ));
