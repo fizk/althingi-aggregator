@@ -65,28 +65,30 @@ so you will need to `cd ../public` before you are able to run the commands
 
 ## Scripts
 Because the commands, often time needs to be run in a specific order, there are bash scripts that can make your live simpler.
-These script are located in the `./bin` directory.
+These script are located in the `./bin` directory. This directory is already in `$PATH`s
 
-* **globals.sh**
-* **assembly.sh &lt;number&gt;**
-* **issue.sh &lt;number&gt; &lt;number&gt; &lt;string&gt;**
-* **members.sh**
+* **globals**
+* **assembly &lt;number&gt;**
+* **issue &lt;number&gt; &lt;number&gt; &lt;string&gt;**
+* **members**
 
-**globals.sh**: Gets assemblies, parties, constituencies, committees and categories. All of these things
+**globals**: Gets assemblies, parties, constituencies, committees and categories. All of these things
 need to exist on the API's side before any other script is run. So make sure this one run first.
 
-**assembly.sh &lt;number&gt;**: Gets everything related to on an assembly: issues, speeches, congressmen... etc.
+**assembly &lt;number&gt;**: Gets everything related to on an assembly: issues, speeches, congressmen... etc.
 pass in as an argument the number of the assembly you want to process.
 
-**issue.sh &lt;number&gt; &lt;number&gt; &lt;string&gt;**: Gets everything related to an issue.
+**issue &lt;number&gt; &lt;number&gt; &lt;string&gt;**: Gets everything related to an issue.
 
-**members.sh**: This one gets all congressmen as well as all presidents of the parliament.
+**members**: This one gets all congressmen as well as all presidents of the parliament.
 
 To run these script in production/development:
 
 ```sh
-$ docker compose run ./globals.sh
-$ docker compose run ./assembly.sh 145
+$ docker compose run globals
+$ docker compose run assembly 145
+$ docker compose run issue 145 1 A
+$ docker compose run members 145
 ```
 
 ## Development
@@ -102,8 +104,8 @@ It also spins up and connect the Redis cache service.
 To use this service simply run the required shell script like:
 
 ```sh
-$ docker compose run ./globals.sh
-$ docker compose run ./assembly.sh 145
+$ docker compose run globals
+$ docker compose run assembly 145
 ```
 
 This repo also comes with a `.env.example` file. To overwrite any configuration in the `docker-compose.yml` file, simply copy `.env.example` and rename it `.env`. Change any value you like. DockerCompose will pick this file up and pass any value you provided to the running docker container.

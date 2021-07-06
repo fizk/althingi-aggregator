@@ -23,13 +23,13 @@ services:
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
       - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-8080}
     volumes:
-      - ./bin/:/usr/src/bin
-      - ./config/:/usr/src/config
-      - ./src/:/usr/src/src
-      - ./public/:/usr/src/public
-      - ./vendor/:/usr/src/vendor
-      - ./composer.json/:/usr/src/composer.json
-      - ./composer.lock/:/usr/src/composer.lock
+      - ./bin/:/var/www/html/bin
+      - ./config/:/var/www/html/config
+      - ./src/:/var/www/html/src
+      - ./public/:/var/www/html/public
+      - ./vendor/:/var/www/html/vendor
+      - ./composer.json/:/var/www/html/composer.json
+      - ./composer.lock/:/var/www/html/composer.lock
     depends_on:
       - cache-consumer
       - cache-provider
@@ -43,16 +43,16 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - PROVIDER_CACHE_TYPE=none
-      - CONSUMER_CACHE_TYPE=none
-    working_dir: /usr/src
+        - PROVIDER_CACHE_TYPE=none
+        - CONSUMER_CACHE_TYPE=none
     volumes:
-      - ./config/:/usr/src/config
-      - ./src/:/usr/src/src
-      - ./public/:/usr/src/public
-      - ./tests/:/usr/src/tests
-      - ./phpcs.xml/:/usr/src/phpcs.xml
-      - ./phpunit.xml.dist/:/usr/src/phpunit.xml
+        - ./config/:/var/www/html/config
+        - ./src/:/var/www/html/src
+        - ./public/:/var/www/html/public
+        - ./tests/:/var/www/html/tests
+        - ./phpcs.xml/:/var/www/html/phpcs.xml
+        - ./phpunit.xml.dist/:/var/www/html/phpunit.xml
+    working_dir: /var/www/html
     command: bash -c "./vendor/bin/phpunit && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
     # command: bash -c "./vendor/bin/phpunit --coverage-html ./tests/doc && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
 
