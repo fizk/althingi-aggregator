@@ -22,16 +22,24 @@ class ConsumerResponseEvent
     {
         return json_encode([
             'section_name' => 'consumer',
-            'request_method' => count($this->request->getHeader('X-HTTP-Method-Override')) > 0
-                ? $this->request->getHeader('X-HTTP-Method-Override')[0]
-                : $this->request->getMethod(),
-            'request_headers' => $this->request->getHeaders(),
-            'request_uri' => $this->request->getUri()->__toString(),
-            'response_status' => $this->response->getStatusCode(),
-            'response_headers' => $this->response->getHeaders(),
-            'error_file' => "{$this->exception->getFile()}:{$this->exception->getLine()}",
-            'error_message' => $this->exception->getMessage(),
-            'error_trace' => $this->exception->getTrace(),
+            'request_method' => method_exists($this->request, 'getMethod')
+                ? $this->request->getMethod()
+                : null,
+            'request_headers' => method_exists($this->request, 'getHeaders')
+                ? $this->request->getHeaders()
+                : [],
+            'request_uri' => method_exists($this->request, 'getUri')
+                ? (string) $this->request->getUri()
+                : '',
+            'response_status' => method_exists($this->response, 'getStatusCode')
+                ? $this->response->getStatusCode()
+                : 0,
+            'response_headers' => method_exists($this->response, 'getHeaders')
+                ? $this->response->getHeaders()
+                : [],
+            'error_file' => "{$this->exception?->getFile()}:{$this->exception?->getLine()}",
+            'error_message' => $this->exception?->getMessage(),
+            'error_trace' => $this->exception?->getTrace(),
         ]);
     }
 }

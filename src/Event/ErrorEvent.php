@@ -20,9 +20,7 @@ class ErrorEvent
     {
         return json_encode([
             'section_name' => 'system',
-            'request_method' => count($this->request->getHeader('X-HTTP-Method-Override')) > 0
-                ? $this->request->getHeader('X-HTTP-Method-Override')[0]
-                : $this->request->getMethod(),
+            'request_method' => $this->request->getMethod(),
             'request_headers' => $this->request->getHeaders(),
             'request_uri' => $this->request->getUri()->__toString(),
             'response_status' => 0,

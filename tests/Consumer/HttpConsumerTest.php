@@ -6,7 +6,7 @@ use Psr\Http\Message\{ResponseInterface, RequestInterface};
 use PHPUnit\Framework\TestCase;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Uri;
-use Laminas\Cache\Storage\Adapter\BlackHole as StorageInterface;
+use Laminas\Cache\Storage\StorageInterface;
 use Mockery;
 use App\Consumer\HttpConsumer;
 use App\Consumer\Stub\{ExtractorValidPost, ExtractorValidPut};

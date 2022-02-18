@@ -52,6 +52,11 @@ services:
         - ./tests/:/var/www/html/tests
         - ./phpcs.xml/:/var/www/html/phpcs.xml
         - ./phpunit.xml.dist/:/var/www/html/phpunit.xml
+
+        # - ./vendor/:/var/www/html/vendor
+        # - ./composer.json/:/var/www/html/composer.json
+        # - ./composer.lock/:/var/www/html/composer.lock
+
     working_dir: /var/www/html
     command: bash -c "./vendor/bin/phpunit && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
     # command: bash -c "./vendor/bin/phpunit --coverage-html ./tests/doc && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"

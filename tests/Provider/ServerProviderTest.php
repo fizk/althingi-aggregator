@@ -3,7 +3,7 @@
 namespace App\Provider;
 
 use PHPUnit\Framework\TestCase;
-use Laminas\Cache\Storage\Adapter\Memory;
+use Laminas\Cache\Storage\Adapter\BlackHole;
 use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\XmlResponse;
 use Psr\Http\Client\ClientInterface;
@@ -46,7 +46,7 @@ class ServerProviderTest extends TestCase
 
         $serverProvider = (new ServerProvider())
             ->setHttpClient($client)
-            ->setCache(new Memory());
+            ->setCache(new BlackHole());
 
         $dom = $serverProvider->get('http://example.com');
 
@@ -67,7 +67,7 @@ class ServerProviderTest extends TestCase
 
         $serverProvider = (new ServerProvider())
             ->setHttpClient($client)
-            ->setCache(new Memory());
+            ->setCache(new BlackHole());
 
         $dom = $serverProvider->get('http://example.com');
     }
@@ -87,7 +87,7 @@ class ServerProviderTest extends TestCase
 
         (new ServerProvider())
             ->setHttpClient($client)
-            ->setCache(new Memory())
+            ->setCache(new BlackHole())
             ->get('http://example.com');
     }
 }

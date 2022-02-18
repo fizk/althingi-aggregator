@@ -1,4 +1,4 @@
-FROM php:8.0.8-cli-buster
+FROM php:8.1.2-cli-buster
 
 ARG ENV
 ENV PATH="/var/www/html:/var/www/html/bin:${PATH}"

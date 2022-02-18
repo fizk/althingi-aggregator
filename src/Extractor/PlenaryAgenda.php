@@ -65,19 +65,27 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
             'category' => $issueCategory,
             'assembly_id' => (int) $assemblyId,
             'item_id' => (int) $this->getIdentity(),
-            'iteration_type' => empty($iterationType) ? null : $iterationType,
-            'iteration_continue' => empty($iterationContinue) ? null : $iterationContinue,
-            'iteration_comment' => empty(trim($iterationComment)) ? null : trim($iterationComment),
-            'comment' => empty(trim($comment)) ? null : preg_replace("/(\r|\n)|(\s+)/", " ", trim($comment)),
+            'iteration_type' => empty($iterationType)
+                ? null
+                : $iterationType,
+            'iteration_continue' => empty($iterationContinue)
+                ? null
+                : $iterationContinue,
+            'iteration_comment' => empty(trim($iterationComment ?: ''))
+                ? null
+                : trim($iterationComment ?: ''),
+            'comment' => empty(trim($comment ?: ''))
+                ? null
+                : preg_replace("/(\r|\n)|(\s+)/", " ", trim($comment ?: '')),
             'comment_type' => $commentType,
             'posed_id' => $posedId ? (int) $posedId : null,
-            'posed' => empty(trim($posed)) ? null : trim($posed),
+            'posed' => empty(trim($posed ?: '')) ? null : trim($posed ?: ''),
             'answerer_id' => $answererId ? (int) $answererId : null,
-            'answerer' => empty(trim($answerer)) ? null : trim($answerer),
+            'answerer' => empty(trim($answerer ?: '')) ? null : trim($answerer ?: ''),
             'counter_answerer_id' => $counterAnswerId ? (int) $counterAnswerId : null,
-            'counter_answerer' => empty(trim($counterAnswer)) ? null : trim($counterAnswer),
+            'counter_answerer' => empty(trim($counterAnswer ?: '')) ? null : trim($counterAnswer ?: ''),
             'instigator_id' => $instigatorId ? (int) $instigatorId : null,
-            'instigator' => empty(trim($instigator)) ? null : trim($instigator),
+            'instigator' => empty(trim($instigator ?: '')) ? null : trim($instigator ?: ''),
         ];
     }
 
