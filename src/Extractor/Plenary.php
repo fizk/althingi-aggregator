@@ -25,26 +25,22 @@ class Plenary implements ExtractionInterface, IdentityInterface
             throw new Extractor\Exception('Missing [{númer}] value', $this->object);
         }
 
-        if (! $this->object->getElementsByTagName('fundarheiti')->item(0)) {
-            throw new Extractor\Exception('Missing [{fundarheiti}] value', $this->object);
-        }
+        $id = (int) $this->object->getAttribute('númer');
 
-        if (! $this->object->getElementsByTagName('fundursettur')->item(0)) {
-            throw new Extractor\Exception('Missing [{fundursettur}] value', $this->object);
-        }
+        $this->setIdentity($id >= 0 ? (string)$id : '0');
 
-        if (! $this->object->getElementsByTagName('fuslit')->item(0)) {
-            throw new Extractor\Exception('Missing [{fuslit}] value', $this->object);
-        }
-
-        $this->setIdentity($this->object->getAttribute('númer'));
-
-        $name = $this->object->getElementsByTagName('fundarheiti')->item(0)->nodeValue;
-        $from = date('Y-m-d H:i', strtotime($this->object->getElementsByTagName('fundursettur')->item(0)->nodeValue));
-        $to = date('Y-m-d H:i', strtotime($this->object->getElementsByTagName('fuslit')->item(0)->nodeValue));
+        $name = $this->object->getElementsByTagName('fundarheiti')?->item(0)?->nodeValue;
+        $fromString = $this->object->getElementsByTagName('fundursettur')?->item(0)?->nodeValue;
+        $toString = $this->object->getElementsByTagName('fuslit')?->item(0)?->nodeValue;
+        $from = $fromString !== null
+            ? date('Y-m-d H:i', strtotime($fromString))
+            : null ;
+        $to = $toString !== null
+            ? date('Y-m-d H:i', strtotime($toString))
+            : null;
 
         return [
-            'plenary_id' => (int) $this->getIdentity(),
+            'plenary_id' => $this->getIdentity(),
             'name' => $name,
             'from' => $from,
             'to' => $to,

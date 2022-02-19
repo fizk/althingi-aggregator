@@ -32,6 +32,100 @@ class SpeechTest extends TestCase
         $this->assertEquals($expectingData, $resultedData);
     }
 
+    public function testValidMinusPlenary()
+    {
+        $expectingData = [
+            'id' => '20150910T103412',
+            'from' => '2015-09-10 10:34:12',
+            'to' => '2015-09-10 11:04:48',
+            'plenary_id' => 0,
+            'assembly_id' => 145,
+            'issue_id' => 10,
+            'congressman_type' => 'fjármála- og efnahagsráðherra',
+            'congressman_id' => 652,
+            'iteration' => 1,
+            'type' => 'flutningsræða',
+            'category' => 'B',
+            'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>',
+            'validated' => 'true',
+        ];
+
+        $dom = new DOMDocument();
+        $dom->loadXML('<?xml version="1.0"?>
+            <ræða fundarnúmer="-1" þingnúmer="145" þingmaður="652" þingmál="10">
+                <ráðherra>fj&#xE1;rm&#xE1;la- og efnahagsr&#xE1;&#xF0;herra</ráðherra>
+                <nafn id="652">Bjarni Benediktsson</nafn>
+                <ræðahófst>2015-09-10T10:34:12</ræðahófst>
+                <ræðulauk>2015-09-10T11:04:48</ræðulauk>
+                <slóðir>
+                    <xml>http://www.althingi.is/xml/145/raedur/rad20150910T103412.xml</xml>
+                    <html>http://www.althingi.is/altext/raeda/145/rad20150910T103412.html</html>
+                </slóðir>
+                <tegundræðu>flutningsr&#xE6;&#xF0;a</tegundræðu>
+                <umræða>1</umræða>
+                <ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>
+                <mál xmlns="http://skema.althingi.is/skema" nr="1" málstegund="l" málsflokkur="B">
+                    <málsheiti>fj&#xE1;rl&#xF6;g 2016</málsheiti>
+                    <undirtitill/>
+                </mál>
+            </ræða>');
+        $documentsXPath = new DOMXPath($dom);
+        $elements =  $documentsXPath->query('//ræða');
+
+        $resultedData = (new Speech())
+            ->populate($elements->item(0))
+            ->extract();
+
+        $this->assertEquals($expectingData, $resultedData);
+    }
+
+    public function testValidNoPlenary()
+    {
+        $expectingData = [
+            'id' => '20150910T103412',
+            'from' => '2015-09-10 10:34:12',
+            'to' => '2015-09-10 11:04:48',
+            'plenary_id' => 0,
+            'assembly_id' => 145,
+            'issue_id' => 10,
+            'congressman_type' => 'fjármála- og efnahagsráðherra',
+            'congressman_id' => 652,
+            'iteration' => 1,
+            'type' => 'flutningsræða',
+            'category' => 'B',
+            'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>',
+            'validated' => 'true',
+        ];
+
+        $dom = new DOMDocument();
+        $dom->loadXML('<?xml version="1.0"?>
+            <ræða þingnúmer="145" þingmaður="652" þingmál="10">
+                <ráðherra>fj&#xE1;rm&#xE1;la- og efnahagsr&#xE1;&#xF0;herra</ráðherra>
+                <nafn id="652">Bjarni Benediktsson</nafn>
+                <ræðahófst>2015-09-10T10:34:12</ræðahófst>
+                <ræðulauk>2015-09-10T11:04:48</ræðulauk>
+                <slóðir>
+                    <xml>http://www.althingi.is/xml/145/raedur/rad20150910T103412.xml</xml>
+                    <html>http://www.althingi.is/altext/raeda/145/rad20150910T103412.html</html>
+                </slóðir>
+                <tegundræðu>flutningsr&#xE6;&#xF0;a</tegundræðu>
+                <umræða>1</umræða>
+                <ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>
+                <mál xmlns="http://skema.althingi.is/skema" nr="1" málstegund="l" málsflokkur="B">
+                    <málsheiti>fj&#xE1;rl&#xF6;g 2016</málsheiti>
+                    <undirtitill/>
+                </mál>
+            </ræða>');
+        $documentsXPath = new DOMXPath($dom);
+        $elements =  $documentsXPath->query('//ræða');
+
+        $resultedData = (new Speech())
+            ->populate($elements->item(0))
+            ->extract();
+
+        $this->assertEquals($expectingData, $resultedData);
+    }
+
     public function testValidOldDocument()
     {
         $expectingData = [

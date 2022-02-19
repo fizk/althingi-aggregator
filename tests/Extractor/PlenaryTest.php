@@ -9,43 +9,18 @@ use App\Extractor\Document;
 
 class PlenaryTest extends TestCase
 {
-    public function testValidDocument()
+    public function testValidDocumentAllValues()
     {
         $expectedData = [
-            'plenary_id' => 0,
+            'plenary_id' => 12,
             'name' => 'þingsetningarfundur',
             'from' => '2011-10-01 11:14',
             'to' => '2011-10-01 11:42',
         ];
-        $documentNodeList = $this->buildNodeList($this->getDocument());
-
-        $documentData = (new Plenary())->populate($documentNodeList->item(0))
-            ->extract();
-
-        $this->assertEquals($expectedData, $documentData);
-    }
-
-    public function testInvalidDocument()
-    {
-        $this->expectException(\App\Extractor\Exception::class);
-
-        $documentNodeList = $this->buildNodeList($this->getDocument());
-        (new Document())->populate($documentNodeList->item(1))->extract();
-    }
-
-    private function buildNodeList($source)
-    {
         $dom = new DOMDocument();
-        $dom->loadXML($source);
-        $documentsXPath = new DOMXPath($dom);
-        return $documentsXPath->query('//þingfundir/þingfundur');
-    }
-
-    private function getDocument()
-    {
-        return '<?xml version="1.0" encoding="UTF-8"?>
+        $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?>
             <þingfundir>
-                <þingfundur númer=\'0\'>
+                <þingfundur númer="12">
                     <fundarheiti>þingsetningarfundur</fundarheiti>
                     <hefst>
                         <texti> 1. október, kl. 11:00 árdegis</texti>
@@ -55,15 +30,101 @@ class PlenaryTest extends TestCase
                     </hefst>
                     <fundursettur>2011-10-01T11:14:30</fundursettur>
                     <fuslit>2011-10-01T11:42:06</fuslit>
-                    <sætaskipan>http://www.althingi.is/altext/xml/saetaskipan/?timi=2011-10-01T11:14:30</sætaskipan>
+                    <sætaskipan>http://www.althing-01T11:14:30</sætaskipan>
                     <fundarskjöl>
                         <sgml>http://www.althingi.is/altext/140/f000.sgml</sgml>
                         <xml>http://www.althingi.is/xml/140/fundir/fun000.xml</xml>
                     </fundarskjöl>
                     <dagskrá>
-                        <xml>http://www.althingi.is/altext/xml/dagskra/thingfundur/?lthing=140&amp;fundur=0</xml>
+                        <xml>http://www.althing&amp;fundur=0</xml>
                     </dagskrá>
-                    </þingfundur>
+                </þingfundur>
+            </þingfundir>');
+        $documentsXPath = new DOMXPath($dom);
+        $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
+
+        $documentData = (new Plenary())
+            ->populate($documentNodeList->item(0))
+            ->extract();
+
+        $this->assertEquals($expectedData, $documentData);
+    }
+
+    public function testValidDocumentRequiredValues()
+    {
+        $expectedData = [
+            'plenary_id' => 0,
+            'name' => '',
+            'from' => '',
+            'to' => '',
+        ];
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <þingfundir>
+                <þingfundur númer=\'0\'>
+                    <sætaskipan>http://www.althingi.is/</sætaskipan>
+                    <fundarskjöl>
+                        <sgml>http://www.althingi.is/altext/140/f000.sgml</sgml>
+                        <xml>http://www.althingi.is/xml/140/fundir/fun000.xml</xml>
+                    </fundarskjöl>
+                    <dagskrá>
+                        <xml>http://www.althingi.is/altext/</xml>
+                    </dagskrá>
+                </þingfundur>
+            </þingfundir>'
+        );
+        $documentsXPath = new DOMXPath($domDocument);
+        $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
+
+        $documentData = (new Plenary())
+            ->populate($documentNodeList->item(0))
+            ->extract();
+
+        $this->assertEquals($expectedData, $documentData);
+    }
+
+    public function testIdLessThanZero()
+    {
+        $expectedData = [
+            'plenary_id' => 0,
+            'name' => null,
+            'from' => null,
+            'to' => null,
+        ];
+        $domDocument = new DOMDocument();
+        $domDocument->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <þingfundir>
+                <þingfundur númer="-1">
+                    <sætaskipan>http://www.althingi.is/</sætaskipan>
+                    <fundarskjöl>
+                        <sgml>http://www.althingi.is/altext/140/f000.sgml</sgml>
+                        <xml>http://www.althingi.is/xml/140/fundir/fun000.xml</xml>
+                    </fundarskjöl>
+                    <dagskrá>
+                        <xml>http://www.althingi.is/altext/</xml>
+                    </dagskrá>
+                </þingfundur>
+            </þingfundir>'
+        );
+        $documentsXPath = new DOMXPath($domDocument);
+        $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
+
+        $documentData = (new Plenary())
+            ->populate($documentNodeList->item(0))
+            ->extract();
+
+        $this->assertEquals($expectedData, $documentData);
+    }
+
+    public function testInvalidDocument()
+    {
+        $this->expectException(\App\Extractor\Exception::class);
+
+        $dom = new DOMDocument();
+        $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?>
+            <þingfundir>
                 <þingfundur>
                     <fundarheiti>framhald þingsetningarfundar</fundarheiti>
                     <hefst>
@@ -73,15 +134,22 @@ class PlenaryTest extends TestCase
                         <dagurtími>2011-10-01T12:30:00</dagurtími>
                     </hefst>
                     <fundursettur>2011-10-01T12:31:16</fundursettur>
-                    <sætaskipan>http://www.althingi.is/altext/xml/saetaskipan/?timi=2011-10-01T12:31:16</sætaskipan>
+                    <sætaskipan>http://www.althi31:16</sætaskipan>
                     <fundarskjöl>
                         <sgml>http://www.althingi.is/altext/140/f001.sgml</sgml>
                         <xml>http://www.althingi.is/xml/140/fundir/fun001.xml</xml>
                     </fundarskjöl>
                     <dagskrá>
-                        <xml>http://www.althingi.is/altext/xml/dagskra/thingfundur/?lthing=140&amp;fundur=1</xml>
+                        <xml>http://www.althin=140&amp;fundur=1</xml>
                     </dagskrá>
                 </þingfundur>
-            </þingfundir>';
+            </þingfundir>'
+        );
+        $documentsXPath = new DOMXPath($dom);
+        $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
+
+        (new Document())
+            ->populate($documentNodeList->item(0))
+            ->extract();
     }
 }

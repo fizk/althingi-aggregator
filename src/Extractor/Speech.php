@@ -21,9 +21,6 @@ class Speech implements ExtractionInterface, IdentityInterface
      */
     public function extract(): array
     {
-        if (! $this->object->hasAttribute('fundarnúmer')) {
-            throw new Extractor\Exception('Missing [{fundarnúmer}] value', $this->object);
-        }
 
         if (! $this->object->hasAttribute('þingnúmer')) {
             throw new Extractor\Exception('Missing [{þingnúmer}] value', $this->object);
@@ -47,7 +44,10 @@ class Speech implements ExtractionInterface, IdentityInterface
             $to = $this->resolveDate($this->object->getElementsByTagName('ræðudagur')->item(0));
         }
 
-        $plenaryId = (int) $this->object->getAttribute('fundarnúmer');
+        $plenaryValue = $this->object->getAttribute('fundarnúmer');
+        $plenaryId = $plenaryValue === null
+            ? 0
+            : (((int) $plenaryValue) > 0 ? $plenaryValue : 0);
         $assemblyId = (int) $this->object->getAttribute('þingnúmer');
         $issueId = (int) $this->object->getAttribute('þingmál');
         $congressmanType = $this->resolveCongressmanType($this->object);
@@ -66,7 +66,7 @@ class Speech implements ExtractionInterface, IdentityInterface
             'id' => $this->getIdentity(),
             'from' => $from,
             'to' => $to,
-            'plenary_id' => $plenaryId,
+            'plenary_id' => (int) $plenaryId,
             'assembly_id' => $assemblyId,
             'issue_id' => $issueId,
             'congressman_type' => $congressmanType,

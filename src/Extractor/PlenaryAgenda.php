@@ -18,7 +18,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
 
     /**
      * @throws \App\Extractor\Exception
-     * @todo This extractor goes out of the document to get the $plenaryId
+     * @todo This extractor goes out of the DOMElement to get the $plenaryId
      *      $object->ownerDocument->getElementsByTagName('þingfundur')->item(0)->getAttribute('númer');
      */
     public function extract(): array
@@ -29,7 +29,10 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
 
         $this->setIdentity($this->object->getAttribute('númer'));
 
-        $plenaryId = $this->object->ownerDocument->getElementsByTagName('þingfundur')->item(0)->getAttribute('númer');
+        $plenaryId = $this->object->ownerDocument->getElementsByTagName('þingfundur')?->item(0)?->getAttribute('númer');
+        $plenaryId = $plenaryId === null
+            ? 0
+            : (((int) $plenaryId) > 0 ? $plenaryId : 0);
 
         $issue = $this->object->getElementsByTagName('mál')?->item(0);
 

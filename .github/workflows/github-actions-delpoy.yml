@@ -37,9 +37,9 @@ jobs:
         name: Deploy container to server
         uses: appleboy/ssh-action@master
         with:
-          script: ls -a
-          host: 167.172.145.126
-          username: root
+          script: /var/app/bin/aggregator
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           key: ${{ secrets.SSH_KEY }}
 
