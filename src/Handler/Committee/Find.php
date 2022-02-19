@@ -15,12 +15,25 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $this->queryAndSave(
-            'https://www.althingi.is/altext/xml/nefndir/',
-            'nefndir',
-            '//nefndir/nefnd',
-            new Extractor\Committee()
-        );
+        $dom = $this->queryForDocument('https://www.althingi.is/altext/xml/nefndir/');
+
+        $defaultCommitteeElement = $dom->createElement('nefnd');
+        $defaultCommitteeElement->setAttribute('id', '0');
+
+        $defaultCommitteeNameElement = $dom->createElement('heiti', 'óskylgreind nefnd');
+        $defaultCommitteePeriodElement = $dom->createElement('tímabil');
+        $defaultCommitteeFirstPeriodElement = $dom->createElement('fyrstaþing', '1');
+
+        $defaultCommitteeElement->appendChild($defaultCommitteeNameElement);
+        $defaultCommitteeElement->appendChild($defaultCommitteePeriodElement);
+        $defaultCommitteePeriodElement->appendChild($defaultCommitteeFirstPeriodElement);
+
+        $dom->documentElement->appendChild($defaultCommitteeElement);
+
+
+        $xPathObject = new \DOMXPath($dom);
+        $elements = $xPathObject->query('//nefndir/nefnd');
+        $this->saveDomNodeList($elements, 'nefndir', new Extractor\Committee());
 
         return new TextResponse(self::class);
     }

@@ -27,7 +27,9 @@ class DocumentCommittee implements ExtractionInterface
         $name = $this->object->getElementsByTagName('heiti')?->item(0)?->nodeValue;
 
         return [
-            'committee_id' => (int) $this->object->getAttribute('id'),
+            'committee_id' => $this->object->getAttribute('id') === ''
+                ? '0'
+                : (int) $this->object->getAttribute('id'),
             'part' => $part ? trim($part) : null,
             'name' => $name ? trim($name) : null,
         ];

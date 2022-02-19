@@ -30,7 +30,7 @@ trait ConsoleHelper
      * @param ExtractionInterface $extract
      * @throws \Exception
      */
-    private function queryAndSave($url, $storageKey, $xPath, ExtractionInterface $extract)
+    protected function queryAndSave($url, $storageKey, $xPath, ExtractionInterface $extract)
     {
         $dom = $this->queryForDocument($url);
         $xPathObject = new \DOMXPath($dom);
@@ -49,7 +49,7 @@ trait ConsoleHelper
      * @param ExtractionInterface $extract
      * @see self::saveDomElement
      */
-    private function saveDomNodeList(DOMNodeList $elements, $storageKey, ExtractionInterface $extract)
+    protected function saveDomNodeList(DOMNodeList $elements, $storageKey, ExtractionInterface $extract)
     {
         foreach ($elements as $element) {
             $this->saveDomElement($element, $storageKey, $extract);
@@ -63,7 +63,7 @@ trait ConsoleHelper
      * @param $storageKey
      * @param ExtractionInterface $extract
      */
-    private function saveDomElement(DOMElement $element, $storageKey, ExtractionInterface $extract)
+    protected function saveDomElement(DOMElement $element, $storageKey, ExtractionInterface $extract)
     {
         $this->consumer->save($storageKey, clone $extract->populate($element));
     }
@@ -76,7 +76,7 @@ trait ConsoleHelper
      * @return \DOMDocument
      * @throws \Exception
      */
-    private function queryForDocument($url, callable $cb = null)
+    protected function queryForDocument($url, callable $cb = null)
     {
         return $this->provider->get($url, $cb);
     }
@@ -96,7 +96,7 @@ trait ConsoleHelper
      * @return \DOMNodeList
      * @throws \Exception
      */
-    private function queryForNoteList($url, $xPath, callable $cb = null)
+    protected function queryForNoteList($url, $xPath, callable $cb = null)
     {
         $dom = $this->queryForDocument($url, $cb);
         $xpath = new DOMXpath($dom);
