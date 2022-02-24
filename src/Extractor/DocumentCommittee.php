@@ -28,8 +28,8 @@ class DocumentCommittee implements ExtractionInterface
 
         return [
             'committee_id' => $this->object->getAttribute('id') === ''
-                ? '0'
-                : (int) $this->object->getAttribute('id'),
+                ? '-1'
+                : intval($this->object->getAttribute('id')),
             'part' => $part ? trim($part) : null,
             'name' => $name ? trim($name) : null,
         ];

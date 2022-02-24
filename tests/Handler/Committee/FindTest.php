@@ -58,7 +58,7 @@ class FindTest extends TestCase
                         'abbr_long' => 'allsh.- og menntmn.',
                     ],
                     [
-                        'committee_id' => '0',
+                        'committee_id' => '-1',
                         'name' => 'óskylgreind nefnd',
                         'first_assembly_id' => '1',
                         'last_assembly_id' => null,

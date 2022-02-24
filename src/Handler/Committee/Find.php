@@ -18,7 +18,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
         $dom = $this->queryForDocument('https://www.althingi.is/altext/xml/nefndir/');
 
         $defaultCommitteeElement = $dom->createElement('nefnd');
-        $defaultCommitteeElement->setAttribute('id', '0');
+        $defaultCommitteeElement->setAttribute('id', '-1');
 
         $defaultCommitteeNameElement = $dom->createElement('heiti', 'óskylgreind nefnd');
         $defaultCommitteePeriodElement = $dom->createElement('tímabil');

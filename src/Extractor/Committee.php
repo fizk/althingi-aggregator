@@ -33,7 +33,7 @@ class Committee implements ExtractionInterface, IdentityInterface
             throw new Extractor\Exception('Missing [{fyrstaþing}] value', $this->object);
         }
 
-        $this->setIdentity((int) $this->object->getAttribute('id'));
+        $this->setIdentity(intval($this->object->getAttribute('id')));
 
         $name = trim($this->object->getElementsByTagName('heiti')->item(0)->nodeValue);
         $firstAssemblyId = $this->object->getElementsByTagName('fyrstaþing')->item(0)->nodeValue;
