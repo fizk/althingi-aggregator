@@ -62,9 +62,16 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
         $counterAnswerId = $this->object->getElementsByTagName('til_andsvara')?->item(0)?->getAttribute('id');
         $counterAnswer = $this->object->getElementsByTagName('til_andsvara')?->item(0)?->nodeValue;
 
+        $issueName = $this->object->getElementsByTagName('málsheiti')?->item(0)?->nodeValue;
+        $issueType = $this->object->getElementsByTagName('málstegund')?->item(0)?->getAttribute('id');
+        $issueTypeName = $this->object->getElementsByTagName('málstegund')?->item(0)?->nodeValue;
+
         return [
             'plenary_id' => (int) $plenaryId,
             'issue_id' => (int) $issueId,
+            'issue_name' => $issueName,
+            'issue_type' => $issueType,
+            'issue_typename' => $issueTypeName,
             'category' => $issueCategory,
             'assembly_id' => (int) $assemblyId,
             'item_id' => (int) $this->getIdentity(),
