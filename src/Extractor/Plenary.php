@@ -25,9 +25,9 @@ class Plenary implements ExtractionInterface, IdentityInterface
             throw new Extractor\Exception('Missing [{númer}] value', $this->object);
         }
 
-        $id = (int) $this->object->getAttribute('númer');
+        $id = $this->object->getAttribute('númer');
 
-        $this->setIdentity($id >= 0 ? (string)$id : '0');
+        $this->setIdentity(intval($id));
 
         $name = $this->object->getElementsByTagName('fundarheiti')?->item(0)?->nodeValue;
         $fromString = $this->object->getElementsByTagName('fundursettur')?->item(0)?->nodeValue;

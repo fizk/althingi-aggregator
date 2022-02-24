@@ -87,7 +87,7 @@ class PlenaryTest extends TestCase
     public function testIdLessThanZero()
     {
         $expectedData = [
-            'plenary_id' => 0,
+            'plenary_id' => -1,
             'name' => null,
             'from' => null,
             'to' => null,

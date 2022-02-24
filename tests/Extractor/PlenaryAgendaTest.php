@@ -40,7 +40,7 @@ class PlenaryAgendaTest extends TestCase
     public function testValidDocumentMinusOnePlenary()
     {
         $expectedData = [
-            'plenary_id' => 0,
+            'plenary_id' => -1,
             'issue_id' => 5,
             'category' => 'B',
             'assembly_id' => 148,

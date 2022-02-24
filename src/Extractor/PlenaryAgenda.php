@@ -31,8 +31,8 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
 
         $plenaryId = $this->object->ownerDocument->getElementsByTagName('þingfundur')?->item(0)?->getAttribute('númer');
         $plenaryId = $plenaryId === null
-            ? 0
-            : (((int) $plenaryId) > 0 ? $plenaryId : 0);
+            ? -1
+            : $plenaryId;
 
         $issue = $this->object->getElementsByTagName('mál')?->item(0);
 
