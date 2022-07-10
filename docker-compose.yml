@@ -3,7 +3,7 @@ version: '3'
 services:
 
   run:
-    container_name: althingi_aggregator_run_container
+    container_name: local-althingi-aggregator-run
     build:
       args:
         - ENV=development
@@ -36,7 +36,7 @@ services:
       - echo-server
 
   test:
-    container_name: althingi_aggregator_test_container
+    container_name: local-althingi-aggregator-test
     build:
       args:
         - ENV=development
@@ -62,11 +62,11 @@ services:
     # command: bash -c "./vendor/bin/phpunit --coverage-html ./tests/doc && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
 
   cache-consumer:
-    container_name: cache-concumer
+    container_name: local-althingi-aggregator-cache-concumer
     image: redis:4.0.11
 
   cache-provider:
-    container_name: cache-provider
+    container_name: local-althingi-aggregator-cache-provider
     image: redis:4.0.11
 
   echo-server:
