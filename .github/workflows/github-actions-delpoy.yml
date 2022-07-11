@@ -33,14 +33,14 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-      -
-        name: Deploy container to server
-        uses: appleboy/ssh-action@master
-        with:
-          script: /var/app/bin/aggregator
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          key: ${{ secrets.SSH_KEY }}
+      # -
+      #   name: Deploy container to server
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     script: /var/app/bin/aggregator
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USER }}
+      #     passphrase: ${{ secrets.SSH_PASSPHRASE }}
+      #     key: ${{ secrets.SSH_KEY }}
 
 
