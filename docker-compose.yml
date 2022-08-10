@@ -21,7 +21,7 @@ services:
 
       - AGGREGATOR_CONSUMER_SCHEMA=${ENV_AGGREGATOR_CONSUMER_SCHEMA:-http}
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
-      - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-8080}
+      - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-7070}
     volumes:
       - ./bin/:/var/www/html/bin
       - ./config/:/var/www/html/config
@@ -53,9 +53,9 @@ services:
         - ./phpcs.xml/:/var/www/html/phpcs.xml
         - ./phpunit.xml.dist/:/var/www/html/phpunit.xml
 
-        # - ./vendor/:/var/www/html/vendor
-        # - ./composer.json/:/var/www/html/composer.json
-        # - ./composer.lock/:/var/www/html/composer.lock
+        - ./vendor/:/var/www/html/vendor
+        - ./composer.json/:/var/www/html/composer.json
+        - ./composer.lock/:/var/www/html/composer.lock
 
     working_dir: /var/www/html
     command: bash -c "./vendor/bin/phpunit && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
