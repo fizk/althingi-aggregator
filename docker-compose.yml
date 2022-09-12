@@ -53,7 +53,7 @@ services:
         - ./phpcs.xml/:/var/app/phpcs.xml
         - ./phpunit.xml.dist/:/var/app/phpunit.xml
 
-        - ./vendor/:/var/app/vendor
+        # - ./vendor/:/var/app/vendor
         - ./composer.json/:/var/app/composer.json
         - ./composer.lock/:/var/app/composer.lock
     command: bash -c "./vendor/bin/phpunit ./tests && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
@@ -66,9 +66,9 @@ services:
     container_name: local-althingi-aggregator-cache-provider
     image: redis:4.0.11
 
-    # The Echo Server is mostly used for development. It is just a running HTTP server that
-    # can listen to request coming from this service to store the results.
-    # It is commented out in the `run` service so it needs to be configured for it to be used.
+  # The Echo Server is mostly used for development. It is just a running HTTP server that
+  # can listen to request coming from this service to store the results.
+  # It is commented out in the `run` service so it needs to be configured for it to be used.
   echo-server:
     image:  mendhak/http-https-echo:17
     container_name: echo-server
