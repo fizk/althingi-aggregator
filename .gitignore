@@ -123,6 +123,6 @@ public/vendor
 
 components
 
-tests/doc
+tests/docs
 
 .env

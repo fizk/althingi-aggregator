@@ -10,12 +10,12 @@
             "request": "launch",
             "port": 9003,
             "pathMappings": {
-                "/var/www/html/bin": "${workspaceFolder}/bin",
-                "/var/www/html/config": "${workspaceFolder}/config",
-                "/var/www/html/public": "${workspaceFolder}/public",
-                "/var/www/html/src": "${workspaceFolder}/src",
-                "/var/www/html/tests": "${workspaceFolder}/tests",
-                "/var/www/html/vendor": "${workspaceFolder}/vendor",
+                "/var/app/bin": "${workspaceFolder}/bin",
+                "/var/app/config": "${workspaceFolder}/config",
+                "/var/app/public": "${workspaceFolder}/public",
+                "/var/app/src": "${workspaceFolder}/src",
+                "/var/app/tests": "${workspaceFolder}/tests",
+                "/var/app/vendor": "${workspaceFolder}/vendor",
             }
         },
         {

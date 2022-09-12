@@ -9,19 +9,30 @@
     convertWarningsToExceptions = "true"
     processIsolation            = "false"
     stopOnFailure               = "false">
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
+
+
     <filter>
+        <!--
+            while this produces a warning in the console... if this is not provided,
+            the code-sniffer will run out of memory :|
+        -->
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
-    <coverage includeUncoveredFiles="true" processUncoveredFiles="true" pathCoverage="true" ignoreDeprecatedCodeUnits="true" disableCodeCoverageIgnore="true">
+
+    <coverage includeUncoveredFiles="true"
+        processUncoveredFiles="true"
+        pathCoverage="true"
+        ignoreDeprecatedCodeUnits="true"
+        disableCodeCoverageIgnore="true">
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">tests</directory>
+            <directory suffix=".php">config</directory>
+        </exclude>
     </coverage>
+
 </phpunit>

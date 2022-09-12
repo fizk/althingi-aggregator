@@ -1,10 +1,9 @@
 <?php
 namespace App\Consumer;
 
-use Psr\Log\{LoggerInterface, LoggerAwareInterface};
-use App\Lib\IdentityInterface;
+use App\Lib\{IdentityInterface, LoggerAwareInterface};
 use App\Extractor\ExtractionInterface;
-use DOMElement;
+use Psr\Log\{LoggerInterface};
 
 class NullConsumer implements ConsumerInterface, LoggerAwareInterface
 {

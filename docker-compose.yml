@@ -23,17 +23,17 @@ services:
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
       - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-7070}
     volumes:
-      - ./bin/:/var/www/html/bin
-      - ./config/:/var/www/html/config
-      - ./src/:/var/www/html/src
-      - ./public/:/var/www/html/public
-      - ./vendor/:/var/www/html/vendor
-      - ./composer.json/:/var/www/html/composer.json
-      - ./composer.lock/:/var/www/html/composer.lock
+      - ./bin/:/var/app/bin
+      - ./config/:/var/app/config
+      - ./src/:/var/app/src
+      - ./public/:/var/app/public
+      - ./vendor/:/var/app/vendor
+      - ./composer.json/:/var/app/composer.json
+      - ./composer.lock/:/var/app/composer.lock
     depends_on:
       - cache-consumer
       - cache-provider
-      - echo-server
+      # - echo-server
 
   test:
     container_name: local-althingi-aggregator-test
@@ -46,20 +46,17 @@ services:
         - PROVIDER_CACHE_TYPE=none
         - CONSUMER_CACHE_TYPE=none
     volumes:
-        - ./config/:/var/www/html/config
-        - ./src/:/var/www/html/src
-        - ./public/:/var/www/html/public
-        - ./tests/:/var/www/html/tests
-        - ./phpcs.xml/:/var/www/html/phpcs.xml
-        - ./phpunit.xml.dist/:/var/www/html/phpunit.xml
+        - ./config/:/var/app/config
+        - ./src/:/var/app/src
+        - ./public/:/var/app/public
+        - ./tests/:/var/app/tests
+        - ./phpcs.xml/:/var/app/phpcs.xml
+        - ./phpunit.xml.dist/:/var/app/phpunit.xml
 
-        - ./vendor/:/var/www/html/vendor
-        - ./composer.json/:/var/www/html/composer.json
-        - ./composer.lock/:/var/www/html/composer.lock
-
-    working_dir: /var/www/html
-    command: bash -c "./vendor/bin/phpunit && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
-    # command: bash -c "./vendor/bin/phpunit --coverage-html ./tests/doc && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
+        - ./vendor/:/var/app/vendor
+        - ./composer.json/:/var/app/composer.json
+        - ./composer.lock/:/var/app/composer.lock
+    command: bash -c "./vendor/bin/phpunit ./tests && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
 
   cache-consumer:
     container_name: local-althingi-aggregator-cache-concumer
@@ -69,6 +66,9 @@ services:
     container_name: local-althingi-aggregator-cache-provider
     image: redis:4.0.11
 
+    # The Echo Server is mostly used for development. It is just a running HTTP server that
+    # can listen to request coming from this service to store the results.
+    # It is commented out in the `run` service so it needs to be configured for it to be used.
   echo-server:
     image:  mendhak/http-https-echo:17
     container_name: echo-server
