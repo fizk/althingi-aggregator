@@ -4,6 +4,8 @@ services:
 
   run:
     container_name: local-althingi-aggregator-run
+    labels:
+      - althingi_service=aggregator
     build:
       args:
         - ENV=development
