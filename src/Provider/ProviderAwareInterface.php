@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Provider;
 
 interface ProviderAwareInterface

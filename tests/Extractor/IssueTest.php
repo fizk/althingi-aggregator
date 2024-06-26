@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use PHPUnit\Framework\TestCase;
@@ -13,7 +14,7 @@ class IssueTest extends TestCase
         $expectedData = [
             'id' => 60,
             'assembly_id' => 141,
-            'category' => 'A',
+            'kind' => 'A',
             'status' => 'Ekki útrætt á 141. þingi. Bíður 2. umræðu',
             'name' => 'virðisaukaskattur',
             'sub_name' => 'endurgreiðsla skatts vegna kaupa á varmatækjum',
@@ -43,7 +44,7 @@ class IssueTest extends TestCase
         $expectedData = [
             'id' => 35,
             'assembly_id' => 148,
-            'category' => 'B',
+            'kind' => 'B',
             'status' => null,
             'name' => 'nýting fjármuna heilbrigðiskerfisins',
             'sub_name' => null,

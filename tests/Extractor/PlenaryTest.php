@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use PHPUnit\Framework\TestCase;
@@ -143,8 +144,7 @@ class PlenaryTest extends TestCase
                         <xml>http://www.althin=140&amp;fundur=1</xml>
                     </dagskrá>
                 </þingfundur>
-            </þingfundir>'
-        );
+            </þingfundir>');
         $documentsXPath = new DOMXPath($dom);
         $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
 

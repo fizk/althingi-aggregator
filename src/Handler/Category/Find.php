@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Handler\Category;
 
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};

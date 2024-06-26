@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Consumer;
 
 use Psr\Http\Client\ClientInterface;
@@ -162,7 +163,7 @@ class HttpConsumerTest extends TestCase
             private int $iteration = 0;
             public function sendRequest(RequestInterface $request): ResponseInterface
             {
-                switch($this->iteration) {
+                switch ($this->iteration) {
                     case 0:
                         $this->iteration = 1;
                         return new EmptyResponse(409, ['Location' => '/path/to/resource']);

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Consumer\Stub;
 
 use App\Extractor\ExtractionInterface;

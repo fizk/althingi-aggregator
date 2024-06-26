@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Provider;
 
 use DOMDocument;

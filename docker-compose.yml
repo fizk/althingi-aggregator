@@ -54,11 +54,10 @@ services:
         - ./tests/:/var/app/tests
         - ./phpcs.xml/:/var/app/phpcs.xml
         - ./phpunit.xml.dist/:/var/app/phpunit.xml
-
         # - ./vendor/:/var/app/vendor
         - ./composer.json/:/var/app/composer.json
         - ./composer.lock/:/var/app/composer.lock
-    command: bash -c "./vendor/bin/phpunit ./tests && ./vendor/bin/phpcs --standard=./phpcs.xml ./src"
+    command: composer test && composer sniff"
 
   cache-consumer:
     container_name: local-althingi-aggregator-cache-concumer

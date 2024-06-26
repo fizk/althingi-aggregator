@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use App\Extractor;
@@ -72,7 +73,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
             'issue_name' => $issueName,
             'issue_type' => $issueType,
             'issue_typename' => $issueTypeName,
-            'category' => $issueCategory,
+            'kind' => $issueCategory,
             'assembly_id' => (int) $assemblyId,
             'item_id' => (int) $this->getIdentity(),
             'iteration_type' => empty($iterationType)

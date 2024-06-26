@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use App\Extractor\IssueLink;
@@ -12,7 +13,7 @@ class IssueLinkTest extends TestCase
         $expectedData = [
             'assembly_id' => 149,
             'issue_id' => 1,
-            'category' => 'A',
+            'kind' => 'A',
             'type' => null,
         ];
         $extractor = new IssueLink();
@@ -32,7 +33,7 @@ class IssueLinkTest extends TestCase
         $expectedData = [
             'assembly_id' => 149,
             'issue_id' => 1,
-            'category' => 'A',
+            'kind' => 'A',
             'type' => 'mytype',
         ];
         $extractor = new IssueLink();
@@ -54,7 +55,7 @@ class IssueLinkTest extends TestCase
         $expectedData = [
             'assembly_id' => 149,
             'issue_id' => 1,
-            'category' => 'A',
+            'kind' => 'A',
             'type' => 'mytype',
         ];
         $extractor = new IssueLink();
@@ -76,7 +77,7 @@ class IssueLinkTest extends TestCase
         $expectedData = [
             'assembly_id' => 149,
             'issue_id' => 1,
-            'category' => 'A',
+            'kind' => 'A',
             'type' => 'mytype',
         ];
         $extractor = new IssueLink();

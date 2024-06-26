@@ -50,7 +50,7 @@ class Route
     {
         $path = $request->getUri()->getPath();
 
-        $path_has_match = preg_match_all('~^'.$this->getPattern().'$~', $path, $matches);
+        $path_has_match = preg_match_all('~^' . $this->getPattern() . '$~', $path, $matches);
 
         $has_same_method = $request->getMethod() == $this->method;
 
@@ -91,7 +91,7 @@ class Route
                     );
                 }
 
-                $this->param_keys []= $param;
+                $this->param_keys [] = $param;
             }
         }
 

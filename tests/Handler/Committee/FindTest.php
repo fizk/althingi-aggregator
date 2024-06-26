@@ -16,7 +16,7 @@ class FindTest extends TestCase
 {
     public function testTrue()
     {
-        $handler = new class($this) extends Find
+        $handler = new class ($this) extends Find
         {
             private TestCase $testcase;
             public function __construct(TestCase $testcase)
@@ -47,7 +47,7 @@ class FindTest extends TestCase
                 DOMNodeList $elements,
                 $storageKey,
                 ExtractionInterface $extract
-            ){
+            ) {
                 $expected = [
                     [
                         'committee_id' => '201',

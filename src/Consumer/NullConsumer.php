@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Consumer;
 
 use App\Lib\{IdentityInterface, LoggerAwareInterface};

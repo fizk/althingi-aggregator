@@ -3,7 +3,7 @@
 namespace App\Callback;
 
 use App\Callback\GovernmentDocumentCallback;
-use \PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase;
 
 class GovernmentDocumentCallbackTest extends TestCase
 {

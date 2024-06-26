@@ -18,7 +18,7 @@ class RouteCollection implements RouterInterface
     public function addRoute(Route $route): void
     {
         $this->names[$route->getName()] = $route->getPath();
-        $this->routes []= $route;
+        $this->routes [] = $route;
     }
 
     public function getRoutes(): array

@@ -126,3 +126,8 @@ components
 tests/docs
 
 .env
+
+
+##
+coverage
+.phpunit.result.cache

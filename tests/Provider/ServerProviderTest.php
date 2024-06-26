@@ -40,7 +40,7 @@ class ServerProviderTest extends TestCase
                         </hefst>
                         <staður>í Austurstræti 8&ndash;10</staður>
                     </nefndarfundur>
-                </nefndarfundir>', 200, ['content-type' =>'text/html, charset=iso-8859-1']);
+                </nefndarfundir>', 200, ['content-type' => 'text/html, charset=iso-8859-1']);
             }
         };
 

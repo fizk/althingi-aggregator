@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Handler\Speech;
 
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};

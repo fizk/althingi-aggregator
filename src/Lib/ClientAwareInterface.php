@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Lib;
 
 use Psr\Http\Client\ClientInterface;

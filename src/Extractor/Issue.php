@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use App\Extractor;
@@ -97,7 +98,7 @@ class Issue implements ExtractionInterface, IdentityInterface
         return [
             'id' => $this->getIdentity(),
             'assembly_id' => $assemblyId,
-            'category' => $category,
+            'kind' => $category,
             'status' => $status,
             'name' => $name,
             'sub_name' => $subName,

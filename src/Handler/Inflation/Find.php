@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Handler\Inflation;
 
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};

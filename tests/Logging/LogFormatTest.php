@@ -1,13 +1,12 @@
 <?php
+
 namespace App\Logging;
 
 use PHPUnit\Framework\TestCase;
 use Monolog\Logger;
 use Monolog\Formatter\LineFormatter;
-
 use Laminas\Diactoros\Request;
 use Laminas\Diactoros\Response;
-
 use App\Event\{
     ConsumerErrorEvent,
     ConsumerSuccessEvent,
@@ -54,7 +53,8 @@ class LogFormatTest extends TestCase
             preg_match(
                 '/^\[[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}\+00:00\] DEBUG \{.*\}$/',
                 $handler->getMessage()
-            ));
+            )
+        );
     }
 
     public function testSystemSuccessEvent()
@@ -89,6 +89,7 @@ class LogFormatTest extends TestCase
             preg_match(
                 '/^\[[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}\+00:00\] DEBUG \{.*\}$/',
                 $handler->getMessage()
-            ));
+            )
+        );
     }
 }

@@ -135,13 +135,11 @@ return [
 
         Psr\Http\Client\ClientInterface::class => function (ContainerInterface $container, $requestedName) {
             return new Curl(new Psr17Factory(), ['allow_redirects' => true]);
-
         },
         Psr\Log\LoggerInterface::class => function (ContainerInterface $container, $requestedName) {
             return (new Logger('aggregator'))
                 ->pushHandler((new StreamHandler('php://stdout', Logger::DEBUG))
-                    ->setFormatter(new LineFormatter("[%datetime%] %level_name% %message%\n"))
-            );
+                    ->setFormatter(new LineFormatter("[%datetime%] %level_name% %message%\n")));
         },
 
         EventDispatcherInterface::class => function (ContainerInterface $container, $requestedName) {
@@ -179,8 +177,8 @@ return [
                 ->withScheme(getenv('AGGREGATOR_CONSUMER_SCHEMA') ?: 'http')
                 ;
             return (new Consumer\HttpConsumer(
-                    getenv('ENVIRONMENT') === 'DEVELOPMENT' ?  ['x-set-response-status-code' => '201'] : []
-                ))
+                getenv('ENVIRONMENT') === 'DEVELOPMENT' ?  ['x-set-response-status-code' => '201'] : []
+            ))
                 ->setHttpClient($container->get(Psr\Http\Client\ClientInterface::class))
                 ->setCache($container->get('ConsumerCache'))
                 ->setUri($uri)
@@ -205,7 +203,7 @@ return [
 
         'ProviderCache' => function () {
             $cacheType = getenv('PROVIDER_CACHE_TYPE') ?: 'none';
-            switch(strtolower($cacheType)) {
+            switch (strtolower($cacheType)) {
                 case 'none':
                     return new \Laminas\Cache\Storage\Adapter\BlackHole();
                     break;

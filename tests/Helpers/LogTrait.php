@@ -6,8 +6,8 @@ use Monolog\Handler;
 
 trait LogTrait
 {
-    private $pattern = '/(\[[0-9\-: ]+\]) (logger\.(ERROR|INFO|WARNING):) (([0-9]{1,3}) '.
-        '\["(EXCEPTION|HTTP|POST|PATCH|GET|PUT|PROVIDER_CACHE|CONSUMER|CONSUMER_CACHE)",".*",'.
+    private $pattern = '/(\[[0-9\-: ]+\]) (logger\.(ERROR|INFO|WARNING):) (([0-9]{1,3}) ' .
+        '\["(EXCEPTION|HTTP|POST|PATCH|GET|PUT|PROVIDER_CACHE|CONSUMER|CONSUMER_CACHE)",".*",' .
         '(\[.*\]|{.*})(,".*")?\]) (\[.*\])/';
 
     public function assertLogHandler(Handler\TestHandler $logs, $pattern = null)

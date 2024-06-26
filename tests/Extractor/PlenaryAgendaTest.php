@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use App\Extractor\PlenaryAgenda;
@@ -16,7 +17,7 @@ class PlenaryAgendaTest extends TestCase
             'issue_name' => 'Forseti Íslands setur þingið',
             'issue_type' => 'þi',
             'issue_typename' => 'þingsetning',
-            'category' => 'B',
+            'kind' => 'B',
             'assembly_id' => 148,
             'item_id' => 1,
             'iteration_type' => '*',
@@ -48,7 +49,7 @@ class PlenaryAgendaTest extends TestCase
             'issue_name' => 'Forseti Íslands setur þingið',
             'issue_type' => 'þi',
             'issue_typename' => 'þingsetning',
-            'category' => 'B',
+            'kind' => 'B',
             'assembly_id' => 148,
             'item_id' => 1,
             'iteration_type' => '*',
@@ -140,7 +141,7 @@ class PlenaryAgendaTest extends TestCase
             'issue_name' => 'kyrrsetning, lögbann o.fl.',
             'issue_type' => 'l',
             'issue_typename' => 'Frumvarp til laga',
-            'category' => 'A',
+            'kind' => 'A',
             'assembly_id' => 148,
             'item_id' => 3,
             'iteration_type' => '1',
@@ -173,7 +174,7 @@ class PlenaryAgendaTest extends TestCase
             'issue_name' => 'óundirbúinn fyrirspurnatími',
             'issue_type' => 'ft',
             'issue_typename' => 'óundirbúinn fyrirspurnatími',
-            'category' => 'B',
+            'kind' => 'B',
             'assembly_id' => 148,
             'item_id' => 1,
             'iteration_type' => '*',
@@ -206,7 +207,7 @@ class PlenaryAgendaTest extends TestCase
             'issue_name' => 'óundirbúinn fyrirspurnatími',
             'issue_type' => 'ft',
             'issue_typename' => 'óundirbúinn fyrirspurnatími',
-            'category' => 'B',
+            'kind' => 'B',
             'assembly_id' => 148,
             'item_id' => 1,
             'iteration_type' => '*',

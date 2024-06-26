@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use PHPUnit\Framework\TestCase;
@@ -21,7 +22,7 @@ class SpeechTest extends TestCase
             'congressman_id' => 652,
             'iteration' => 1,
             'type' => 'flutningsræða',
-            'category' => 'B',
+            'kind' => 'B',
             'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>',
             'validated' => 'true',
         ];
@@ -45,7 +46,7 @@ class SpeechTest extends TestCase
             'congressman_id' => 652,
             'iteration' => 1,
             'type' => 'flutningsræða',
-            'category' => 'B',
+            'kind' => 'B',
             'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>',
             'validated' => 'true',
         ];
@@ -92,7 +93,7 @@ class SpeechTest extends TestCase
             'congressman_id' => 652,
             'iteration' => 1,
             'type' => 'flutningsræða',
-            'category' => 'B',
+            'kind' => 'B',
             'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema"><mgr>Herra forseti.</mgr></ræðutexti>',
             'validated' => 'true',
         ];
@@ -140,7 +141,7 @@ class SpeechTest extends TestCase
             'iteration' => null,
             'type' => 'útbýting þingskjala',
             'text' => null,
-            'category' => 'A',
+            'kind' => 'A',
             'validated' => 'true',
         ];
 
@@ -166,7 +167,7 @@ class SpeechTest extends TestCase
             'text' => '<ræðutexti xmlns="http://skema.althingi.is/skema">
                     <mgr>Virðulegi forseti.</mgr>
                 </ræðutexti>',
-            'category' => 'A',
+            'kind' => 'A',
             'validated' => 'true',
         ];
 

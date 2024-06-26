@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Handler\Issue;
 
 use App\Extractor;
@@ -118,7 +119,7 @@ trait IssueUtilities
             foreach ($voteItemDocumentDom->getElementsByTagName('þingmaður') as $vote) {
                 $this->saveDomElement(
                     $vote,
-                    "loggjafarthing/{$assemblyNumber}/".
+                    "loggjafarthing/{$assemblyNumber}/" .
                     "thingmal/a/{$issueNumber}/atkvaedagreidslur/{$voteNumber}/atkvaedi",
                     new Extractor\VoteItem()
                 );

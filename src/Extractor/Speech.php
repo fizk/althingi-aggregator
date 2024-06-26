@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use App\Extractor;
@@ -74,7 +75,7 @@ class Speech implements ExtractionInterface, IdentityInterface
             'iteration' => $iteration,
             'type' => $type,
             'text' => $text,
-            'category' => $issueType,
+            'kind' => $issueType,
             'validated' => $this->object->hasAttribute('temporary') ? 'false' : 'true'
         ];
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use App\Lib\IdentityInterface;

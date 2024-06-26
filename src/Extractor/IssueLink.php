@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Extractor;
 
 use App\Extractor;
@@ -31,7 +32,7 @@ class IssueLink implements ExtractionInterface, IdentityInterface
         return [
             'assembly_id' => (int) $this->object->getAttribute('þingnúmer'),
             'issue_id' => (int) $this->object->getAttribute('málsnúmer'),
-            'category' => 'A',
+            'kind' => 'A',
             'type' => $this->object->hasAttribute('type')
                 ? $this->object->getAttribute('type')
                 : null
