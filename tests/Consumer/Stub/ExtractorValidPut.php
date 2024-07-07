@@ -17,7 +17,7 @@ class ExtractorValidPut implements ExtractionInterface, IdentityInterface
         $this->data = $data;
     }
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         return $this;
     }
@@ -27,7 +27,7 @@ class ExtractorValidPut implements ExtractionInterface, IdentityInterface
         return $this->data;
     }
 
-    public function setIdentity(string $id): self
+    public function setIdentity(string $id): static
     {
         $this->id = $id;
         return $this;

@@ -9,7 +9,7 @@ class ExtractorValid implements ExtractionInterface
 {
     private array $data = [];
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         return $this;
     }

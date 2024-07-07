@@ -5,11 +5,11 @@ namespace App\Extractor;
 use App\Extractor;
 use DOMElement;
 
-class MinisterSitting implements ExtractionInterface
+class MinisterSession implements ExtractionInterface
 {
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;

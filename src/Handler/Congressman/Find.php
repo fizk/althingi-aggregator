@@ -60,7 +60,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
                     $congressmanCommitteeUrl,
                     "thingmenn/{$congressmanId}/nefndaseta",
                     '//þingmaður/nefndasetur/nefndaseta',
-                    new Extractor\CommitteeSitting()
+                    new Extractor\CommitteeSession()
                 );
             }
         }

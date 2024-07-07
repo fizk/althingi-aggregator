@@ -2,17 +2,17 @@
 
 namespace App\Extractor;
 
-use App\Extractor\PlenaryAgenda;
+use App\Extractor\ParliamentarySessionAgenda;
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMXPath;
 
-class PlenaryAgendaTest extends TestCase
+class ParliamentarySessionAgendaTest extends TestCase
 {
     public function testValidDocument()
     {
         $expectedData = [
-            'plenary_id' => 13,
+            'parliamentary_session_id' => 13,
             'issue_id' => 5,
             'issue_name' => 'Forseti Íslands setur þingið',
             'issue_type' => 'þi',
@@ -36,7 +36,7 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(0))
+        $documentData = (new ParliamentarySessionAgenda())->populate($documentNodeList->item(0))
             ->extract();
 
         $this->assertEquals($expectedData, $documentData);
@@ -44,7 +44,7 @@ class PlenaryAgendaTest extends TestCase
     public function testValidDocumentMinusOnePlenary()
     {
         $expectedData = [
-            'plenary_id' => -1,
+            'parliamentary_session_id' => -1,
             'issue_id' => 5,
             'issue_name' => 'Forseti Íslands setur þingið',
             'issue_type' => 'þi',
@@ -126,7 +126,7 @@ class PlenaryAgendaTest extends TestCase
         $documentsXPath = new DOMXPath($dom);
         $documentNodeList = $documentsXPath->query('//dagskráþingfundar/þingfundur/dagskrá/dagskrárliður');
 
-        $documentData = (new PlenaryAgenda())
+        $documentData = (new ParliamentarySessionAgenda())
             ->populate($documentNodeList->item(0))
             ->extract();
 
@@ -136,7 +136,7 @@ class PlenaryAgendaTest extends TestCase
     public function testValidDocumentTwo()
     {
         $expectedData = [
-            'plenary_id' => 13,
+            'parliamentary_session_id' => 13,
             'issue_id' => 63,
             'issue_name' => 'kyrrsetning, lögbann o.fl.',
             'issue_type' => 'l',
@@ -160,7 +160,7 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(1))
+        $documentData = (new ParliamentarySessionAgenda())->populate($documentNodeList->item(1))
             ->extract();
 
         $this->assertEquals($expectedData, $documentData);
@@ -169,7 +169,7 @@ class PlenaryAgendaTest extends TestCase
     public function testValidDocumentThree()
     {
         $expectedData = [
-            'plenary_id' => 13,
+            'parliamentary_session_id' => 13,
             'issue_id' => 90,
             'issue_name' => 'óundirbúinn fyrirspurnatími',
             'issue_type' => 'ft',
@@ -193,7 +193,7 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(2))
+        $documentData = (new ParliamentarySessionAgenda())->populate($documentNodeList->item(2))
             ->extract();
 
         $this->assertEquals($expectedData, $documentData);
@@ -202,7 +202,7 @@ class PlenaryAgendaTest extends TestCase
     public function testValidDocumentFour()
     {
         $expectedData = [
-            'plenary_id' => 13,
+            'parliamentary_session_id' => 13,
             'issue_id' => 90,
             'issue_name' => 'óundirbúinn fyrirspurnatími',
             'issue_type' => 'ft',
@@ -226,7 +226,7 @@ class PlenaryAgendaTest extends TestCase
         ];
         $documentNodeList = $this->buildNodeList($this->getDocument());
 
-        $documentData = (new PlenaryAgenda())->populate($documentNodeList->item(3))
+        $documentData = (new ParliamentarySessionAgenda())->populate($documentNodeList->item(3))
             ->extract();
 
         $this->assertEquals($expectedData, $documentData);

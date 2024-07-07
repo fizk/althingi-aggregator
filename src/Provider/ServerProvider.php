@@ -119,13 +119,13 @@ class ServerProvider implements
         return null;
     }
 
-    public function setCache(StorageInterface $cache): self
+    public function setCache(StorageInterface $cache): static
     {
         $this->cache = $cache;
         return $this;
     }
 
-    public function setHttpClient(ClientInterface $client): self
+    public function setHttpClient(ClientInterface $client): static
     {
         $this->client = $client;
         return $this;
@@ -141,7 +141,7 @@ class ServerProvider implements
         };
     }
 
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatch): self
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatch): static
     {
         $this->eventDispatch = $eventDispatch;
         return $this;

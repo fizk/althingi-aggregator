@@ -6,5 +6,5 @@ use Psr\Log\LoggerInterface;
 
 interface LoggerAwareInterface
 {
-    public function setLogger(LoggerInterface $logger): self;
+    public function setLogger(LoggerInterface $logger): static;
 }

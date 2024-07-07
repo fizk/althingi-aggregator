@@ -11,7 +11,7 @@ class Speech implements ExtractionInterface, IdentityInterface
     private string $id;
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;
@@ -45,10 +45,10 @@ class Speech implements ExtractionInterface, IdentityInterface
             $to = $this->resolveDate($this->object->getElementsByTagName('ræðudagur')->item(0));
         }
 
-        $plenaryValue = $this->object->getAttribute('fundarnúmer');
-        $plenaryId = $plenaryValue === null
+        $parliamentarySessionValue = $this->object->getAttribute('fundarnúmer');
+        $parliamentarySessionId = $parliamentarySessionValue === null
             ? 0
-            : (((int) $plenaryValue) > 0 ? $plenaryValue : 0);
+            : (((int) $parliamentarySessionValue) > 0 ? $parliamentarySessionValue : 0);
         $assemblyId = (int) $this->object->getAttribute('þingnúmer');
         $issueId = (int) $this->object->getAttribute('þingmál');
         $congressmanType = $this->resolveCongressmanType($this->object);
@@ -67,7 +67,7 @@ class Speech implements ExtractionInterface, IdentityInterface
             'id' => $this->getIdentity(),
             'from' => $from,
             'to' => $to,
-            'plenary_id' => (int) $plenaryId,
+            'parliamentary_session_id' => (int) $parliamentarySessionId,
             'assembly_id' => $assemblyId,
             'issue_id' => $issueId,
             'congressman_type' => $congressmanType,
@@ -80,7 +80,7 @@ class Speech implements ExtractionInterface, IdentityInterface
         ];
     }
 
-    public function setIdentity(string $id): self
+    public function setIdentity(string $id): static
     {
         $this->id = $id;
         return $this;

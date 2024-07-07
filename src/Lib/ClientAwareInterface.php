@@ -6,5 +6,5 @@ use Psr\Http\Client\ClientInterface;
 
 interface ClientAwareInterface
 {
-    public function setHttpClient(ClientInterface $client): self;
+    public function setHttpClient(ClientInterface $client): static;
 }

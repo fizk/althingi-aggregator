@@ -4,5 +4,5 @@ namespace App\Provider;
 
 interface ProviderAwareInterface
 {
-    public function setProvider(ProviderInterface $provider): self;
+    public function setProvider(ProviderInterface $provider): static;
 }

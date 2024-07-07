@@ -6,12 +6,12 @@ use App\Extractor;
 use App\Lib\IdentityInterface;
 use DOMElement;
 
-class Plenary implements ExtractionInterface, IdentityInterface
+class ParliamentarySession implements ExtractionInterface, IdentityInterface
 {
     private string $id;
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;
@@ -41,14 +41,14 @@ class Plenary implements ExtractionInterface, IdentityInterface
             : null;
 
         return [
-            'plenary_id' => $this->getIdentity(),
+            'parliamentary_session_id' => $this->getIdentity(),
             'name' => $name,
             'from' => $from,
             'to' => $to,
         ];
     }
 
-    public function setIdentity(string $id): self
+    public function setIdentity(string $id): static
     {
         $this->id = $id;
         return $this;

@@ -6,5 +6,5 @@ use Laminas\Cache\Storage\StorageInterface;
 
 interface CacheableAwareInterface
 {
-    public function setCache(StorageInterface $cache): self;
+    public function setCache(StorageInterface $cache): static;
 }

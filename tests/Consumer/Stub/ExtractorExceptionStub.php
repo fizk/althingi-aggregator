@@ -8,7 +8,7 @@ use DOMElement;
 
 class ExtractorExceptionStub implements ExtractionInterface
 {
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         return $this;
     }

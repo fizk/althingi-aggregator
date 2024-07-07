@@ -4,11 +4,11 @@ namespace App\Extractor;
 
 use DOMElement;
 
-class CommitteeSitting implements ExtractionInterface
+class CommitteeSession implements ExtractionInterface
 {
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;

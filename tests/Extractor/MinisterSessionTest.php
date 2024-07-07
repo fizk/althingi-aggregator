@@ -2,12 +2,11 @@
 
 namespace App\Extractor;
 
-use App\Extractor\CommitteeSitting;
-use App\Extractor\MinisterSitting;
+use App\Extractor\MinisterSession;
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
 
-class MinisterSittingTest extends TestCase
+class MinisterSessionTest extends TestCase
 {
     public function testWithAllData()
     {
@@ -18,7 +17,7 @@ class MinisterSittingTest extends TestCase
             'from' => '2019-09-06',
             'to' => '2019-09-09',
         ];
-        $extractor = new MinisterSitting();
+        $extractor = new MinisterSession();
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(0);
 
@@ -36,7 +35,7 @@ class MinisterSittingTest extends TestCase
             'from' => '2019-09-06',
             'to' => null,
         ];
-        $extractor = new MinisterSitting();
+        $extractor = new MinisterSession();
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(1);
 
@@ -54,7 +53,7 @@ class MinisterSittingTest extends TestCase
             'from' => '2019-09-06',
             'to' => null,
         ];
-        $extractor = new MinisterSitting();
+        $extractor = new MinisterSession();
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(2);
 
@@ -72,7 +71,7 @@ class MinisterSittingTest extends TestCase
             'from' => '2019-09-06',
             'to' => null,
         ];
-        $extractor = new MinisterSitting();
+        $extractor = new MinisterSession();
 
         $element = $this->getDocument()->getElementsByTagName('ráðherraseta')->item(3);
 

@@ -236,19 +236,19 @@ class HttpConsumer implements
         return $request;
     }
 
-    public function setUri(Uri $uri): self
+    public function setUri(Uri $uri): static
     {
         $this->uri = $uri;
         return $this;
     }
 
-    public function setHttpClient(ClientInterface $client): self
+    public function setHttpClient(ClientInterface $client): static
     {
         $this->client = $client;
         return $this;
     }
 
-    public function setCache(StorageInterface $cache): self
+    public function setCache(StorageInterface $cache): static
     {
         $this->cache = $cache;
         return $this;
@@ -274,7 +274,7 @@ class HttpConsumer implements
         };
     }
 
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatch): self
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatch): static
     {
         $this->eventDispatch = $eventDispatch;
         return $this;

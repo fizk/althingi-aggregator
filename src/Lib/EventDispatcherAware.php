@@ -8,5 +8,5 @@ interface EventDispatcherAware
 {
     public function getEventDispatcher(): EventDispatcherInterface;
 
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatch): self;
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatch): static;
 }

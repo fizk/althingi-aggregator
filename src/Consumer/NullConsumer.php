@@ -26,7 +26,7 @@ class NullConsumer implements ConsumerInterface, LoggerAwareInterface
         return $data;
     }
 
-    public function setLogger(LoggerInterface $logger): self
+    public function setLogger(LoggerInterface $logger): static
     {
         $this->logger = $logger;
         return $this;

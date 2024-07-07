@@ -104,13 +104,13 @@ trait ConsoleHelper
         return $xpath->query($xPath);
     }
 
-    public function setConsumer(ConsumerInterface $consumer): self
+    public function setConsumer(ConsumerInterface $consumer): static
     {
         $this->consumer = $consumer;
         return $this;
     }
 
-    public function setProvider(ProviderInterface $provider): self
+    public function setProvider(ProviderInterface $provider): static
     {
         $this->provider = $provider;
         return $this;

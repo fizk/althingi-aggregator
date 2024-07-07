@@ -2,12 +2,11 @@
 
 namespace App\Extractor;
 
-use App\Extractor\CommitteeSitting;
+use App\Extractor\CommitteeSession;
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
-use DOMElement;
 
-class CommitteeSittingTest extends TestCase
+class CommitteeSessionTest extends TestCase
 {
     public function testWithAllData()
     {
@@ -19,7 +18,7 @@ class CommitteeSittingTest extends TestCase
             'from' => '2017-02-08',
             'to' => '2017-09-11',
         ];
-        $extractor = new CommitteeSitting();
+        $extractor = new CommitteeSession();
 
         $element = $this->getDocument()->getElementsByTagName('nefndaseta')->item(0);
 
@@ -38,7 +37,7 @@ class CommitteeSittingTest extends TestCase
             'from' => '2017-02-08',
             'to' => null,
         ];
-        $extractor = new CommitteeSitting();
+        $extractor = new CommitteeSession();
 
         $element = $this->getDocument()->getElementsByTagName('nefndaseta')->item(1);
 
@@ -57,7 +56,7 @@ class CommitteeSittingTest extends TestCase
             'from' => '2017-02-08',
             'to' => null,
         ];
-        $extractor = new CommitteeSitting();
+        $extractor = new CommitteeSession();
 
         $element = $this->getDocument()->getElementsByTagName('nefndaseta')->item(1);
 

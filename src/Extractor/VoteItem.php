@@ -9,7 +9,7 @@ class VoteItem implements ExtractionInterface
 {
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Handler\Plenary;
+namespace App\Handler\ParliamentarySession;
 
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
@@ -26,13 +26,13 @@ class Agenda implements RequestHandlerInterface, ConsumerAwareInterface, Provide
         foreach ($list as $item) {
             $agendaUrl = $item->getElementsByTagName('dagskrá')
                 ->item(0)->getElementsByTagName('xml')->item(0)->nodeValue;
-            $plenaryNumber = $item->getAttribute('númer');
+            $parliamentarySessionNumber = $item->getAttribute('númer');
             $items = $this->queryForNoteList($agendaUrl, '//dagskráþingfundar/þingfundur/dagskrá/dagskrárliður');
             foreach ($items as $agendaItem) {
                 $this->saveDomElement(
                     $agendaItem,
-                    "loggjafarthing/{$assemblyNumber}/thingfundir/{$plenaryNumber}/lidir",
-                    new Extractor\PlenaryAgenda()
+                    "loggjafarthing/{$assemblyNumber}/thingfundir/{$parliamentarySessionNumber}/lidir",
+                    new Extractor\ParliamentarySessionAgenda()
                 );
             }
         }

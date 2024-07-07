@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Handler\Plenary;
+namespace App\Handler\ParliamentarySession;
 
 use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
 use Psr\Http\Server\RequestHandlerInterface;
@@ -25,9 +25,9 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
         $xPathObject = new \DOMXPath($dom);
         $elements = $xPathObject->query('//þingfundir/þingfundur');
 
-        // IF there are no Plenary items, make them up and give
+        // IF there are no ParliamentarySession items, make them up and give
         //  them the ID of 0
-        // PlenaryAgenda and Speech items will reference this made-up item
+        // ParliamentarySessionAgenda and Speech items will reference this made-up item
         if (count($elements) === 0) {
             $dom = new DOMDocument();
             $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?>
@@ -43,7 +43,7 @@ class Find implements RequestHandlerInterface, ConsumerAwareInterface, ProviderA
         $this->saveDomNodeList(
             $elements,
             "loggjafarthing/{$assemblyNumber}/thingfundir",
-            new Extractor\Plenary()
+            new Extractor\ParliamentarySession()
         );
 
         return new TextResponse(self::class);

@@ -11,7 +11,7 @@ class Committee implements ExtractionInterface, IdentityInterface
     private string $id;
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;
@@ -52,7 +52,7 @@ class Committee implements ExtractionInterface, IdentityInterface
         ];
     }
 
-    public function setIdentity(string $id): self
+    public function setIdentity(string $id): static
     {
         $this->id = $id;
         return $this;

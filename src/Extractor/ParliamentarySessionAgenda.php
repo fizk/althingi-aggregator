@@ -6,12 +6,12 @@ use App\Extractor;
 use App\Lib\IdentityInterface;
 use DOMElement;
 
-class PlenaryAgenda implements ExtractionInterface, IdentityInterface
+class ParliamentarySessionAgenda implements ExtractionInterface, IdentityInterface
 {
     private string $id;
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;
@@ -19,7 +19,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
 
     /**
      * @throws \App\Extractor\Exception
-     * @todo This extractor goes out of the DOMElement to get the $plenaryId
+     * @todo This extractor goes out of the DOMElement to get the $parliamentary_session_id
      *      $object->ownerDocument->getElementsByTagName('þingfundur')->item(0)->getAttribute('númer');
      */
     public function extract(): array
@@ -30,10 +30,10 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
 
         $this->setIdentity($this->object->getAttribute('númer'));
 
-        $plenaryId = $this->object->ownerDocument->getElementsByTagName('þingfundur')?->item(0)?->getAttribute('númer');
-        $plenaryId = $plenaryId === null
+        $parliamentarySessionId = $this->object->ownerDocument->getElementsByTagName('þingfundur')?->item(0)?->getAttribute('númer');
+        $parliamentarySessionId = $parliamentarySessionId === null
             ? -1
-            : $plenaryId;
+            : $parliamentarySessionId;
 
         $issue = $this->object->getElementsByTagName('mál')?->item(0);
 
@@ -68,7 +68,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
         $issueTypeName = $this->object->getElementsByTagName('málstegund')?->item(0)?->nodeValue;
 
         return [
-            'plenary_id' => (int) $plenaryId,
+            'parliamentary_session_id' => (int) $parliamentarySessionId,
             'issue_id' => (int) $issueId,
             'issue_name' => $issueName,
             'issue_type' => $issueType,
@@ -100,7 +100,7 @@ class PlenaryAgenda implements ExtractionInterface, IdentityInterface
         ];
     }
 
-    public function setIdentity(string $id): self
+    public function setIdentity(string $id): static
     {
         $this->id = $id;
         return $this;

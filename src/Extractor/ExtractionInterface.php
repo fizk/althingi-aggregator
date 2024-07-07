@@ -6,6 +6,6 @@ use DOMElement;
 
 interface ExtractionInterface
 {
-    public function populate(DOMElement $object): self;
+    public function populate(DOMElement $object): static;
     public function extract(): array;
 }

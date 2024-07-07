@@ -10,6 +10,7 @@ class Route
     protected mixed $handler;
     protected string $path;
     protected string $name;
+    protected string $method;
     protected string $pattern;
     protected array $param_keys;
     protected array $matches;

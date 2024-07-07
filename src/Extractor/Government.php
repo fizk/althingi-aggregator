@@ -11,7 +11,7 @@ class Government implements ExtractionInterface, IdentityInterface
     private string $id;
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;
@@ -32,7 +32,7 @@ class Government implements ExtractionInterface, IdentityInterface
         ];
     }
 
-    public function setIdentity($id): self
+    public function setIdentity($id): static
     {
         $this->id = $id;
         return $this;

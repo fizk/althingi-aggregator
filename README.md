@@ -42,26 +42,26 @@ $ php index.php [command]
 The Dockerfile lands you in `/usr/src/bin` because that is where the scripts are (see below),
 so you will need to `cd ../public` before you are able to run the commands
 
-| command                   | arguments                                         | description  |
-| ------------------------- | --------------------------------------------------| ------------ |
-| load:assembly             |                                                   |              |
-| load:party                |                                                   |              |
-| load:constituency         |                                                   |              |
-| load:assembly:current     |                                                   |              |
-| load:congressman          | --assembly={int}                                  |              |
-| load:minister             | --assembly={int}                                  |              |
-| load:ministry             |                                                   |              |
-| load:plenary              | --assembly={int}                                  |              |
-| load:plenary-agenda       | --assembly={int}                                  |              |
-| load:issue                | --assembly={int}                                  |              |
-| load:single-issue         | --assembly={int}  --issue={int}  --category={A|B} |              |
-| load:committee            |                                                   |              |
-| load:committee-assembly   | --assembly={int}                                  |              |
-| load:president            |                                                   |              |
-| load:category             |                                                   |              |
-| load:inflation            | --date={string}                                   |              |
-| load:government           |                                                   |              |
-| load:tmp-speech           | --assembly={int}                                  |              |
+| command                           | arguments                                         | description  |
+| --------------------------------- | --------------------------------------------------| ------------ |
+| load:assembly                     |                                                   |              |
+| load:party                        |                                                   |              |
+| load:constituency                 |                                                   |              |
+| load:assembly:current             |                                                   |              |
+| load:congressman                  | --assembly={int}                                  |              |
+| load:minister                     | --assembly={int}                                  |              |
+| load:ministry                     |                                                   |              |
+| load:parliamentary-session        | --assembly={int}                                  |              |
+| load:parliamentary-session-agenda | --assembly={int}                                  |              |
+| load:issue                        | --assembly={int}                                  |              |
+| load:single-issue                 | --assembly={int}  --issue={int}  --category={A|B} |              |
+| load:committee                    |                                                   |              |
+| load:committee-assembly           | --assembly={int}                                  |              |
+| load:president                    |                                                   |              |
+| load:category                     |                                                   |              |
+| load:inflation                    | --date={string}                                   |              |
+| load:government                   |                                                   |              |
+| load:tmp-speech                   | --assembly={int}                                  |              |
 
 ## Scripts
 Because the commands, often time needs to be run in a specific order, there are bash scripts that can make your live simpler.

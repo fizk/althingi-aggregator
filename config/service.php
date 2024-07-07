@@ -66,14 +66,14 @@ return [
                 ->setProvider($container->get(Provider\ProviderInterface::class))
                 ;
         },
-        App\Handler\Plenary\Find::class => function (ContainerInterface $container) {
-            return (new App\Handler\Plenary\Find())
+        App\Handler\ParliamentarySession\Find::class => function (ContainerInterface $container) {
+            return (new App\Handler\ParliamentarySession\Find())
                 ->setConsumer($container->get(Consumer\ConsumerInterface::class))
                 ->setProvider($container->get(Provider\ProviderInterface::class))
                 ;
         },
-        App\Handler\Plenary\Agenda::class => function (ContainerInterface $container) {
-            return (new App\Handler\Plenary\Agenda())
+        App\Handler\ParliamentarySession\Agenda::class => function (ContainerInterface $container) {
+            return (new App\Handler\ParliamentarySession\Agenda())
                 ->setConsumer($container->get(Consumer\ConsumerInterface::class))
                 ->setProvider($container->get(Provider\ProviderInterface::class))
                 ;

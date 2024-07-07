@@ -19,6 +19,7 @@ class Temporary implements RequestHandlerInterface, ConsumerAwareInterface, Prov
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+
         $assemblyNumber = $request->getAttribute('assembly');
         $url = "https://www.althingi.is/xml/{$assemblyNumber}/raedur_bradabirgda";
         $speechUrlNodeList = $this->queryForNoteList(

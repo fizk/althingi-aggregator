@@ -5,15 +5,15 @@ namespace App\Extractor;
 use PHPUnit\Framework\TestCase;
 use DOMDocument;
 use DOMXPath;
-use App\Extractor\Plenary;
+use App\Extractor\ParliamentarySession;
 use App\Extractor\Document;
 
-class PlenaryTest extends TestCase
+class ParliamentarySessionTest extends TestCase
 {
     public function testValidDocumentAllValues()
     {
         $expectedData = [
-            'plenary_id' => 12,
+            'parliamentary_session_id' => 12,
             'name' => 'þingsetningarfundur',
             'from' => '2011-10-01 11:14',
             'to' => '2011-10-01 11:42',
@@ -44,7 +44,7 @@ class PlenaryTest extends TestCase
         $documentsXPath = new DOMXPath($dom);
         $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
 
-        $documentData = (new Plenary())
+        $documentData = (new ParliamentarySession())
             ->populate($documentNodeList->item(0))
             ->extract();
 
@@ -54,7 +54,7 @@ class PlenaryTest extends TestCase
     public function testValidDocumentRequiredValues()
     {
         $expectedData = [
-            'plenary_id' => 0,
+            'parliamentary_session_id' => 0,
             'name' => '',
             'from' => '',
             'to' => '',
@@ -78,7 +78,7 @@ class PlenaryTest extends TestCase
         $documentsXPath = new DOMXPath($domDocument);
         $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
 
-        $documentData = (new Plenary())
+        $documentData = (new ParliamentarySession())
             ->populate($documentNodeList->item(0))
             ->extract();
 
@@ -88,7 +88,7 @@ class PlenaryTest extends TestCase
     public function testIdLessThanZero()
     {
         $expectedData = [
-            'plenary_id' => -1,
+            'parliamentary_session_id' => -1,
             'name' => null,
             'from' => null,
             'to' => null,
@@ -112,7 +112,7 @@ class PlenaryTest extends TestCase
         $documentsXPath = new DOMXPath($domDocument);
         $documentNodeList = $documentsXPath->query('//þingfundir/þingfundur');
 
-        $documentData = (new Plenary())
+        $documentData = (new ParliamentarySession())
             ->populate($documentNodeList->item(0))
             ->extract();
 

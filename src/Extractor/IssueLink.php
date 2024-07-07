@@ -10,7 +10,7 @@ class IssueLink implements ExtractionInterface, IdentityInterface
 {
     private DOMElement $object;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         $this->object = $object;
         return $this;
@@ -30,16 +30,16 @@ class IssueLink implements ExtractionInterface, IdentityInterface
         }
 
         return [
-            'assembly_id' => (int) $this->object->getAttribute('þingnúmer'),
-            'issue_id' => (int) $this->object->getAttribute('málsnúmer'),
-            'kind' => 'A',
+            'to_assembly_id' => (int) $this->object->getAttribute('þingnúmer'),
+            'to_issue_id' => (int) $this->object->getAttribute('málsnúmer'),
+            'to_kind' => 'A',
             'type' => $this->object->hasAttribute('type')
                 ? $this->object->getAttribute('type')
                 : null
         ];
     }
 
-    public function setIdentity(string $id): self
+    public function setIdentity(string $id): static
     {
         return $this;
     }

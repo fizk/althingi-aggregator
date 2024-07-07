@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Group ID="3">
+	<Name>
+		<![CDATA[ Vísitala neysluverðs ]]>
+	</Name>
+	<TimeSeries ID="1">
+		<FameName>
+			<![CDATA[ VIS.HAG.NV$$.XXX.XXX.XXX.#.IS.N.M ]]>
+		</FameName>
+		<Name>
+			<![CDATA[ Vísitala neysluverðs ]]>
+		</Name>
+		<Description>
+			<![CDATA[ Vísitala neysluverðs frá 1939, (1988 = 100) ]]>
+		</Description>
+		<TimeSeriesData>
+			<Entry>
+				<Date>1/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>2/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>3/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>4/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>5/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>6/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>7/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>8/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>9/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>10/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>11/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>12/1/1939 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>1/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>2/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>3/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>4/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>5/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>6/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>7/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>8/1/1940 12:00:00 AM</Date>
+				<Value>0.020000</Value>
+			</Entry>
+			<Entry>
+				<Date>9/1/1940 12:00:00 AM</Date>
+				<Value>0.030000</Value>
+			</Entry>
+			<Entry>
+				<Date>10/1/1940 12:00:00 AM</Date>
+				<Value>0.030000</Value>
+			</Entry>
+			<Entry>
+				<Date>11/1/1940 12:00:00 AM</Date>
+				<Value>0.030000</Value>
+			</Entry>
+
+		</TimeSeriesData>
+	</TimeSeries>
+	<TimeSeries ID="2">
+		<FameName>
+			<![CDATA[ HVI.SED.NVERD.VIS.IS.N.M ]]>
+		</FameName>
+		<Name>
+			<![CDATA[ Vísitala neysluverðs, 12 mánaða breyting ]]>
+		</Name>
+		<Description>
+			<![CDATA[ Vísitala neysluverðs, 12 mánaða breyting, %. ]]>
+		</Description>
+		<TimeSeriesData>
+			<Entry>
+				<Date>1/1/1990 12:00:00 AM</Date>
+				<Value>23.700000</Value>
+			</Entry>
+			<Entry>
+				<Date>2/1/1990 12:00:00 AM</Date>
+				<Value>23.900000</Value>
+			</Entry>
+			<Entry>
+				<Date>3/1/1990 12:00:00 AM</Date>
+				<Value>21.600000</Value>
+			</Entry>
+			<Entry>
+				<Date>4/1/1990 12:00:00 AM</Date>
+				<Value>19.300000</Value>
+			</Entry>
+			<Entry>
+				<Date>5/1/1990 12:00:00 AM</Date>
+				<Value>18.100000</Value>
+			</Entry>
+			<Entry>
+				<Date>6/1/1990 12:00:00 AM</Date>
+				<Value>15.500000</Value>
+			</Entry>
+			<Entry>
+				<Date>7/1/1990 12:00:00 AM</Date>
+				<Value>15.500000</Value>
+			</Entry>
+			<Entry>
+				<Date>8/1/1990 12:00:00 AM</Date>
+				<Value>14.200000</Value>
+			</Entry>
+			<Entry>
+				<Date>9/1/1990 12:00:00 AM</Date>
+				<Value>12.000000</Value>
+			</Entry>
+			<Entry>
+				<Date>10/1/1990 12:00:00 AM</Date>
+				<Value>10.100000</Value>
+			</Entry>
+			<Entry>
+				<Date>11/1/1990 12:00:00 AM</Date>
+				<Value>9.200000</Value>
+			</Entry>
+			<Entry>
+				<Date>12/1/1990 12:00:00 AM</Date>
+				<Value>7.200000</Value>
+			</Entry>
+			<Entry>
+				<Date>1/1/1991 12:00:00 AM</Date>
+				<Value>7.300000</Value>
+			</Entry>
+			<Entry>
+				<Date>2/1/1991 12:00:00 AM</Date>
+				<Value>6.000000</Value>
+			</Entry>
+			<Entry>
+				<Date>3/1/1991 12:00:00 AM</Date>
+				<Value>5.300000</Value>
+			</Entry>
+			<Entry>
+				<Date>4/1/1991 12:00:00 AM</Date>
+				<Value>5.500000</Value>
+			</Entry>
+			<Entry>
+				<Date>5/1/1991 12:00:00 AM</Date>
+				<Value>5.800000</Value>
+			</Entry>
+			<Entry>
+				<Date>6/1/1991 12:00:00 AM</Date>
+				<Value>6.500000</Value>
+			</Entry>
+			<Entry>
+				<Date>7/1/1991 12:00:00 AM</Date>
+				<Value>6.600000</Value>
+			</Entry>
+			<Entry>
+				<Date>8/1/1991 12:00:00 AM</Date>
+				<Value>7.100000</Value>
+			</Entry>
+			<Entry>
+				<Date>9/1/1991 12:00:00 AM</Date>
+				<Value>7.700000</Value>
+			</Entry>
+			<Entry>
+				<Date>10/1/1991 12:00:00 AM</Date>
+				<Value>8.200000</Value>
+			</Entry>
+			<Entry>
+				<Date>11/1/1991 12:00:00 AM</Date>
+				<Value>8.000000</Value>
+			</Entry>
+			<Entry>
+				<Date>12/1/1991 12:00:00 AM</Date>
+				<Value>7.500000</Value>
+			</Entry>
+			<Entry>
+				<Date>1/1/1992 12:00:00 AM</Date>
+				<Value>7.200000</Value>
+			</Entry>
+		</TimeSeriesData>
+	</TimeSeries>
+</Group>

@@ -60,7 +60,7 @@ class Minister implements RequestHandlerInterface, ConsumerAwareInterface, Provi
                     $congressmanCommitteeUrl,
                     "thingmenn/{$congressmanId}/radherraseta",
                     '//einstaklingur/ráðherrasetur/ráðherraseta',
-                    new Extractor\MinisterSitting()
+                    new Extractor\MinisterSession()
                 );
             }
         }

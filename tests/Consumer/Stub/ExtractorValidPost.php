@@ -14,7 +14,7 @@ class ExtractorValidPost implements ExtractionInterface
         $this->data = $data;
     }
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         return $this;
     }

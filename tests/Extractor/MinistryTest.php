@@ -2,8 +2,8 @@
 
 namespace App\Extractor;
 
-use App\Extractor\CommitteeSitting;
-use App\Extractor\MinisterSitting;
+use App\Extractor\CommitteeSession;
+use App\Extractor\MinisterSession;
 use App\Extractor\Ministry;
 use PHPUnit\Framework\TestCase;
 use DOMDocument;

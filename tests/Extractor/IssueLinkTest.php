@@ -11,9 +11,9 @@ class IssueLinkTest extends TestCase
     public function testWithAllData()
     {
         $expectedData = [
-            'assembly_id' => 149,
-            'issue_id' => 1,
-            'kind' => 'A',
+            'to_assembly_id' => 149,
+            'to_issue_id' => 1,
+            'to_kind' => 'A',
             'type' => null,
         ];
         $extractor = new IssueLink();
@@ -31,9 +31,9 @@ class IssueLinkTest extends TestCase
     public function testWithType()
     {
         $expectedData = [
-            'assembly_id' => 149,
-            'issue_id' => 1,
-            'kind' => 'A',
+            'to_assembly_id' => 149,
+            'to_issue_id' => 1,
+            'to_kind' => 'A',
             'type' => 'mytype',
         ];
         $extractor = new IssueLink();
@@ -53,9 +53,9 @@ class IssueLinkTest extends TestCase
         $this->expectException(\App\Extractor\Exception::class);
 
         $expectedData = [
-            'assembly_id' => 149,
-            'issue_id' => 1,
-            'kind' => 'A',
+            'to_assembly_id' => 149,
+            'to_issue_id' => 1,
+            'to_kind' => 'A',
             'type' => 'mytype',
         ];
         $extractor = new IssueLink();
@@ -75,9 +75,9 @@ class IssueLinkTest extends TestCase
         $this->expectException(\App\Extractor\Exception::class);
 
         $expectedData = [
-            'assembly_id' => 149,
-            'issue_id' => 1,
-            'kind' => 'A',
+            'to_assembly_id' => 149,
+            'to_issue_id' => 1,
+            'to_kind' => 'A',
             'type' => 'mytype',
         ];
         $extractor = new IssueLink();

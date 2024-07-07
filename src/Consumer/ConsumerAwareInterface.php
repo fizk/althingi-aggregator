@@ -6,5 +6,5 @@ use  App\Consumer\ConsumerInterface;
 
 interface ConsumerAwareInterface
 {
-    public function setConsumer(ConsumerInterface $consumer): self;
+    public function setConsumer(ConsumerInterface $consumer): static;
 }

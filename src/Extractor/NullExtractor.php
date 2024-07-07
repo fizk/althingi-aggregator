@@ -9,7 +9,7 @@ class NullExtractor implements ExtractionInterface, IdentityInterface
 {
     private string $id;
 
-    public function populate(DOMElement $object): self
+    public function populate(DOMElement $object): static
     {
         return $this;
     }
@@ -22,7 +22,7 @@ class NullExtractor implements ExtractionInterface, IdentityInterface
         return [];
     }
 
-    public function setIdentity(string $id): self
+    public function setIdentity(string $id): static
     {
         $this->id = $id;
         return $this;
