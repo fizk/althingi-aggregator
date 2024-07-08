@@ -32,7 +32,8 @@ class Assembly implements RequestHandlerInterface, ConsumerAwareInterface, Provi
             );
 
             $this->saveDomElement(
-                $meetingElement->documentElement,
+                // $meetingElement->documentElement,
+                $meeting,
                 "loggjafarthing/{$assemblyNumber}/nefndir/{$committeeId}/nefndarfundir",
                 new Extractor\CommitteeMeeting()
             );

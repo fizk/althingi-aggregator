@@ -28,25 +28,22 @@ class CommitteeMeeting implements ExtractionInterface, IdentityInterface
 
         $this->setIdentity((int) $this->object->getAttribute('númer'));
 
-        $from = ($this->object->getElementsByTagName('fundursettur')->item(0) &&
-            ! empty($this->object->getElementsByTagName('fundursettur')->item(0)->nodeValue))
-            ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('fundursettur')->item(0)->nodeValue))
-            : null ;
+        $from = $this->object->getElementsByTagName('dagurtími')?->item(0)
+            ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('dagurtími')?->item(0)->nodeValue))
+            : null;
 
-        $to = ($this->object->getElementsByTagName('fuslit')->item(0) &&
-            ! empty($this->object->getElementsByTagName('fuslit')->item(0)->nodeValue))
-            ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('fuslit')->item(0)->nodeValue))
-            : null ;
+        $to = null;
 
-        $description = ($this->object->getElementsByTagName('fundargerð')->item(0) &&
-            $this->object->getElementsByTagName('fundargerð')->item(0)->getElementsByTagName('texti')->item(0))
-            ? trim($this->object->getElementsByTagName('fundargerð')
-                ->item(0)->getElementsByTagName('texti')->item(0)->nodeValue)
-            : null ;
+        $description = null;
+
+        $type = $this->object->getElementsByTagName('tegundFundar')?->item(0)?->nodeValue;
+        $place = $this->object->getElementsByTagName('staður')?->item(0)?->nodeValue;
 
         return [
             'from' => $from,
             'to' => $to,
+            'type' => $type,
+            'place' => $place,
             'description' => $description
         ];
     }

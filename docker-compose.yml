@@ -24,6 +24,8 @@ services:
       - AGGREGATOR_CONSUMER_SCHEMA=${ENV_AGGREGATOR_CONSUMER_SCHEMA:-http}
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
       - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-7070}
+    networks:
+      - x-althingi
     volumes:
       - ./bin/:/var/app/bin
       - ./config/:/var/app/config
@@ -32,9 +34,9 @@ services:
       - ./vendor/:/var/app/vendor
       - ./composer.json/:/var/app/composer.json
       - ./composer.lock/:/var/app/composer.lock
-    depends_on:
-      - cache-consumer
-      - cache-provider
+    # depends_on:
+    #   - cache-consumer
+    #   - cache-provider
       # - echo-server
 
   test:
@@ -75,3 +77,7 @@ services:
     container_name: echo-server
     environment:
       - HTTP_PORT=8080
+
+networks:
+    x-althingi:
+        driver: bridge
