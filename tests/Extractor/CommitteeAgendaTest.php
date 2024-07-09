@@ -23,6 +23,7 @@ class CommitteeAgendaTest extends TestCase
 
         $expectedResult = [
             'issue_id' => 1,
+            'kind' => 'A',
             'title' => 'fjárlög 2016'
         ];
 
@@ -46,6 +47,7 @@ class CommitteeAgendaTest extends TestCase
 
         $expectedResult = [
             'issue_id' => null,
+            'kind' => null,
             'title' => 'fjárlög 2016'
         ];
 

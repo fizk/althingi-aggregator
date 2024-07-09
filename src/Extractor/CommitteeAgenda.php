@@ -39,10 +39,12 @@ class CommitteeAgenda implements ExtractionInterface, IdentityInterface
         $this->setIdentity((int) $this->object->getAttribute('númer'));
 
         $issueId = $this->object->getElementsByTagName('mál')?->item(0)?->getAttribute('málsnúmer');
+        $kind = $this->object->getElementsByTagName('mál')?->item(0)?->getAttribute('málsflokkur');
         $title = $this->object->getElementsByTagName('heiti')?->item(0)?->nodeValue;
 
         return [
             'issue_id' => $issueId ? (int) $issueId : null,
+            'kind' => $kind ?? null,
             'title' => $title ? trim($title) : null
         ];
     }

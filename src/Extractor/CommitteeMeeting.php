@@ -32,9 +32,23 @@ class CommitteeMeeting implements ExtractionInterface, IdentityInterface
             ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('dagurtími')?->item(0)->nodeValue))
             : null;
 
-        $to = null;
+        $to = $this->object->getElementsByTagName('fuslit')?->item(0)
+            ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('fuslit')?->item(0)->nodeValue))
+            : null;
 
-        $description = null;
+
+        if (!$from) {
+            $from = $this->object->getElementsByTagName('fundursettur')?->item(0)
+                ? date('Y-m-d H:i:s', strtotime($this->object->getElementsByTagName('fundursettur')?->item(0)->nodeValue))
+                : null;
+        }
+
+
+        $description = $this->object->getElementsByTagName('fundargerð')
+            ?->item(0)
+            ?->getElementsByTagName('texti')
+            ?->item(0)
+            ?->nodeValue;
 
         $type = $this->object->getElementsByTagName('tegundFundar')?->item(0)?->nodeValue;
         $place = $this->object->getElementsByTagName('staður')?->item(0)?->nodeValue;

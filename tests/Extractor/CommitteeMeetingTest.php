@@ -81,4 +81,66 @@ class CommitteeMeetingTest extends TestCase
 
         $this->assertEquals($expectedResult, $returnedResults);
     }
+
+    public function testWithDifferentDate()
+    {
+        $dom = new \DOMDocument();
+        $dom->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <nefndarfundur númer="15729" þingnúmer="145">
+                <nefnd id="207">fjárlaganefnd</nefnd>
+                <hefst>
+                    <dagur>2015-11-11</dagur>
+                    <texti>Strax að loknum þingfundi</texti>
+                </hefst>
+                <fundursettur>2015-11-11T20:00:00</fundursettur>
+                <fuslit>2015-11-11T20:15:00</fuslit>
+                <fundargerð>
+                    <xml>http://www.althingi.is/altext/xml/nefndarfundir/nefndarfundargerd/?fundarnumer=8010</xml>
+                    <xml>http://www.althingi.is/thingnefndir/fastanefndir/fjarlaganefnd/fundargerdir?faerslunr=8010</xml>
+                    <texti><![CDATA[text]]></texti>
+                </fundargerð>
+                <dagskrá>
+                    <xml>http://www.althingi.is/altext/xml/dagskra/nefndarfundur/?fundurnumer=15729</xml>
+                    <html>http://www.althingi.is/thingnefndir/dagskra-nefndarfunda/?nfaerslunr=15729</html>
+                    <dagskrárliðir>
+                        <dagskrárliður númer="1">
+                            <mál málsnúmer="148" löggjafarþing="145" málsflokkur="A">
+                                <html>http://www.althingi.is/thingstorf/thingmalalistar-eftir-thingum/ferill/?ltg=145&amp;mnr=148</html>
+                                <xml>http://www.althingi.is/altext/xml/thingmalalisti/thingmal/?lthing=145&amp;malnr=148</xml>
+                            </mál>
+                            <heiti>
+                                <![CDATA[opinber fjármál]]>
+                            </heiti>
+                        </dagskrárliður>
+                        <dagskrárliður númer="2">
+                            <mál málsnúmer="1509045" málsflokkur="N"></mál>
+                            <heiti>
+                                <![CDATA[Önnur mál]]>
+                            </heiti>
+                        </dagskrárliður>
+                        <dagskrárliður númer="3">
+                            <mál málsnúmer="1509044" málsflokkur="N"></mál>
+                            <heiti>
+                                <![CDATA[Fundargerð]]>
+                            </heiti>
+                        </dagskrárliður>
+                    </dagskrárliðir>
+                </dagskrá>
+            </nefndarfundur>
+            '
+        );
+
+        $expectedResult = [
+            'from' => '2015-11-11 20:00:00',
+            'to' => '2015-11-11 20:15:00',
+            'type' => null,
+            'place' => null,
+            'description' => 'text'
+        ];
+
+        $returnedResults = (new CommitteeMeeting())->populate($dom->documentElement)->extract();
+
+        $this->assertEquals($expectedResult, $returnedResults);
+    }
 }
