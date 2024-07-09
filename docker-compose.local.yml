@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  run:
+    networks:
+      - x-althingi
+    volumes:
+      - ./vendor/:/var/app/vendor
+
+  test:
+    volumes:
+        - ./vendor/:/var/app/vendor
+
+  cache-consumer:
+    container_name: local-althingi-aggregator-cache-concumer
+    image: redis:4.0.11
+
+  cache-provider:
+    container_name: local-althingi-aggregator-cache-provider
+    image: redis:4.0.11
+
+networks:
+    x-althingi:
+        driver: bridge

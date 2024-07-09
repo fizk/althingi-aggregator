@@ -2,6 +2,11 @@
 
 AlthingiAggregator is a command-line tool  for scraping https://www.althingi.is/altext/xml. It queries various endpoints and transforms the data before handing it off to another system for storing.
 
+## Run for development
+```sh
+ docker compose -f docker-compose.yml -f docker-compose.local.yml up run
+```
+
 ## Architecture.
 Read [documentation here](https://einarvalur.co/blog/althingiaggregator)
 
