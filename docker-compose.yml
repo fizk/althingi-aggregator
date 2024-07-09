@@ -24,8 +24,8 @@ services:
       - AGGREGATOR_CONSUMER_SCHEMA=${ENV_AGGREGATOR_CONSUMER_SCHEMA:-http}
       - AGGREGATOR_CONSUMER_HOST=${ENV_AGGREGATOR_CONSUMER_HOST:-host.docker.internal}
       - AGGREGATOR_CONSUMER_PORT=${ENV_AGGREGATOR_CONSUMER_PORT:-7070}
-    networks:
-      - x-althingi
+    # networks:
+    #   - x-althingi
     volumes:
       - ./bin/:/var/app/bin
       - ./config/:/var/app/config
@@ -78,6 +78,6 @@ services:
     environment:
       - HTTP_PORT=8080
 
-networks:
-    x-althingi:
-        driver: bridge
+# networks:
+#     x-althingi:
+#         driver: bridge
