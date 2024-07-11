@@ -4,7 +4,11 @@ AlthingiAggregator is a command-line tool  for scraping https://www.althingi.is/
 
 ## Run for development
 ```sh
- docker compose -f docker-compose.yml -f docker-compose.local.yml up run
+docker compose -f docker-compose.yml -f docker-compose.local.yml up run
+```
+
+```sh
+docker compose -f docker-compose.yml -f docker-compose.local.yml run run globals
 ```
 
 ## Architecture.

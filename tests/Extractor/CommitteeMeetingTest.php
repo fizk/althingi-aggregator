@@ -143,4 +143,66 @@ class CommitteeMeetingTest extends TestCase
 
         $this->assertEquals($expectedResult, $returnedResults);
     }
+
+    public function testWithOnlyDayDate()
+    {
+        $dom = new \DOMDocument();
+        $dom->loadXML(
+            '<?xml version="1.0" encoding="UTF-8"?>
+            <nefndarfundur númer="4139" þingnúmer="132">
+                <nefnd id="130">sjávarútvegsnefnd</nefnd>
+                <hefst>
+                    <dagur>2006-03-03</dagur>
+                    <texti>Í hádegishléi</texti>
+                </hefst>
+                <dagskrá>
+                    <xml>http://www.althingi.is/altext/xml/dagskra/nefndarfundur/?fundurnumer=4139</xml>
+                    <html>http://www.althingi.is/thingnefndir/dagskra-nefndarfunda/?nfaerslunr=4139</html>
+                    <dagskrárliðir>
+                        <dagskrárliður númer="1">
+                            <mál löggjafarþing="132" málsflokkur="A" málsnúmer="353">
+                                <html>http://www.althingi.is/thingstorf/thingmalalistar-eftir-thingum/ferill/?ltg=132mnr=353</html>
+                                <xml>http://www.althingi.is/altext/xml/thingmalalisti/thingmal/?lthing=132malnr=353</xml>
+                            </mál>
+                            <heiti>
+                                <![CDATA[ stjórn fiskveiða ]]>
+                            </heiti>
+                        </dagskrárliður>
+                        <dagskrárliður númer="2">
+                            <mál löggjafarþing="132" málsflokkur="A" málsnúmer="448">
+                                <html>http://www.althingi.is/thingstorf/thingmalalistar-eftir-thingum/ferill/?ltg=132mnr=448</html>
+                                <xml>http://www.althingi.is/altext/xml/thingmalalisti/thingmal/?lthing=132malnr=448</xml>
+                            </mál>
+                            <heiti>
+                                <![CDATA[ stjórn fiskveiða ]]>
+                            </heiti>
+                        </dagskrárliður>
+                        <dagskrárliður númer="3">
+                            <heiti>
+                                <![CDATA[ Farið yfir umsagnir (ef tími vinnst til). ]]>
+                            </heiti>
+                        </dagskrárliður>
+                        <dagskrárliður númer="4">
+                            <heiti>
+                                <![CDATA[ Önnur mál. ]]>
+                            </heiti>
+                        </dagskrárliður>
+                    </dagskrárliðir>
+                </dagskrá>
+            </nefndarfundur>
+            '
+        );
+
+        $expectedResult = [
+            'from' => '2006-03-03 00:00:00',
+            'to' => null,
+            'type' => null,
+            'place' => null,
+            'description' => null
+        ];
+
+        $returnedResults = (new CommitteeMeeting())->populate($dom->documentElement)->extract();
+
+        $this->assertEquals($expectedResult, $returnedResults);
+    }
 }
